@@ -1,0 +1,642 @@
+All cancer
+	C00-D49
+Esophageal cancer
+	C153		Malignant neoplasm of upper third of esophagus
+	C154		Malignant neoplasm of middle third of esophagus
+	C155		Malignant neoplasm of lower third of esophagus
+	C158		Malignant neoplasm of overlapping sites of esophagus
+	C159		Malignant neoplasm of esophagus, unspecified
+	C49A1		Gastrointestinal stromal tumor of esophagus
+	D001		Carcinoma in situ of esophagus
+Stomach cancer
+	C161		Malignant neoplasm of fundus of stomach
+	C162		Malignant neoplasm of body of stomach
+	C163		Malignant neoplasm of pyloric antrum
+	C164		Malignant neoplasm of pylorus
+	C165		Malignant neoplasm of lesser curvature of stomach, unspecified
+	C166		Malignant neoplasm of greater curvature of stomach, unspecified
+	C168		Malignant neoplasm of overlapping sites of stomach
+	C169		Malignant neoplasm of stomach, unspecified
+	C49A2		Gastrointestinal stromal tumor of stomach
+	C7A092	Malignant carcinoid tumor of the stomach
+	D002		Carcinoma in situ of stomach
+	D371		Neoplasm of uncertain behavior of stomach
+Colon cancer
+	C182		Malignant neoplasm of ascending colon
+	C183		Malignant neoplasm of hepatic flexure
+	C184		Malignant neoplasm of transverse colon
+	C185		Malignant neoplasm of splenic flexure
+	C186		Malignant neoplasm of descending colon
+	C187		Malignant neoplasm of sigmoid colon
+	C188		Malignant neoplasm of overlapping sites of colon
+	C189		Malignant neoplasm of colon, unspecified
+	C7A022	Malignant carcinoid tumor of the ascending colon
+	C7A023	Malignant carcinoid tumor of the transverse colon
+	C7A024	Malignant carcinoid tumor of the descending colon
+	C7A025	Malignant carcinoid tumor of the sigmoid colon
+	D010		Carcinoma in situ of colon
+	D374		Neoplasm of uncertain behavior of colon
+Rectal cancer
+	C19			Malignant neoplasm of rectosigmoid junction
+	C20			Malignant neoplasm of rectum
+	C218		Malignant neoplasm of overlapping sites of rectum, anus and anal canal
+	C49A5		Gastrointestinal stromal tumor of rectum
+	C7A026	Malignant carcinoid tumor of the rectum
+	D011		Carcinoma in situ of rectosigmoid junction
+	D012		Carcinoma in situ of rectum
+	D375		Neoplasm of uncertain behavior of rectum
+Kidney cancer
+	C641		Malignant neoplasm of right kidney, except renal pelvis
+	C642		Malignant neoplasm of left kidney, except renal pelvis
+	C649		Malignant neoplasm of unspecified kidney, except renal pelvis
+	C651		Malignant neoplasm of right renal pelvis
+	C652		Malignant neoplasm of left renal pelvis
+	C659		Malignant neoplasm of unspecified renal pelvis
+	C7A093	Malignant carcinoid tumor of the kidney
+	D4100		Neoplasm of uncertain behavior of unspecified kidney
+	D4101		Neoplasm of uncertain behavior of right kidney
+	D4102		Neoplasm of uncertain behavior of left kidney
+	D4110		Neoplasm of uncertain behavior of unspecified renal pelvis
+	D4111		Neoplasm of uncertain behavior of right renal pelvis
+	D4112		Neoplasm of uncertain behavior of left renal pelvis
+	D49511	Neoplasm of unspecified behavior of right kidney
+	D49512	Neoplasm of unspecified behavior of left kidney
+	D49519	Neoplasm of unspecified behavior of unspecified kidney
+Bladder cancer
+	C670		Malignant neoplasm of trigone of bladder
+	C671		Malignant neoplasm of dome of bladder
+	C672		Malignant neoplasm of lateral wall of bladder
+	C673		Malignant neoplasm of anterior wall of bladder
+	C674		Malignant neoplasm of posterior wall of bladder
+	C675		Malignant neoplasm of bladder neck
+	C676		Malignant neoplasm of ureteric orifice
+	C677		Malignant neoplasm of urachus
+	C678		Malignant neoplasm of overlapping sites of bladder
+	C679		Malignant neoplasm of bladder, unspecified
+	D090		Carcinoma in situ of bladder
+	D414		Neoplasm of uncertain behavior of bladder
+	D494		Neoplasm of unspecified behavior of bladder
+Liver cancer
+	C220		Liver cell carcinoma
+	C221		Intrahepatic bile duct carcinoma
+	C222		Hepatoblastoma
+	C223		Angiosarcoma of liver
+	C224		Other sarcomas of liver
+	C227		Other specified carcinomas of liver
+	C228		Malignant neoplasm of liver, primary, unspecified as to type
+	C229		Malignant neoplasm of liver, not specified as primary or secondary
+	D015		Carcinoma in situ of liver, gallbladder and bile ducts
+	D376		Neoplasm of uncertain behavior of liver, gallbladder and bile ducts
+Pancreatic cancer
+	C250		Malignant neoplasm of head of pancreas
+	C251		Malignant neoplasm of body of pancreas
+	C252		Malignant neoplasm of tail of pancreas
+	C253		Malignant neoplasm of pancreatic duct
+	C254		Malignant neoplasm of endocrine pancreas
+	C257		Malignant neoplasm of other parts of pancreas
+	C258		Malignant neoplasm of overlapping sites of pancreas
+	C259		Malignant neoplasm of pancreas, unspecified
+Laryngeal cancer
+	C323		Malignant neoplasm of laryngeal cartilage
+	C328		Malignant neoplasm of overlapping sites of larynx
+	C329		Malignant neoplasm of larynx, unspecified
+	D020		Carcinoma in situ of larynx
+	D380		Neoplasm of uncertain behavior of larynx
+Lung cancer
+	C33			Malignant neoplasm of trachea
+	C3410		Malignant neoplasm of upper lobe, unspecified bronchus or lung
+	C3411		Malignant neoplasm of upper lobe, right bronchus or lung
+	C3412		Malignant neoplasm of upper lobe, left bronchus or lung
+	C342		Malignant neoplasm of middle lobe, bronchus or lung
+	C3430		Malignant neoplasm of lower lobe, unspecified bronchus or lung
+	C3431		Malignant neoplasm of lower lobe, right bronchus or lung
+	C3432		Malignant neoplasm of lower lobe, left bronchus or lung
+	C3480		Malignant neoplasm of overlapping sites of unspecified bronchus and lung
+	C3481		Malignant neoplasm of overlapping sites of right bronchus and lung
+	C3482		Malignant neoplasm of overlapping sites of left bronchus and lung
+	C3490		Malignant neoplasm of unspecified part of unspecified bronchus or lung
+	C3491		Malignant neoplasm of unspecified part of right bronchus or lung
+	C3492		Malignant neoplasm of unspecified part of left bronchus or lung
+	C7A090	Malignant carcinoid tumor of the bronchus and lung
+	D0220		Carcinoma in situ of unspecified bronchus and lung
+	D0221		Carcinoma in situ of right bronchus and lung
+	D0222		Carcinoma in situ of left bronchus and lung
+	D381		Neoplasm of uncertain behavior of trachea, bronchus and lung
+Skin cancer
+	C4351		Malignant melanoma of anal skin
+	C4352		Malignant melanoma of skin of breast
+	C438		Malignant melanoma of overlapping sites of skin
+	C439		Malignant melanoma of skin, unspecified
+	C4A51		Merkel cell carcinoma of anal skin
+	C4A52		Merkel cell carcinoma of skin of breast
+	C4400		Unspecified malignant neoplasm of skin of lip
+	C4401		Basal cell carcinoma of skin of lip
+	C4402		Squamous cell carcinoma of skin of lip
+	C4409		Other specified malignant neoplasm of skin of lip
+	C44101	Unspecified malignant neoplasm of skin of unspecified eyelid, including canthus
+	C44102	Unspecified malignant neoplasm of skin of right eyelid, including canthus
+	C44109	Unspecified malignant neoplasm of skin of left eyelid, including canthus
+	C44111	Basal cell carcinoma of skin of unspecified eyelid, including canthus
+	C44112	Basal cell carcinoma of skin of right eyelid, including canthus
+	C44119	Basal cell carcinoma of skin of left eyelid, including canthus
+	C44121	Squamous cell carcinoma of skin of unspecified eyelid, including canthus
+	C44122	Squamous cell carcinoma of skin of right eyelid, including canthus
+	C44129	Squamous cell carcinoma of skin of left eyelid, including canthus
+	C44191	Other specified malignant neoplasm of skin of unspecified eyelid, including canthus
+	C44192	Other specified malignant neoplasm of skin of right eyelid, including canthus
+	C44199	Other specified malignant neoplasm of skin of left eyelid, including canthus
+	C44201	Unspecified malignant neoplasm of skin of unspecified ear and external auricular canal
+	C44202	Unspecified malignant neoplasm of skin of right ear and external auricular canal
+	C44209	Unspecified malignant neoplasm of skin of left ear and external auricular canal
+	C44211	Basal cell carcinoma of skin of unspecified ear and external auricular canal
+	C44212	Basal cell carcinoma of skin of right ear and external auricular canal
+	C44219	Basal cell carcinoma of skin of left ear and external auricular canal
+	C44221	Squamous cell carcinoma of skin of unspecified ear and external auricular canal
+	C44222	Squamous cell carcinoma of skin of right ear and external auricular canal
+	C44229	Squamous cell carcinoma of skin of left ear and external auricular canal
+	C44291	Other specified malignant neoplasm of skin of unspecified ear and external auricular canal
+	C44292	Other specified malignant neoplasm of skin of right ear and external auricular canal
+	C44299	Other specified malignant neoplasm of skin of left ear and external auricular canal
+	C44300	Unspecified malignant neoplasm of skin of unspecified part of face
+	C44301	Unspecified malignant neoplasm of skin of nose
+	C44309	Unspecified malignant neoplasm of skin of other parts of face
+	C44310	Basal cell carcinoma of skin of unspecified parts of face
+	C44311	Basal cell carcinoma of skin of nose
+	C44319	Basal cell carcinoma of skin of other parts of face
+	C44320	Squamous cell carcinoma of skin of unspecified parts of face
+	C44321	Squamous cell carcinoma of skin of nose
+	C44329	Squamous cell carcinoma of skin of other parts of face
+	C44390	Other specified malignant neoplasm of skin of unspecified parts of face
+	C44391	Other specified malignant neoplasm of skin of nose
+	C44399	Other specified malignant neoplasm of skin of other parts of face
+	C4440		Unspecified malignant neoplasm of skin of scalp and neck
+	C4441		Basal cell carcinoma of skin of scalp and neck
+	C4442		Squamous cell carcinoma of skin of scalp and neck
+	C4449		Other specified malignant neoplasm of skin of scalp and neck
+	C44500	Unspecified malignant neoplasm of anal skin
+	C44501	Unspecified malignant neoplasm of skin of breast
+	C44509	Unspecified malignant neoplasm of skin of other part of trunk
+	C44510	Basal cell carcinoma of anal skin
+	C44511	Basal cell carcinoma of skin of breast
+	C44519	Basal cell carcinoma of skin of other part of trunk
+	C44520	Squamous cell carcinoma of anal skin
+	C44521	Squamous cell carcinoma of skin of breast
+	C44529	Squamous cell carcinoma of skin of other part of trunk
+	C44590	Other specified malignant neoplasm of anal skin
+	C44591	Other specified malignant neoplasm of skin of breast
+	C44599	Other specified malignant neoplasm of skin of other part of trunk
+	C44601	Unspecified malignant neoplasm of skin of unspecified upper limb, including shoulder
+	C44602	Unspecified malignant neoplasm of skin of right upper limb, including shoulder
+	C44609	Unspecified malignant neoplasm of skin of left upper limb, including shoulder
+	C44611	Basal cell carcinoma of skin of unspecified upper limb, including shoulder
+	C44612	Basal cell carcinoma of skin of right upper limb, including shoulder
+	C44619	Basal cell carcinoma of skin of left upper limb, including shoulder
+	C44621	Squamous cell carcinoma of skin of unspecified upper limb, including shoulder
+	C44622	Squamous cell carcinoma of skin of right upper limb, including shoulder
+	C44629	Squamous cell carcinoma of skin of left upper limb, including shoulder
+	C44691	Other specified malignant neoplasm of skin of unspecified upper limb, including shoulder
+	C44692	Other specified malignant neoplasm of skin of right upper limb, including shoulder
+	C44699	Other specified malignant neoplasm of skin of left upper limb, including shoulder
+	C44701	Unspecified malignant neoplasm of skin of unspecified lower limb, including hip
+	C44702	Unspecified malignant neoplasm of skin of right lower limb, including hip
+	C44709	Unspecified malignant neoplasm of skin of left lower limb, including hip
+	C44711	Basal cell carcinoma of skin of unspecified lower limb, including hip
+	C44712	Basal cell carcinoma of skin of right lower limb, including hip
+	C44719	Basal cell carcinoma of skin of left lower limb, including hip
+	C44721	Squamous cell carcinoma of skin of unspecified lower limb, including hip
+	C44722	Squamous cell carcinoma of skin of right lower limb, including hip
+	C44729	Squamous cell carcinoma of skin of left lower limb, including hip
+	C44791	Other specified malignant neoplasm of skin of unspecified lower limb, including hip
+	C44792	Other specified malignant neoplasm of skin of right lower limb, including hip
+	C44799	Other specified malignant neoplasm of skin of left lower limb, including hip
+	C4480		Unspecified malignant neoplasm of overlapping sites of skin
+	C4481		Basal cell carcinoma of overlapping sites of skin
+	C4482		Squamous cell carcinoma of overlapping sites of skin
+	C4489		Other specified malignant neoplasm of overlapping sites of skin
+	C4490		Unspecified malignant neoplasm of skin, unspecified
+	C4491		Basal cell carcinoma of skin, unspecified
+	C4492		Squamous cell carcinoma of skin, unspecified
+	C4499		Other specified malignant neoplasm of skin, unspecified
+	D0351		Melanoma in situ of anal skin
+	D0352		Melanoma in situ of breast (skin) (soft tissue)
+	D040		Carcinoma in situ of skin of lip
+	D0410		Carcinoma in situ of skin of unspecified eyelid, including canthus
+	D0411		Carcinoma in situ of skin of right eyelid, including canthus
+	D0412		Carcinoma in situ of skin of left eyelid, including canthus
+	D0420		Carcinoma in situ of skin of unspecified ear and external auricular canal
+	D0421		Carcinoma in situ of skin of right ear and external auricular canal
+	D0422		Carcinoma in situ of skin of left ear and external auricular canal
+	D0430		Carcinoma in situ of skin of unspecified part of face
+	D0439		Carcinoma in situ of skin of other parts of face
+	D044		Carcinoma in situ of skin of scalp and neck
+	D045		Carcinoma in situ of skin of trunk
+	D0460		Carcinoma in situ of skin of unspecified upper limb, including shoulder
+	D0461		Carcinoma in situ of skin of right upper limb, including shoulder
+	D0462		Carcinoma in situ of skin of left upper limb, including shoulder
+	D0470		Carcinoma in situ of skin of unspecified lower limb, including hip
+	D0471		Carcinoma in situ of skin of right lower limb, including hip
+	D0472		Carcinoma in situ of skin of left lower limb, including hip
+	D048		Carcinoma in situ of skin of other sites
+	D049		Carcinoma in situ of skin, unspecified
+	D485		Neoplasm of uncertain behavior of skin
+	D492		Neoplasm of unspecified behavior of bone, soft tissue, and skin
+Prostatic
+	C61			Malignant neoplasm of prostate
+	D075		Carcinoma in situ of prostate
+	D400		Neoplasm of uncertain behavior of prostate
+Brain cancer
+	C717		Malignant neoplasm of brain stem
+	C718		Malignant neoplasm of overlapping sites of brain
+	C719		Malignant neoplasm of brain, unspecified
+	D430		Neoplasm of uncertain behavior of brain, supratentorial
+	D431		Neoplasm of uncertain behavior of brain, infratentorial
+	D432		Neoplasm of uncertain behavior of brain, unspecified
+	D496		Neoplasm of unspecified behavior of brain
+Leukemia cancer
+	C9010		Plasma cell leukemia not having achieved remission
+	C9011		Plasma cell leukemia in remission
+	C9012		Plasma cell leukemia in relapse
+	C9100		Acute lymphoblastic leukemia not having achieved remission
+	C9101		Acute lymphoblastic leukemia, in remission
+	C9102		Acute lymphoblastic leukemia, in relapse
+	C9110		Chronic lymphocytic leukemia of B-cell type not having achieved remission
+	C9111		Chronic lymphocytic leukemia of B-cell type in remission
+	C9112		Chronic lymphocytic leukemia of B-cell type in relapse
+	C9130		Prolymphocytic leukemia of B-cell type not having achieved remission
+	C9131		Prolymphocytic leukemia of B-cell type, in remission
+	C9132		Prolymphocytic leukemia of B-cell type, in relapse
+	C9140		Hairy cell leukemia not having achieved remission
+	C9141		Hairy cell leukemia, in remission
+	C9142		Hairy cell leukemia, in relapse
+	C9150		Adult T-cell lymphoma/leukemia (HTLV-1-associated) not having achieved remission
+	C9151		Adult T-cell lymphoma/leukemia (HTLV-1-associated), in remission
+	C9152		Adult T-cell lymphoma/leukemia (HTLV-1-associated), in relapse
+	C9160		Prolymphocytic leukemia of T-cell type not having achieved remission
+	C9161		Prolymphocytic leukemia of T-cell type, in remission
+	C9162		Prolymphocytic leukemia of T-cell type, in relapse
+	C91A0		Mature B-cell leukemia Burkitt-type not having achieved remission
+	C91A1		Mature B-cell leukemia Burkitt-type, in remission
+	C91A2		Mature B-cell leukemia Burkitt-type, in relapse
+	C91Z0		Other lymphoid leukemia not having achieved remission
+	C91Z1		Other lymphoid leukemia, in remission
+	C91Z2		Other lymphoid leukemia, in relapse
+	C9190		Lymphoid leukemia, unspecified not having achieved remission
+	C9191		Lymphoid leukemia, unspecified, in remission
+	C9192		Lymphoid leukemia, unspecified, in relapse
+	C9200		Acute myeloblastic leukemia, not having achieved remission
+	C9201		Acute myeloblastic leukemia, in remission
+	C9202		Acute myeloblastic leukemia, in relapse
+	C9210		Chronic myeloid leukemia, BCR/ABL-positive, not having achieved remission
+	C9211		Chronic myeloid leukemia, BCR/ABL-positive, in remission
+	C9212		Chronic myeloid leukemia, BCR/ABL-positive, in relapse
+	C9220		Atypical chronic myeloid leukemia, BCR/ABL-negative, not having achieved remission
+	C9221		Atypical chronic myeloid leukemia, BCR/ABL-negative, in remission
+	C9222		Atypical chronic myeloid leukemia, BCR/ABL-negative, in relapse
+	C9240		Acute promyelocytic leukemia, not having achieved remission
+	C9241		Acute promyelocytic leukemia, in remission
+	C9242		Acute promyelocytic leukemia, in relapse
+	C9250		Acute myelomonocytic leukemia, not having achieved remission
+	C9251		Acute myelomonocytic leukemia, in remission
+	C9252		Acute myelomonocytic leukemia, in relapse
+	C9260		Acute myeloid leukemia with 11q23-abnormality not having achieved remission
+	C9261		Acute myeloid leukemia with 11q23-abnormality in remission
+	C9262		Acute myeloid leukemia with 11q23-abnormality in relapse
+	C92A0		Acute myeloid leukemia with multilineage dysplasia, not having achieved remission
+	C92A1		Acute myeloid leukemia with multilineage dysplasia, in remission
+	C92A2		Acute myeloid leukemia with multilineage dysplasia, in relapse
+	C92Z0		Other myeloid leukemia not having achieved remission
+	C92Z1		Other myeloid leukemia, in remission
+	C92Z2		Other myeloid leukemia, in relapse
+	C9290		Myeloid leukemia, unspecified, not having achieved remission
+	C9291		Myeloid leukemia, unspecified in remission
+	C9292		Myeloid leukemia, unspecified in relapse
+	C9300		Acute monoblastic/monocytic leukemia, not having achieved remission
+	C9301		Acute monoblastic/monocytic leukemia, in remission
+	C9302		Acute monoblastic/monocytic leukemia, in relapse
+	C9310		Chronic myelomonocytic leukemia not having achieved remission
+	C9311		Chronic myelomonocytic leukemia, in remission
+	C9312		Chronic myelomonocytic leukemia, in relapse
+	C9330		Juvenile myelomonocytic leukemia, not having achieved remission
+	C9331		Juvenile myelomonocytic leukemia, in remission
+	C9332		Juvenile myelomonocytic leukemia, in relapse
+	C93Z0		Other monocytic leukemia, not having achieved remission
+	C93Z1		Other monocytic leukemia, in remission
+	C93Z2		Other monocytic leukemia, in relapse
+	C9390		Monocytic leukemia, unspecified, not having achieved remission
+	C9391		Monocytic leukemia, unspecified in remission
+	C9392		Monocytic leukemia, unspecified in relapse
+	C9400		Acute erythroid leukemia, not having achieved remission
+	C9401		Acute erythroid leukemia, in remission
+	C9402		Acute erythroid leukemia, in relapse
+	C9420		Acute megakaryoblastic leukemia not having achieved remission
+	C9421		Acute megakaryoblastic leukemia, in remission
+	C9422		Acute megakaryoblastic leukemia, in relapse
+	C9430		Mast cell leukemia not having achieved remission
+	C9431		Mast cell leukemia, in remission
+	C9432		Mast cell leukemia, in relapse
+	C9480		Other specified leukemias not having achieved remission
+	C9481		Other specified leukemias, in remission
+	C9482		Other specified leukemias, in relapse
+	C9500		Acute leukemia of unspecified cell type not having achieved remission
+	C9501		Acute leukemia of unspecified cell type, in remission
+	C9502		Acute leukemia of unspecified cell type, in relapse
+	C9510		Chronic leukemia of unspecified cell type not having achieved remission
+	C9511		Chronic leukemia of unspecified cell type, in remission
+	C9512		Chronic leukemia of unspecified cell type, in relapse
+	C9590		Leukemia, unspecified not having achieved remission
+	C9591		Leukemia, unspecified, in remission
+	C9592		Leukemia, unspecified, in relapse
+All nonmalignant respiratory disease
+	J00–J99
+All CVD
+	I00-I99
+IHD (excluding complications arising from IHD)
+	I200		Unstable angina
+	I201		Angina pectoris with documented spasm
+	I208		Other forms of angina pectoris
+	I209		Angina pectoris, unspecified
+	I2101		ST elevation (STEMI) myocardial infarction involving left main coronary artery
+	I2102		ST elevation (STEMI) myocardial infarction involving left anterior descending coronary artery
+	I2109		ST elevation (STEMI) myocardial infarction involving other coronary artery of anterior wall
+	I2111		ST elevation (STEMI) myocardial infarction involving right coronary artery
+	I2119		ST elevation (STEMI) myocardial infarction involving other coronary artery of inferior wall
+	I2121		ST elevation (STEMI) myocardial infarction involving left circumflex coronary artery
+	I2129		ST elevation (STEMI) myocardial infarction involving other sites
+	I213		ST elevation (STEMI) myocardial infarction of unspecified site
+	I214		Non-ST elevation (NSTEMI) myocardial infarction
+	I219		Acute myocardial infarction, unspecified
+	I21A1		Myocardial infarction type 2
+	I21A9		Other myocardial infarction type
+	I220		Subsequent ST elevation (STEMI) myocardial infarction of anterior wall
+	I221		Subsequent ST elevation (STEMI) myocardial infarction of inferior wall
+	I222		Subsequent non-ST elevation (NSTEMI) myocardial infarction
+	I228		Subsequent ST elevation (STEMI) myocardial infarction of other sites
+	I229		Subsequent ST elevation (STEMI) myocardial infarction of unspecified site
+	I240		Acute coronary thrombosis not resulting in myocardial infarction
+	I241		Dressler's syndrome
+	I248		Other forms of acute ischemic heart disease
+	I249		Acute ischemic heart disease, unspecified
+	I2510		Atherosclerotic heart disease of native coronary artery without angina pectoris
+	I25110	Atherosclerotic heart disease of native coronary artery with unstable angina pectoris
+	I25111	Atherosclerotic heart disease of native coronary artery with angina pectoris with documented spasm
+	I25118	Atherosclerotic heart disease of native coronary artery with other forms of angina pectoris
+	I25119	Atherosclerotic heart disease of native coronary artery with unspecified angina pectoris
+	I252		Old myocardial infarction
+	I253		Aneurysm of heart
+	I2541		Coronary artery aneurysm
+	I2542		Coronary artery dissection
+	I255		Ischemic cardiomyopathy
+	I256		Silent myocardial ischemia
+	I25700	Atherosclerosis of coronary artery bypass graft(s), unspecified, with unstable angina pectoris
+	I25701	Atherosclerosis of coronary artery bypass graft(s), unspecified, with angina pectoris with documented spasm
+	I25708	Atherosclerosis of coronary artery bypass graft(s), unspecified, with other forms of angina pectoris
+	I25709	Atherosclerosis of coronary artery bypass graft(s), unspecified, with unspecified angina pectoris
+	I25710	Atherosclerosis of autologous vein coronary artery bypass graft(s) with unstable angina pectoris
+	I25711	Atherosclerosis of autologous vein coronary artery bypass graft(s) with angina pectoris with documented spasm
+	I25718	Atherosclerosis of autologous vein coronary artery bypass graft(s) with other forms of angina pectoris
+	I25719	Atherosclerosis of autologous vein coronary artery bypass graft(s) with unspecified angina pectoris
+	I25720	Atherosclerosis of autologous artery coronary artery bypass graft(s) with unstable angina pectoris
+	I25721	Atherosclerosis of autologous artery coronary artery bypass graft(s) with angina pectoris with documented spasm
+	I25728	Atherosclerosis of autologous artery coronary artery bypass graft(s) with other forms of angina pectoris
+	I25729	Atherosclerosis of autologous artery coronary artery bypass graft(s) with unspecified angina pectoris
+	I25730	Atherosclerosis of nonautologous biological coronary artery bypass graft(s) with unstable angina pectoris
+	I25731	Atherosclerosis of nonautologous biological coronary artery bypass graft(s) with angina pectoris with documented spasm
+	I25738	Atherosclerosis of nonautologous biological coronary artery bypass graft(s) with other forms of angina pectoris
+	I25739	Atherosclerosis of nonautologous biological coronary artery bypass graft(s) with unspecified angina pectoris
+	I25750	Atherosclerosis of native coronary artery of transplanted heart with unstable angina
+	I25751	Atherosclerosis of native coronary artery of transplanted heart with angina pectoris with documented spasm
+	I25758	Atherosclerosis of native coronary artery of transplanted heart with other forms of angina pectoris
+	I25759	Atherosclerosis of native coronary artery of transplanted heart with unspecified angina pectoris
+	I25760	Atherosclerosis of bypass graft of coronary artery of transplanted heart with unstable angina
+	I25761	Atherosclerosis of bypass graft of coronary artery of transplanted heart with angina pectoris with documented spasm
+	I25768	Atherosclerosis of bypass graft of coronary artery of transplanted heart with other forms of angina pectoris
+	I25769	Atherosclerosis of bypass graft of coronary artery of transplanted heart with unspecified angina pectoris
+	I25790	Atherosclerosis of other coronary artery bypass graft(s) with unstable angina pectoris
+	I25791	Atherosclerosis of other coronary artery bypass graft(s) with angina pectoris with documented spasm
+	I25798	Atherosclerosis of other coronary artery bypass graft(s) with other forms of angina pectoris
+	I25799	Atherosclerosis of other coronary artery bypass graft(s) with unspecified angina pectoris
+	I25810	Atherosclerosis of coronary artery bypass graft(s) without angina pectoris
+	I25811	Atherosclerosis of native coronary artery of transplanted heart without angina pectoris
+	I25812	Atherosclerosis of bypass graft of coronary artery of transplanted heart without angina pectoris
+	I2582		Chronic total occlusion of coronary artery
+	I2583		Coronary atherosclerosis due to lipid rich plaque
+	I2584		Coronary atherosclerosis due to calcified coronary lesion
+	I2589		Other forms of chronic ischemic heart disease
+	I259		Chronic ischemic heart disease, unspecified
+Stroke
+	I6000		Nontraumatic subarachnoid hemorrhage from unspecified carotid siphon and bifurcation
+	I6001		Nontraumatic subarachnoid hemorrhage from right carotid siphon and bifurcation
+	I6002		Nontraumatic subarachnoid hemorrhage from left carotid siphon and bifurcation
+	I6010		Nontraumatic subarachnoid hemorrhage from unspecified middle cerebral artery
+	I6011		Nontraumatic subarachnoid hemorrhage from right middle cerebral artery
+	I6012		Nontraumatic subarachnoid hemorrhage from left middle cerebral artery
+	I602		Nontraumatic subarachnoid hemorrhage from anterior communicating artery
+	I6030		Nontraumatic subarachnoid hemorrhage from unspecified posterior communicating artery
+	I6031		Nontraumatic subarachnoid hemorrhage from right posterior communicating artery
+	I6032		Nontraumatic subarachnoid hemorrhage from left posterior communicating artery
+	I604		Nontraumatic subarachnoid hemorrhage from basilar artery
+	I6050		Nontraumatic subarachnoid hemorrhage from unspecified vertebral artery
+	I6051		Nontraumatic subarachnoid hemorrhage from right vertebral artery
+	I6052		Nontraumatic subarachnoid hemorrhage from left vertebral artery
+	I606		Nontraumatic subarachnoid hemorrhage from other intracranial arteries
+	I607		Nontraumatic subarachnoid hemorrhage from unspecified intracranial artery
+	I608		Other nontraumatic subarachnoid hemorrhage
+	I609		Nontraumatic subarachnoid hemorrhage, unspecified
+	I610		Nontraumatic intracerebral hemorrhage in hemisphere, subcortical
+	I611		Nontraumatic intracerebral hemorrhage in hemisphere, cortical
+	I612		Nontraumatic intracerebral hemorrhage in hemisphere, unspecified
+	I613		Nontraumatic intracerebral hemorrhage in brain stem
+	I614		Nontraumatic intracerebral hemorrhage in cerebellum
+	I615		Nontraumatic intracerebral hemorrhage, intraventricular
+	I616		Nontraumatic intracerebral hemorrhage, multiple localized
+	I618		Other nontraumatic intracerebral hemorrhage
+	I619		Nontraumatic intracerebral hemorrhage, unspecified
+	I6200		Nontraumatic subdural hemorrhage, unspecified
+	I6201		Nontraumatic acute subdural hemorrhage
+	I6202		Nontraumatic subacute subdural hemorrhage
+	I6203		Nontraumatic chronic subdural hemorrhage
+	I621		Nontraumatic extradural hemorrhage
+	I629		Nontraumatic intracranial hemorrhage, unspecified
+	I6300		Cerebral infarction due to thrombosis of unspecified precerebral artery
+	I63011	Cerebral infarction due to thrombosis of right vertebral artery
+	I63012	Cerebral infarction due to thrombosis of left vertebral artery
+	I63013	Cerebral infarction due to thrombosis of bilateral vertebral arteries
+	I63019	Cerebral infarction due to thrombosis of unspecified vertebral artery
+	I6302		Cerebral infarction due to thrombosis of basilar artery
+	I63031	Cerebral infarction due to thrombosis of right carotid artery
+	I63032	Cerebral infarction due to thrombosis of left carotid artery
+	I63033	Cerebral infarction due to thrombosis of bilateral carotid arteries
+	I63039	Cerebral infarction due to thrombosis of unspecified carotid artery
+	I6309		Cerebral infarction due to thrombosis of other precerebral artery
+	I6310		Cerebral infarction due to embolism of unspecified precerebral artery
+	I63111	Cerebral infarction due to embolism of right vertebral artery
+	I63112	Cerebral infarction due to embolism of left vertebral artery
+	I63113	Cerebral infarction due to embolism of bilateral vertebral arteries
+	I63119	Cerebral infarction due to embolism of unspecified vertebral artery
+	I6312		Cerebral infarction due to embolism of basilar artery
+	I63131	Cerebral infarction due to embolism of right carotid artery
+	I63132	Cerebral infarction due to embolism of left carotid artery
+	I63133	Cerebral infarction due to embolism of bilateral carotid arteries
+	I63139	Cerebral infarction due to embolism of unspecified carotid artery
+	I6319		Cerebral infarction due to embolism of other precerebral artery
+	I6320		Cerebral infarction due to unspecified occlusion or stenosis of unspecified precerebral arteries
+	I63211	Cerebral infarction due to unspecified occlusion or stenosis of right vertebral artery
+	I63212	Cerebral infarction due to unspecified occlusion or stenosis of left vertebral artery
+	I63213	Cerebral infarction due to unspecified occlusion or stenosis of bilateral vertebral arteries
+	I63219	Cerebral infarction due to unspecified occlusion or stenosis of unspecified vertebral arteries
+	I6322		Cerebral infarction due to unspecified occlusion or stenosis of basilar artery
+	I63231	Cerebral infarction due to unspecified occlusion or stenosis of right carotid arteries
+	I63232	Cerebral infarction due to unspecified occlusion or stenosis of left carotid arteries
+	I63233	Cerebral infarction due to unspecified occlusion or stenosis of bilateral carotid arteries
+	I63239	Cerebral infarction due to unspecified occlusion or stenosis of unspecified carotid arteries
+	I6329		Cerebral infarction due to unspecified occlusion or stenosis of other precerebral arteries
+	I6330		Cerebral infarction due to thrombosis of unspecified cerebral artery
+	I63311	Cerebral infarction due to thrombosis of right middle cerebral artery
+	I63312	Cerebral infarction due to thrombosis of left middle cerebral artery
+	I63313	Cerebral infarction due to thrombosis of bilateral middle cerebral arteries
+	I63319	Cerebral infarction due to thrombosis of unspecified middle cerebral artery
+	I63321	Cerebral infarction due to thrombosis of right anterior cerebral artery
+	I63322	Cerebral infarction due to thrombosis of left anterior cerebral artery
+	I63323	Cerebral infarction due to thrombosis of bilateral anterior cerebral arteries
+	I63329	Cerebral infarction due to thrombosis of unspecified anterior cerebral artery
+	I63331	Cerebral infarction due to thrombosis of right posterior cerebral artery
+	I63332	Cerebral infarction due to thrombosis of left posterior cerebral artery
+	I63333	Cerebral infarction to thrombosis of bilateral posterior cerebral arteries
+	I63339	Cerebral infarction due to thrombosis of unspecified posterior cerebral artery
+	I63341	Cerebral infarction due to thrombosis of right cerebellar artery
+	I63342	Cerebral infarction due to thrombosis of left cerebellar artery
+	I63343	Cerebral infarction to thrombosis of bilateral cerebellar arteries
+	I63349	Cerebral infarction due to thrombosis of unspecified cerebellar artery
+	I6339		Cerebral infarction due to thrombosis of other cerebral artery
+	I6340		Cerebral infarction due to embolism of unspecified cerebral artery
+	I63411	Cerebral infarction due to embolism of right middle cerebral artery
+	I63412	Cerebral infarction due to embolism of left middle cerebral artery
+	I63413	Cerebral infarction due to embolism of bilateral middle cerebral arteries
+	I63419	Cerebral infarction due to embolism of unspecified middle cerebral artery
+	I63421	Cerebral infarction due to embolism of right anterior cerebral artery
+	I63422	Cerebral infarction due to embolism of left anterior cerebral artery
+	I63423	Cerebral infarction due to embolism of bilateral anterior cerebral arteries
+	I63429	Cerebral infarction due to embolism of unspecified anterior cerebral artery
+	I63431	Cerebral infarction due to embolism of right posterior cerebral artery
+	I63432	Cerebral infarction due to embolism of left posterior cerebral artery
+	I63433	Cerebral infarction due to embolism of bilateral posterior cerebral arteries
+	I63439	Cerebral infarction due to embolism of unspecified posterior cerebral artery
+	I63441	Cerebral infarction due to embolism of right cerebellar artery
+	I63442	Cerebral infarction due to embolism of left cerebellar artery
+	I63443	Cerebral infarction due to embolism of bilateral cerebellar arteries
+	I63449	Cerebral infarction due to embolism of unspecified cerebellar artery
+	I6349		Cerebral infarction due to embolism of other cerebral artery
+	I6350		Cerebral infarction due to unspecified occlusion or stenosis of unspecified cerebral artery
+	I63511	Cerebral infarction due to unspecified occlusion or stenosis of right middle cerebral artery
+	I63512	Cerebral infarction due to unspecified occlusion or stenosis of left middle cerebral artery
+	I63513	Cerebral infarction due to unspecified occlusion or stenosis of bilateral middle cerebral arteries
+	I63519	Cerebral infarction due to unspecified occlusion or stenosis of unspecified middle cerebral artery
+	I63521	Cerebral infarction due to unspecified occlusion or stenosis of right anterior cerebral artery
+	I63522	Cerebral infarction due to unspecified occlusion or stenosis of left anterior cerebral artery
+	I63523	Cerebral infarction due to unspecified occlusion or stenosis of bilateral anterior cerebral arteries
+	I63529	Cerebral infarction due to unspecified occlusion or stenosis of unspecified anterior cerebral artery
+	I63531	Cerebral infarction due to unspecified occlusion or stenosis of right posterior cerebral artery
+	I63532	Cerebral infarction due to unspecified occlusion or stenosis of left posterior cerebral artery
+	I63533	Cerebral infarction due to unspecified occlusion or stenosis of bilateral posterior cerebral arteries
+	I63539	Cerebral infarction due to unspecified occlusion or stenosis of unspecified posterior cerebral artery
+	I63541	Cerebral infarction due to unspecified occlusion or stenosis of right cerebellar artery
+	I63542	Cerebral infarction due to unspecified occlusion or stenosis of left cerebellar artery
+	I63543	Cerebral infarction due to unspecified occlusion or stenosis of bilateral cerebellar arteries
+	I63549	Cerebral infarction due to unspecified occlusion or stenosis of unspecified cerebellar artery
+	I6359		Cerebral infarction due to unspecified occlusion or stenosis of other cerebral artery
+	I636		Cerebral infarction due to cerebral venous thrombosis, nonpyogenic
+	I638		Other cerebral infarction
+	I639		Cerebral infarction, unspecified
+	I6501		Occlusion and stenosis of right vertebral artery
+	I6502		Occlusion and stenosis of left vertebral artery
+	I6503		Occlusion and stenosis of bilateral vertebral arteries
+	I6509		Occlusion and stenosis of unspecified vertebral artery
+	I651		Occlusion and stenosis of basilar artery
+	I6521		Occlusion and stenosis of right carotid artery
+	I6522		Occlusion and stenosis of left carotid artery
+	I6523		Occlusion and stenosis of bilateral carotid arteries
+	I6529		Occlusion and stenosis of unspecified carotid artery
+	I658		Occlusion and stenosis of other precerebral arteries
+	I659		Occlusion and stenosis of unspecified precerebral artery
+	I6601		Occlusion and stenosis of right middle cerebral artery
+	I6602		Occlusion and stenosis of left middle cerebral artery
+	I6603		Occlusion and stenosis of bilateral middle cerebral arteries
+	I6609		Occlusion and stenosis of unspecified middle cerebral artery
+	I6611		Occlusion and stenosis of right anterior cerebral artery
+	I6612		Occlusion and stenosis of left anterior cerebral artery
+	I6613		Occlusion and stenosis of bilateral anterior cerebral arteries
+	I6619		Occlusion and stenosis of unspecified anterior cerebral artery
+	I6621		Occlusion and stenosis of right posterior cerebral artery
+	I6622		Occlusion and stenosis of left posterior cerebral artery
+	I6623		Occlusion and stenosis of bilateral posterior cerebral arteries
+	I6629		Occlusion and stenosis of unspecified posterior cerebral artery
+	I663		Occlusion and stenosis of cerebellar arteries
+	I668		Occlusion and stenosis of other cerebral arteries
+	I669		Occlusion and stenosis of unspecified cerebral artery
+	I670		Dissection of cerebral arteries, nonruptured
+	I671		Cerebral aneurysm, nonruptured
+	I672		Cerebral atherosclerosis
+	I673		Progressive vascular leukoencephalopathy
+	I674		Hypertensive encephalopathy
+	I675		Moyamoya disease
+	I676		Nonpyogenic thrombosis of intracranial venous system
+	I677		Cerebral arteritis, not elsewhere classified
+	I6781		Acute cerebrovascular insufficiency
+	I6782		Cerebral ischemia
+	I6783		Posterior reversible encephalopathy syndrome
+	I67841	Reversible cerebrovascular vasoconstriction syndrome
+	I67848	Other cerebrovascular vasospasm and vasoconstriction
+	I6789		Other cerebrovascular disease
+	I679		Cerebrovascular disease, unspecified
+	I680		Cerebral amyloid angiopathy
+	I682		Cerebral arteritis in other diseases classified elsewhere
+	I688		Other cerebrovascular disorders in diseases classified elsewhere
+Heart failure
+	I501		Left ventricular failure, unspecified
+	I5020		Unspecified systolic (congestive) heart failure
+	I5021		Acute systolic (congestive) heart failure
+	I5022		Chronic systolic (congestive) heart failure
+	I5023		Acute on chronic systolic (congestive) heart failure
+	I5030		Unspecified diastolic (congestive) heart failure
+	I5031		Acute diastolic (congestive) heart failure
+	I5032		Chronic diastolic (congestive) heart failure
+	I5033		Acute on chronic diastolic (congestive) heart failure
+	I5040		Unspecified combined systolic (congestive) and diastolic (congestive) heart failure
+	I5041		Acute combined systolic (congestive) and diastolic (congestive) heart failure
+	I5042		Chronic combined systolic (congestive) and diastolic (congestive) heart failure
+	I5043		Acute on chronic combined systolic (congestive) and diastolic (congestive) heart failure
+	I50810	Right heart failure, unspecified
+	I50811	Acute right heart failure
+	I50812	Chronic right heart failure
+	I50813	Acute on chronic right heart failure
+	I50814	Right heart failure due to left heart failure
+	I5082		Biventricular heart failure
+	I5083		High output heart failure
+	I5084		End stage heart failure
+	I5089		Other heart failure
+	I509		Heart failure, unspecified
+Pulmonary heart disease
+	I259		Chronic ischemic heart disease, unspecified
+	I2601		Septic pulmonary embolism with acute cor pulmonale
+	I2602		Saddle embolus of pulmonary artery with acute cor pulmonale
+	I2609		Other pulmonary embolism with acute cor pulmonale
+	I2690		Septic pulmonary embolism without acute cor pulmonale
+	I2692		Saddle embolus of pulmonary artery without acute cor pulmonale
+	I2699		Other pulmonary embolism without acute cor pulmonale
+	I270		Primary pulmonary hypertension
+	I271		Kyphoscoliotic heart disease
+	I2720		Pulmonary hypertension, unspecified
+	I2721		Secondary pulmonary arterial hypertension
+	I2722		Pulmonary hypertension due to left heart disease
+	I2723		Pulmonary hypertension due to lung diseases and hypoxia
+	I2724		Chronic thromboembolic pulmonary hypertension
+	I2729		Other secondary pulmonary hypertension
+	I2781		Cor pulmonale (chronic)
+	I2782		Chronic pulmonary embolism
+	I2783		Eisenmenger's syndrome
+	I2789		Other specified pulmonary heart diseases
+	I279		Pulmonary heart disease, unspecified
+	I280		Arteriovenous fistula of pulmonary vessels
+	I281		Aneurysm of pulmonary artery
+	I288		Other diseases of pulmonary vessels
+	I289		Disease of pulmonary vessels, unspecified

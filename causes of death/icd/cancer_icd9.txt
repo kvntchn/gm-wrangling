@@ -1,0 +1,14 @@
+140-149		malignant neoplasms of lip, oral cavity and pharynx
+150-159		malignant neoplasms of digestive organs and peritoneum
+160-165		malignant neoplasms of respiratory and intrathoracic organs
+170-172		malignant neoplasms of bone, articular cartilage, and connective tissue
+172-173		melanoma and other malignant neoplasms of skin
+174-175		malignant neoplasms of breast
+179-187		malignant neoplasms of male and female genital organs
+188-189		malignant neoplasms of urinary tract
+190-199		malignant neoplasms of ill-defined, other secondary and unspecified sites
+200-208		malignant neoplasms of lymphoid, hematopoietic and related tissue
+210-229		benign neoplasms
+230-234		in situ neoplasms
+235-238		neoplasms of uncertain behavior (ICD-10 includes polycythemia vera, and myelodysplastic syndromes)
+239				neoplasms of unspecified behavior

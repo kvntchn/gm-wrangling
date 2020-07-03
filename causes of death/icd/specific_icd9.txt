@@ -1,0 +1,71 @@
+All cancer
+	140-239
+Esophageal cancer
+	150			Malignant neoplasm of esophagus
+	230.1		Carcinoma in situ of Esophagus
+Stomach cancer
+	151			Malignant neoplasm of stomach
+	230.2		Carcinoma in situ of stomach
+Colon cancer
+	153			Malignant neoplasm of colon
+	230.3		Carcinoma in situ of colon
+Rectal cancer
+	154			Malignant neoplasm of rectum, rectosigmoid junction, and anus
+	230.4		Carcinoma in situ of rectum
+Kidney cancer
+	189			Malignant neoplasm of kidney and other and unspecified urinary organs
+Bladder cancer
+	188			Malignant neoplasm of bladder
+	233.7		Carcinoma in situ of bladder
+	236.7		Neoplasm of uncertain behavior of bladder
+	239.4		Neoplasm of unspecified behavior of bladder
+Liver cancer
+	155			Malignant neoplasm of liver and intrahepatic bile ducts
+	235.3		Neoplasm of uncertain behavior of liver and biliary passages
+Pancreatic cancer
+	157			Malignant neoplasm of pancreas
+Laryngeal cancer
+	161			Malignant neoplasm of larynx
+	231.0		Carcinoma in situ of larynx
+	235.6		Neoplasm of uncertain behavior of larynx
+Lung cancer
+	162			Malignant neoplasm of trachea, bronchus, and lung
+	231.2		Carcinoma in situ of bronchus and lung
+	235.7		Neoplasm of uncertain behavior of trachea, bronchus, and lung
+Skin cancer
+	172			Malignant melanoma of skin
+	173			Other malignant neoplasm of skin
+	232			Carcinoma in situ of skin
+	238.2		Neoplasm of uncertain behavior of skin
+Prostatic cancer
+	185			Malignant neoplasm of prostate
+	233.4		Carcinoma in situ of prostate
+	236.5		Neoplasm of uncertain behavior of prostate
+Brain cancer
+	191			Malignant neoplasm of brain
+	237.5		Neoplasm of uncertain behavior brain and spinal cord
+	239.6		Neoplasm of unspecified behavior brain
+Leukemia cancer
+	202.4		Leukemic reticuloendotheliosis
+	203.1		Plasma cell leukemia
+	204			Lymphoid leukemia
+	205		 	Myeloid leukemia
+	206		  Monocytic leukemia
+	207		  Other specified leukemia
+	208			Leukemia of unspecified cell type
+All nonmalignant respiratory disease
+	460–519
+All CVD
+	390–459
+Coronary heart disease
+	410			Acute myocardial infarction
+	411			Other acute and subacute forms of ischemic heart disease
+	412			Old myocardial infarction
+	413			Angina pectoris
+	414			Other forms of chronic ischemic heart disease
+Stroke
+	430-438
+Heart failure
+	428	Heart failure
+Pulmonary heart disease
+	415-417

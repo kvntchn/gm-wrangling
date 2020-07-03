@@ -1,0 +1,19 @@
+c00-c14  malignant neoplasms of lip, oral cavity and pharynx
+c15-c26  malignant neoplasms of digestive organs and peritoneum
+c30-c39  malignant neoplasms of respiratory and intrathoracic organs
+c40-c41  malignant neoplasms of bone, articular cartilage, and connective tissue
+c43-c44  melanoma and other malignant neoplasms of skin
+c45-c49  malignant neoplasms of mesothelial and soft tissue
+c50-c50  malignant neoplasms of breast
+c51-c58  malignant neoplasms of male and female genital organs
+c64-c68  malignant neoplasms of urinary tract
+c69-c72  malignant neoplasms of eye, brain and other parts of central nervous system
+c73-c75  malignant neoplasms of thyroid and other endocrine glands
+c76-c80  malignant neoplasms of ill-defined, other secondary and unspecified sites
+c7a-c7a  malignant neuroendocrine tumors
+c7b-c7b  secondary neuroendocrine tumors
+c81-c96  malignant neoplasms of lymphoid, hematopoietic and related tissue
+d00-d09  in situ neoplasms
+d10-d36, d3a-d3a  benign neoplasms
+d37-d48  neoplasms of uncertain behavior (ICD-10 includes polycythemia vera, and myelodysplastic syndromes)
+d49-d49  neoplasms of unspecified behavior
