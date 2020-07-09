@@ -193,6 +193,11 @@ box_save(seer,
 				 file_name = "SEER Incidence.rdata",
 				 description = "SEER_Matches.csv with columns corresponding to the SEER categories (as coded up in auto_vs).")
 
+box_write(seer,
+				 dir_id = 113431246688,
+				 file_name = "SEER Incidence.csv",
+				 description = "SEER_Matches.csv with columns corresponding to the SEER categories (as coded up in auto_vs).")
+
 # name        : SEER Incidence.rdata
 # file id     : 660223470027
 # uploaded by : kevchen@berkeley.edu
