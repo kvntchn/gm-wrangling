@@ -4,27 +4,31 @@
 library(here); library(data.table); library(boxr)
 box_auth()
 
-seer <- box_read(447866882720)
-setDT(seer)
-
 cancer.key <- fread(here::here("cancer incidence", 'cancer-key.tsv'))
 
-seer.url <- "https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html"
-seer.xpath <- "//*[@id=\"content\"]/div/table"
+# # Get SEER codes from internet ####
+# seer.url <- "https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html"
+# seer.xpath <- "//*[@id=\"content\"]/div/table"
+# 
+# # Read html
+# library(rvest)
+# seer.tbl <- html_table(html_node(
+# 	read_html(seer.url),
+# 	xpath = seer.xpath), fill = T)
+# setDT(seer.tbl)
 
-# Read html
-library(rvest)
-seer.tbl <- html_table(html_node(
-		read_html(seer.url),
-		xpath = seer.xpath), fill = T)
-setDT(seer.tbl)
+# Get SEER codes from file ####
+seer.tbl <- fread("/Users/kevinchen/eisen/gm-wrangling/cancer incidence/index.txt", fill = T, sep = ";", skip = 1)
+
+# Keep only useful categories
+seer.tbl <- seer.tbl[!is.na(Recode) & Recode != 99999]
 
 # Rename Site column; it's not actually Site Group
-names(seer.tbl)[names(seer.tbl) == "Site Group"] <- "Site"
+names(seer.tbl)[names(seer.tbl) == "Site Group"] <- "Type"
 
 # Skip rows indicating super category
 seer.tbl <- seer.tbl[
-	!apply(data.frame(Site,
+	!apply(data.frame(Type,
 										`ICD-O-3 Site`,
 										`ICD-O-3 Histology (Type)`,
 										Recode), 1, function(j) {
@@ -33,10 +37,9 @@ seer.tbl <- seer.tbl[
 seer.tbl[grepl("C", `ICD-O-3 Histology (Type)`), `:=`(
 	`ICD-O-3 Site` = `ICD-O-3 Histology (Type)`,
 	`ICD-O-3 Histology (Type)` = "excluding 9050-9055,  9140,  9590-9992")]
-seer.tbl[grepl("Invalid", Site, T), `:=`(
-	`ICD-O-3 Histology (Type)` = NA)]
+# Remove invalid
+seer.tbl <- seer.tbl[!grepl("Invalid", Type, T),]
 
-# seer.tbl <- as.data.table(as.data.frame(seer.tbl))
 # Make column `ICD-O-3 Site` a list of vectors
 seer.tbl[, `:=`(
 	`ICD-O-3 Site` = {
@@ -50,9 +53,9 @@ seer.tbl[, `:=`(
 		codes[grepl("except", codes, T)] <- paste0(
 			"(0:999)[!0:999 %in% c(", gsub("[a-z]", "", tolower(codes[grepl("except", codes, T)])), ")]")
 		# For extranodal Hodgkin lymphoma, use all sites not in node
-		codes[grepl("Hodgkin - Extranodal", Site, T)] <- paste0(
-			"(0:999)[!0:999 %in% c(", codes[grepl("Hodgkin - Nodal", Site, T)], ")]")
-		codes[grepl("Invalid", Site, T)] <- NA
+		codes[grepl("Hodgkin - Extranodal", Type, T)] <- paste0(
+			"(0:999)[!0:999 %in% c(", codes[grepl("Hodgkin - Nodal", Type, T)], ")]")
+		codes[grepl("Invalid", Type, T)] <- NA
 		codes[codes == ""] <- NA
 		codes <- gsub("  ", " ", codes)
 		codes <- lapply(codes, function(x) {eval(parse(text = x))})
@@ -71,75 +74,113 @@ seer.tbl[, `:=`(
 		codes
 	}
 )]
+# If ICD-O-3 code NA, then it takes all site codes
+seer.tbl[is.na(`ICD-O-3 Site`), `ICD-O-3 Site` := list(0:900)]
+
+seer.tbl[,`:=`(Type = gsub("  ", " ", Type))]
+seer.tbl[,`:=`(Type = gsub("  ", " ", Type))]
 
 seer.key <- data.table(
-	Site = unique(seer.tbl$Site))
+	Type = unique(seer.tbl$Type))
 
 # Assign descriptions to rows; the more general, the higher the group number
-seer.key[11:33, `:=`(Group1 = "di")] # "All digestive cancers")]
-seer.key[14:25, `:=`(Group2 = "corec")] #"Colorectal cancer")]
-seer.key[14:22, `:=`(Group3 = "co")]#"Colon cancer")]
-seer.key[23:25, `:=`(Group3 = "re")]#"Rectal cancer")]
-seer.key[26:33, `:=`(Group2 = "li")]#"Liver and intrahepatic bile duct cancers")]
-seer.key[30, `:=`(Group3 = "pa")]#"Pancreatic cancer")]
-seer.key[11, `:=`(Group2 = "es")]#"Esophageal cancer")]
-seer.key[12, `:=`(Group2 = "st")]#"Stomach cancer")]
-seer.key[34:38, `:=`(Group1 = "res")]#"All respiratory cancers")]
-seer.key[35, `:=`(Group2 = "la")]#"Laryngeal cancer")]
-seer.key[36, `:=`(Group2 = "lu")]#"Lung and bronchial cancers")]
-seer.key[43, `:=`(Group1 = "br")]#"Breast cancer")]
-seer.key[44:50, `:=`(Group1 = "fe")]#"Female genital cancers")]
-seer.key[51:54, `:=`(Group1 = "ma")]#"Male genital cancers")]
-seer.key[51, `:=`(Group2 = "pr")]#"Prostate cancer")]
-seer.key[62:63, `:=`(Group1 = "en")]#"Endocrine cancers")]
-seer.key[55:58, `:=`(Group1 = "ur")]#"Urinary cancers")]
-seer.key[56, `:=`(Group2 = "ki")]#"Kidney and renal pelvic cancers")]
-seer.key[55, `:=`(Group2 = "bl")]#"Bladder cancer")]
-seer.key[41:42, `:=`(Group1 = "sk")]#"Skin cancer")]
-seer.key[41, `:=`(Group2 = "me")]#"Melanoma")]
-seer.key[60:61, `:=`(Group1 = "ner")]#"Brain and nervous system cancers")]
-seer.key[60, `:=`(Group2 = "brn")]#"Brain cancer")]
-seer.key[68, `:=`(Group1 = "my")]#"Myeloma")]
-seer.key[69:77, `:=`(Group1 = "leu")]#"Leukemia")]
-seer.key[69:71, `:=`(Group2 = "ll")]#"Lymphocytic leukemia")]
-seer.key[70, `:=`(Group3 = "cll")]#"Chronic lymphocytic leukemia")]
-seer.key[72:75, `:=`(Group2 = "mml")]#"Myeloid and monocytic leukemia")]
-seer.key[72, `:=`(Group3 = "aml")]#"Acute myeloid leukemia")]
-seer.key[64:67, `:=`(Group1 = "lym")]#"Lymphoma")]
-seer.key[66:67, `:=`(Group2 = "nhl")]#"Non-Hodgkin lymphoma")]
+{seer.key[11:33, `:=`(Group1 = "di")] # "All digestive cancers")]
+	seer.key[14:25, `:=`(Group2 = "corec")] #"Colorectal cancer")]
+	seer.key[14:22, `:=`(Group3 = "co")]#"Colon cancer")]
+	seer.key[23:25, `:=`(Group3 = "re")]#"Rectal cancer")]
+	seer.key[26:33, `:=`(Group2 = "li")]#"Liver and intrahepatic bile duct cancers")]
+	seer.key[30, `:=`(Group3 = "pa")]#"Pancreatic cancer")]
+	seer.key[11, `:=`(Group2 = "es")]#"Esophageal cancer")]
+	seer.key[12, `:=`(Group2 = "st")]#"Stomach cancer")]
+	seer.key[34:38, `:=`(Group1 = "res")]#"All respiratory cancers")]
+	seer.key[35, `:=`(Group2 = "la")]#"Laryngeal cancer")]
+	seer.key[36, `:=`(Group2 = "lu")]#"Lung and bronchial cancers")]
+	seer.key[43, `:=`(Group1 = "br")]#"Breast cancer")]
+	seer.key[44:50, `:=`(Group1 = "fe")]#"Female genital cancers")]
+	seer.key[51:54, `:=`(Group1 = "ma")]#"Male genital cancers")]
+	seer.key[51, `:=`(Group2 = "pr")]#"Prostate cancer")]
+	seer.key[62:63, `:=`(Group1 = "en")]#"Endocrine cancers")]
+	seer.key[55:58, `:=`(Group1 = "ur")]#"Urinary cancers")]
+	seer.key[56, `:=`(Group2 = "ki")]#"Kidney and renal pelvic cancers")]
+	seer.key[55, `:=`(Group2 = "bl")]#"Bladder cancer")]
+	seer.key[41:42, `:=`(Group1 = "sk")]#"Skin cancer")]
+	seer.key[41, `:=`(Group2 = "me")]#"Melanoma")]
+	seer.key[60:61, `:=`(Group1 = "ner")]#"Brain and nervous system cancers")]
+	seer.key[60, `:=`(Group2 = "brn")]#"Brain cancer")]
+	seer.key[68, `:=`(Group1 = "my")]#"Myeloma")]
+	seer.key[69:77, `:=`(Group1 = "leu")]#"Leukemia")]
+	seer.key[69:71, `:=`(Group2 = "ll")]#"Lymphocytic leukemia")]
+	seer.key[70, `:=`(Group3 = "cll")]#"Chronic lymphocytic leukemia")]
+	seer.key[72:75, `:=`(Group2 = "mml")]#"Myeloid and monocytic leukemia")]
+	seer.key[72, `:=`(Group3 = "aml")]#"Acute myeloid leukemia")]
+	seer.key[64:67, `:=`(Group1 = "lym")]#"Lymphoma")]
+	seer.key[66:67, `:=`(Group2 = "nhl")]#"Non-Hodgkin lymphoma")]
+}
 
 # Make seer.key long
 seer.key <- rbindlist(lapply(paste0("Group", 1:3), function(x) {
-	seer.key[!is.na(get(x)),.(Site, code = get(x), group = as.numeric(substring(x, 6)))]
-	}), use.names = T)
+	seer.key[!is.na(get(x)),.(Type, code = get(x), group = as.numeric(substring(x, 6)))]
+}), use.names = T)
 seer.key[,`:=`(
 	most.specific = max(group)
-), by = .(Site)]
+), by = .(Type)]
+
+# # Merge ICD and Group objects
+# seer.key <- merge(seer.key, seer.tbl, on = "Type")
+
+# Get SEER data
+seer <- box_read(447866882720)
+setDT(seer)
+names(seer)[names(seer) == "Study.no"] <- "studyno"
 
 # Remove rogue spaces
-seer.key[,`:=`(Site = gsub("  ", " ", Site))]
-seer.key[,`:=`(Site = gsub("  ", " ", Site))]
-seer[,`:=`(ICD.site.desc = gsub("  ", " ", ICD.site.desc))]
+seer[,`:=`(Site = gsub("  ", " ", SEER.site.desc))]
 
-# Give a compatible `SEER.site.desc` to those not in seer.key
-seer[!SEER.site.desc %in% seer.key$Site, `:=`(
-	SEER.site.desc = sapply(apply(data.frame(
-		as.numeric(gsub("C", "", ICD.site.code)), ICD.hist.code
-	), 1, function(x) {
-		seer.tbl$Site[
-			sapply(seer.tbl$`ICD-O-3 Site`, function(sites) {x[1] %in% sites}) &
-				sapply(seer.tbl$`ICD-O-3 Histology (Type)`, function(types) {x[2] %in% types})]
-	}), function(x) {if (length(x) > 0) {x} else {as.character(x[1])}}))]
+# Give a compatible `Site` to those not in seer.key
+seer[!Site %in% seer.key$Type, `:=`(
+	Site = sapply(apply(
+		data.frame(
+			as.numeric(gsub("C", "", ICD.site.code)), ICD.hist.code
+		), 1, function(x) {
+			seer.tbl$Type[
+				sapply(seer.tbl$`ICD-O-3 Site`, function(sites) {x[1] %in% sites}) &
+					sapply(seer.tbl$`ICD-O-3 Histology (Type)`, function(types) {x[2] %in% types})]
+		}), function(x) {if (length(x) > 0) {x} else {as.character(x[1])}}))]
+
+# Get site descripion based on ICD site and histology codes
+# View(seer.tbl)
+seer[, Site2 := (
+	apply(data.frame(
+		ICD.site.code,
+		ICD.hist.code
+	), 1, function(d) {
+		hist <- d[2]
+		icd <- d[1]
+		seer.tbl[
+			unlist(lapply(`ICD-O-3 Histology (Type)`, function(x) {
+				length(which(x %in% hist)) > 0
+			})) &
+				unlist(lapply(`ICD-O-3 Site`, function(x) {
+					length(which(x %in% as.numeric(gsub("C", "", icd)))) > 0
+				}))
+			, Type]
+	})
+)]
+
+seer[,Site2 := sapply(Site2, function(x) {
+	if (length(x) == 0) {NA} else {x}})]
+# seer[,.(studyno, Site, Site2, ICD.site.code, ICD.hist.code)][Site2 != Site | (is.na(Site2) & !is.na(Site))]
+seer[, Site := Site2]
+seer <- seer[,-"Site2"]
 
 # Add cancer codes to seer data (3 Groups)
 lapply(1:3, function(i) {
-	seer[SEER.site.desc %in% seer.key[group == i, Site],
-			 (paste0("code", i)) := unlist(sapply(SEER.site.desc, function(x) {
-			 	seer.key[Site == x, code[group == i]]}
+	seer[Site %in% seer.key[group == i, Type],
+			 (paste0("code", i)) := unlist(sapply(Site, function(x) {
+			 	seer.key[Type == x, code[group == i]]}
 			 ))]
 })
 
-seer[is.na(code1) ,.(Study.no, SEER.site.desc, ICD.site.desc)]
 
 # Cast for each group, keeping only malignant cases
 lapply(1:3, function(i = 1) {
@@ -150,8 +191,8 @@ lapply(1:3, function(i = 1) {
 			2,
 			# 3: Malignant, primary site
 			3
-			), .(
-			studyno = Study.no,
+		), .(
+			studyno,
 			ddiag = Dx.date,
 			ddiag_code = paste0("ddiag_", get(paste0("code", i))),
 			canc_code = paste0("canc_", get(paste0("code", i)))
@@ -177,15 +218,15 @@ seer[,`:=`(studyno.i = studyno)]
 seer[,(names(seer[,-c("studyno", "studyno.i"), with = F])) := (
 	lapply(seer[,-c("studyno"), with = F][studyno.i == studyno][,-"studyno.i", with = F],
 				 function(x) {
-					if (sum(!is.na(x)) >= 1) {
-						unique(x[!is.na(x)]) } else {NA}
-				})), by = .(studyno)]
+				 	if (sum(!is.na(x)) >= 1) {
+				 		unique(x[!is.na(x)]) } else {NA}
+				 })), by = .(studyno)]
 
 seer <- seer[,c("studyno",
 								paste0(c("canc_",
 												 "ddiag_"),
-												 rep(cancer.key$code,
-												 		each = 2))), with = F]
+											 rep(cancer.key$code,
+											 		each = 2))), with = F]
 
 # Save to box ####
 box_save(seer,
@@ -194,9 +235,9 @@ box_save(seer,
 				 description = "SEER_Matches.csv with columns corresponding to the SEER categories (as coded up in auto_vs).")
 
 box_write(seer,
-				 dir_id = 113431246688,
-				 file_name = "SEER Incidence.csv",
-				 description = "SEER_Matches.csv with columns corresponding to the SEER categories (as coded up in auto_vs).")
+					dir_id = 113431246688,
+					file_name = "SEER Incidence.csv",
+					description = "SEER_Matches.csv with columns corresponding to the SEER categories (as coded up in auto_vs).")
 
 # name        : SEER Incidence.rdata
 # file id     : 660223470027

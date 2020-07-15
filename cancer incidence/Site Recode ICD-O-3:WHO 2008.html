@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Site Recode ICD-O-3/WHO 2008 - SEER Data Reporting Tools</title>
+
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/s/base.css" />
+<link rel="stylesheet" href="/s/styles.css" />
+<link rel="stylesheet" type="text/css" href="/s/jquery.qtip.min.css">
+
+<link rel="stylesheet" href="/s/print.css" media="print" />
+
+<script src="/toolbox/javascript/jquery-1.12.4.min.js"></script>
+<script src="/j/jquery.qtip.min.js" type="text/javascript"></script>
+
+<!-------------------------Meta Tags for Social Sharing---------------------------------->
+<!----TWITTER---->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@NCICancerStats" />
+<meta name="twitter:creator" content="@NCICancerStats" />
+<meta name="twitter:image" content="https://seer.cancer.gov/i/tile-fact.jpg" />
+
+<!----Open Graph---->
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://seer.cancer.gov/i/tile-fact.jpg" />
+<meta property="og:site_name" content="SEER" />
+<!--custom_head--><!-- Start Meta Tag Insertion -->
+					  <meta name='description' content='Table of site group, ICD-O-3 site, ICD-O-3 histology type, and recode (WHO 2008 definition). Also available in ASCII text file.'>
+					   <meta property='twitter:title' content='Site Recode ICD-O-3/WHO 2008 - SEER Data Reporting Tools'> 
+				       <meta property='twitter:description' content='Table of site group, ICD-O-3 site, ICD-O-3 histology type, and recode (WHO 2008 definition). Also available in ASCII text file.'> 
+				       <meta property='twitter:url' content='https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html'> 
+				       <meta property='og:title' content='Site Recode ICD-O-3/WHO 2008 - SEER Data Reporting Tools'> 
+				       <meta property='og:description' content='Table of site group, ICD-O-3 site, ICD-O-3 histology type, and recode (WHO 2008 definition). Also available in ASCII text file.'> 
+				       <meta property='og:url' content='https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html'> 
+				       <!-- End Meta Tag Insertion --><!--/custom_head--></head>
+
+<body class="documentation " onload='IMS_Onload.run();'>
+	<a class="sr-only sr-only-focusable" href="#skipnav">Skip to Main Content</a>
+<style type="text/css">
+  /* Fonts and other items are targeting mobile first */
+  .notification-banner > div > div {
+    padding: 0;
+    margin: 0;
+  }
+  .alert-drawer-wrapper {
+    background: #fada87;
+    padding: .5em 1.25em;
+    margin-bottom: 1px;
+  }
+  
+  .alert-drawer__body {
+    display: none;
+  }
+  .alert-drawer__body.active {
+    display: block;
+  }
+  .alert-drawer__body.active + .alert-drawer__toggle button::after {
+    content: '';
+    display: none;
+  }
+  .alert-drawer__toggle {
+    display: block;
+    text-align: center;
+  }
+  .alert-drawer__toggle button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  .alert-drawer__toggle button::after {
+    content: 'Expand for resources';
+    display: block;
+    font: 12px/19px "Montserrat", Arial, sans-serif;
+    color: #606060;
+    text-align: center;
+  }
+  .alert-drawer .alert-drawer-title {
+    font: bold 16px/19px "Montserrat", Arial, sans-serif;    
+    color: #444444;
+  }
+  .alert-drawer a {
+    text-decoration: underline;
+    color: #606060;
+  }
+  .alert-drawer p {
+    font: 14px/19px "Montserrat", Arial, sans-serif;    
+    color: #606060;
+    margin: .5em 0 !important;
+  }
+  .ellipse {
+    display: none;
+  }
+  .ellipse::before {
+    content: "\2026";
+  }
+
+  /* Desktop and up overrides */
+  @media only screen and (min-width: 1025px) {
+
+    .alert-drawer {
+      margin: 0 auto;
+      max-width: 62.5em;
+      padding-left: 10px;
+    }    
+
+    .alert-drawer .alert-drawer-title {
+      font: bold 20px/24px "Montserrat", Arial, sans-serif;
+    }
+
+    .alert-drawer p {
+      font: 16px/24px "Montserrat", Arial, sans-serif;    
+    }
+
+    .alert-drawer__toggle {
+      display: none;
+    }
+    .alert-drawer__body {
+      display: block;
+    }
+    .alert-drawer__body.active {
+      display: block;
+    }
+  }
+
+  @media only screen and (min-width: 1441px) {
+    .alert-drawer {
+      max-width: 1200px;
+      padding-left: 20px;
+    }
+  }
+
+  </style>
+  <div class="alert-drawer-wrapper" role="alertdialog">
+    <div class="alert-drawer">
+      <div class="alert-drawer__heading">
+        <p><span class="alert-drawer-title">COVID-19 is an emerging, rapidly evolving situation.</span></p>
+      </div>
+      <div class="alert-drawer__body" tabindex="0">
+        <p>What people with cancer should know: <a href="https://www.cancer.gov/coronavirus">https://www.cancer.gov/coronavirus</a></p>
+		<p>Guidance for cancer researchers: <a href="https://www.cancer.gov/coronavirus-researchers">https://www.cancer.gov/coronavirus-researchers</a></p>
+        <p>Get the latest public health information from CDC: <a href="https://www.coronavirus.gov">https://www.coronavirus.gov</a></p>
+        <p>Get the latest research information from NIH: <a href="https://www.nih.gov/coronavirus">https://www.nih.gov/coronavirus</a></p>
+      </div>
+      <div class="alert-drawer__toggle">
+        <button type="button" id="alert-toggle-btn"><img id="alert-toggle-img" src="/toolbox/images/dccps/white-down-arrow.png" alt="" aria-hidden="true" /></button>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  document
+    .getElementById("alert-toggle-btn")
+    .addEventListener("click", function() {
+      var alertBody = document.querySelector(".alert-drawer__body");
+      var alertImg = "";
+      alertBody.classList.toggle("active");
+      if (alertBody.className.match("active")) {
+        alertBody.focus();
+        alertImg =
+          "/toolbox/images/dccps/white-x.png";
+      } else {
+        alertImg =
+          "/toolbox/images/dccps/white-down-arrow.png";
+      }
+      document.getElementById("alert-toggle-img").setAttribute("src", alertImg);
+    });
+  </script>
+
+<!-- Blue Header -->
+<!-- NCI, SEER, Search, Navigation -->
+<!-- HEADER -->
+<header class="push" role="banner">
+	<div class="container">
+    	<div class="row">
+        	<div class="col-sm-8">
+		        <a class="seerLogo" href="/" title="Return Home">
+		        	<img src="/i/seer.svg" alt="Surveillance, Epidemiology, and End Results Program" />
+		        </a>
+            </div>
+            <div class="col-sm-4 search">
+				<!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_inline_share_toolbox"></div>
+		        <form action="/search" method="get" name="search" onSubmit="return searchCheck(this.q) && NCIAnalytics.SiteSearch(this);">
+                        <label for="searchsite">Search SEER:</label>
+                        <input id="searchsite" type="text" size="15" name="q" placeholder="Search SEER" />
+                        <input type="image" src="/i/search_btn.png" class="greenBtn" alt="Search" />
+                </form>
+            </div>
+        </div>
+ </div>
+
+</header>
+<!-- END HEADER -->
+<div class="fixedtotop">
+ <div class="mobile-menu-bar navopen-menu-mobile"><button aria-expanded="false" type="button" class="open-panel nav-header menu-btn">Menu</button></div>
+</div>
+
+<div id="topnav">
+
+    <!-- Global nav/utilit bar/language  -->
+        <!-- BEGIN NAVIGATION -->
+        <!-- Begin nav-search bar -->
+        <div class="nav-search-bar gradient header container"><div id="nvcgSlMainNav" class="row">
+
+	<div class="slot-item first-SI">
+		<div class="navigation" role="application">
+
+			<nav id="mega-nav" role="navigation">
+				<ul class="menu nav-menu">
+					<li class="nav-item lvl-1 item-1 home">
+						<div class="nav-item-title">
+						<a href="/">Home</a>
+						</div><ul class="mobile-item">
+						      </ul>
+					</li>
+					<li class="nav-item lvl-1 has-children item-2 statistics">
+						<div class="nav-item-title">
+						<a href="/statistics/"><span>Cancer Statistics</span> <img src="/i/caret-down-sm-f.png" alt="" /></a>
+						</div>
+						<ul class="mobile-item">
+						<li class="lvl-2 has-children">
+							<div class="nav-item-title">
+							<a href="/statistics/reports.html">Reports on Cancer</a>
+						</div>
+							<ul class="mobile-item">
+							<li class="lvl-3">
+								<div class="nav-item-title">
+								<a href="/report_to_nation/">Annual Report to the Nation on the Status of Cancer</a>
+							</div>
+							</li>
+							<li class="lvl-3">
+								<div class="nav-item-title">
+								<a href="/statfacts/">Cancer Stat Facts</a>
+							</div>
+							</li>
+							<li class="lvl-3">
+								<div class="nav-item-title">
+								<a href="/csr/">Cancer Statistics Review</a>
+							</div>
+							</li>
+							<li class="lvl-3">
+								<div class="nav-item-title">
+									<a href="/statistics/preliminary-estimates/">Preliminary Incidence Rates</a>
+								</div>
+							</li>
+							<li class="lvl-3">
+								<div class="nav-item-title">
+									<a href="/publications/">SEER Publications</a>
+								</div>
+							</li>	
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/statistics/interactive.html">Interactive Tools, Maps, &amp; Graphs</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/explorer/">SEER*Explorer</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/canstat/">CanStat Animator</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/canques/">Cancer Query Systems</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/statistics/resources.html">Understanding Statistics</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/statistics/videos/">Did You Know? Video Series</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/statistics/types.html">Defining Cancer Statistics</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/cgi-bin/glossary/glossary.pl">Glossary of Statistical Terms</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/publications/">SEER Publications</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/publications/monographs.html">Monographs</a>
+							</div></li>
+						</ul></li>
+					</ul><div aria-expanded="false" aria-haspopup="true" class="sub-nav-mega">
+						<div class="sub-nav-group-wrapper"><div class="sub-nav-group-subwrapper">
+							<ul class="sub-nav-group one-third"><li><a href="/statistics/reports.html" class="sub-nav-group-header">Reports on Cancer</a>
+							  <ul>
+							    <li><a href="/report_to_nation/">Annual Report to the Nation on the Status of Cancer</a></li>
+							    <li><a href="/statfacts/">Cancer Stat Facts</a></li>
+							    <li><a href="/csr/">Cancer Statistics Review</a></li>
+								<li><a href="/statistics/preliminary-estimates/">Preliminary Incidence Rates</a></li>
+								<li><a href="/publications/">SEER Publications</a></li>  
+							  </ul></li></ul>
+							<ul class="sub-nav-group one-third"><li><a href="/statistics/interactive.html" class="sub-nav-group-header">Interactive Tools, Maps, &amp; Graphs</a>
+							  <ul>
+							    <li><a href="/explorer/">SEER*Explorer</a></li>
+							   <li><a href="/canstat/">CanStat Animator</a></li>
+							    <li><a href="/canques/">Cancer Query Systems</a></li>
+							  </ul></li></ul>
+							<ul class="sub-nav-group one-third"><li><a href="/statistics/resources.html" class="sub-nav-group-header">Understanding Statistics</a>
+							  <ul>
+							    <li><a href="/statistics/videos/">Did You Know? Video Series</a></li>
+							    <li><a href="/statistics/types.html">Defining Cancer Statistics</a></li>
+							    <li><a href="/cgi-bin/glossary/glossary.pl">Glossary of Statistical Terms</a></li>
+							  </ul></li></ul>
+							
+						</div></div>
+					</div></li>
+					<li class="nav-item lvl-1 has-children item-3 data-soft"><div class="nav-item-title">
+						<a href="/data-software/"><span>SEER Data &amp; Software</span> <img src="/i/caret-down-sm-f.png" alt="" /></a>
+					</div><ul class="mobile-item">
+						<li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/data/">SEER Incidence Database</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/data/access.html">Accessing the Data</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/seertrack/data/request/">Request the Data</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/data/sample-dua.html">Sample Data Use Agreement</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/data-software/documentation/">Documentation for Data</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/data-software/documentation/seerstat/">SEER*Stat Database Details</a>
+							</div></li><li class="lvl-3">
+							  <div class="nav-item-title">
+								<a href="/analysis/">Variable and Recode Definitions</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/data-software/datasets.html">U.S. Datasets</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/mortality/">U.S. Mortality</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/popdata/">U.S. Populations</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/stdpopulations/">Standard Populations</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/data-software/linked_databases.html">SEER Linked Databases</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/data-software/software.html">Statistical Software</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/seerstat/">SEER*Stat</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/seerprep/">SEER*Prep</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="https://surveillance.cancer.gov/tools/" class="exit">Methods &amp; Tools for Population-based Cancer Statistics</a>
+							</div></li>
+						</ul></li>
+					</ul><div aria-expanded="false" aria-haspopup="true" class="sub-nav-mega">
+						<div class="sub-nav-group-wrapper"><div class="sub-nav-group-subwrapper">
+							<ul class="sub-nav-group"><li><a href="/data/" class="sub-nav-group-header">SEER Incidence Database</a>
+							  <ul>
+							    <li><a href="/data/access.html">Accessing the Data</a></li>
+							    <li><a href="/seertrack/data/request/">Request the Data</a></li>
+							    <li><a href="/data/sample-dua.html">Sample Data Use Agreement</a></li>
+							  </ul></li></ul>
+							<ul class="sub-nav-group"><li><a href="/data-software/documentation/" class="sub-nav-group-header">Documentation for Data</a>
+							  <ul>
+							    <li><a href="/data-software/documentation/seerstat/">SEER*Stat Database Details</a></li>
+							    <li><a href="/analysis/">Variables and Recode Definitions</a></li> 
+							  </ul></li></ul>
+							<ul class="sub-nav-group"><li><a href="/data-software/datasets.html" class="sub-nav-group-header">U.S. Datasets</a>
+							  <ul>
+							    <li><a href="/mortality/">U.S. Mortality</a></li>
+							    <li><a href="/popdata/">U.S. Populations</a></li>
+							    <li><a href="/stdpopulations/">Standard Populations</a></li>
+							    <li><a href="/data-software/linked_databases.html">SEER Linked Databases</a></li>
+							  </ul></li></ul>
+							<ul class="sub-nav-group"><li><a href="/data-software/software.html" class="sub-nav-group-header">Statistical Software</a>
+							  <ul>
+							    <li><a href="/seerstat/">SEER*Stat</a></li>
+							    <li><a href="/seerprep/">SEER*Prep</a></li>
+							    <li><a href="https://surveillance.cancer.gov/tools/" class="exit">Methods &amp; Tools for Population-based Cancer Statistics</a></li>
+							  </ul></li></ul>
+						</div></div>
+					</div></li>
+					<li class="nav-item lvl-1 has-children item-4 registrars"><div class="nav-item-title">
+						<a href="/registrars/"><span>Registry Operations</span> <img src="/i/caret-down-sm-f.png" alt="" /></a>
+					</div><ul class="mobile-item">
+						<li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/registrars/guidelines.html">Reporting Guidelines</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/tools/codingmanuals/index.html">SEER Program Coding Manual</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/tools/heme/">Hematopoietic Project</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/tools/solidtumor/">2018 Solid Tumor Rules</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/registrars/tools-software.html">Tools &amp; Software</a>
+						</div>
+						<ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/seertools/glossary/">Glossary for Registrars</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/tools/seerrx/">SEER*Rx - Drug Database</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/seerabs/">SEER Abstracting Tool</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/seerdms/index.html">SEER Data Management System (SEER*DMS)</a>
+							</div>
+							</li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/registrars/qa.html">Questions &amp; Answers</a>
+						</div><ul class="mobile-item">
+                       		<li class="lvl-3"><div class="nav-item-title">
+								<a href="/seerinquiry/index.php">SEER Inquiry System</a>
+							</div></li>
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/registrars/contact.html">Ask a SEER Registrar</a>
+							</div></li>
+                            <li class="lvl-3"><div class="nav-item-title">
+								<a href="/registrars/data-collection.html">Data Collection Answers</a>
+							</div></li>
+						</ul></li><li class="lvl-2 has-children"><div class="nav-item-title">
+							<a href="/registrars/staging.html">Staging</a>
+						</div><ul class="mobile-item">
+							<li class="lvl-3"><div class="nav-item-title">
+								<a href="/tools/staging/rsa.html">Registrar Staging Assistant (SEER*RSA)</a>
+							</div></li><li class="lvl-3">
+							  <div class="nav-item-title">
+								<a href="/tools/ssm/">Summary Stage 2018</a>
+							</div></li><li class="lvl-3"><div class="nav-item-title">
+								<a href="/tools/staging/index.html">Staging Resources</a>
+							</div></li>
+						</ul></li><li class="lvl-2"><div class="nav-item-title">
+							<a href="/training">Training</a>
+						</div><ul class="mobile-item">
+						  <li class="lvl-3"><div class="nav-item-title"></div></li>
+						</ul></li>
+					</ul><div aria-expanded="false" aria-haspopup="true" class="sub-nav-mega">
+						<div class="sub-nav-group-wrapper"><div class="sub-nav-group-subwrapper">
+							<ul class="sub-nav-group"><li><a href="/registrars/guidelines.html" class="sub-nav-group-header">Reporting Guidelines</a>
+							  <ul>
+							    <li><a href="/tools/codingmanuals/index.html">SEER Program Coding Manual</a></li>
+							    <li><a href="/tools/heme/">Hematopoietic Project</a></li>
+							    <li><a href="/tools/solidtumor/">2018 Solid Tumor Rules</a></li>
+							  </ul></li></ul>
+							<ul class="sub-nav-group"><li><a href="/registrars/tools-software.html" class="sub-nav-group-header">Tools &amp; Software</a>
+							  <ul>
+							    <li><a href="/seertools/glossary/">Glossary for Registrars</a></li>
+							    <li><a href="/tools/seerrx/">SEER*Rx - Drug Database</a></li>
+							    <li><a href="/seerabs/">SEER Abstracting Tool</a></li>
+									<li><a href="/seerdms/index.html">SEER Data Management System (SEER*DMS)</a></li>
+							  </ul></li></ul>
+							<ul class="sub-nav-group"><li><a href="/registrars/qa.html" class="sub-nav-group-header">Questions &amp; Answers</a>
+							  <ul>
+ 								<li><a href="/seerinquiry/index.php">SEER Inquiry System</a></li>
+                                <li><a href="/registrars/contact.html">Ask a SEER Registrar</a></li>
+							    <li><a href="/registrars/data-collection.html">Data Collection Answers</a></li>
+							  </ul></li></ul>
+							<ul class="sub-nav-group"><li><a href="/registrars/staging.html" class="sub-nav-group-header">Staging</a>
+							  <ul>
+							    <li><a href="/tools/staging/rsa.html">Registrar Staging Assistant (SEER*RSA)</a></li>
+							    <li><a href="/tools/ssm/">Summary Stage 2018</a></li>
+                                <li><a href="/tools/staging/index.html">Staging Resources</a></li>
+							  </ul></li><br />
+							  <li><a href="/training/" class="sub-nav-group-header">Training</a></li>
+							</ul>
+						</div></div>
+					</div></li>
+					<li class="nav-item lvl-1 item-5 news"><div class="nav-item-title">
+						<a href="/news/">News</a>
+						</div><ul class="mobile-item">
+						      </ul></li>
+					<li class="nav-item lvl-1 item-6 about"><div class="nav-item-title">
+						<a href="/about/">About</a>
+						</div><ul class="mobile-item">
+						      </ul></li>
+
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+	<div class="slot-item last-SI"></div>
+</div></div>
+        <!-- End nav-search bar -->
+        <!-- END NAVIGATION -->
+    <!-- END Global nav/utility bar/language -->
+
+</div>
+<!-- End topnav -->
+
+ 
+
+<!-- White Section -->
+<div class="section">
+	<div class="highlighted">
+    	<!-- Crumbs -->
+        <div class="container">  
+			<button class="togLeftNav button" data-toggle="modal" data-target="#leftNav"><span>Section Menu</span></button>
+            <div class="crumbs"><a class="home" href="/"><img src="/i/icn_home.png" alt="Return Home" /> Home</a>  <img class="arrow" src="/i/crumb_arrow.png" alt=""/> <a href="/data-software/">SEER Data &amp; Software</a> <img class="arrow" src="/i/crumb_arrow.png" alt=""/> <a href="/data-software/documentation/">Documentation for Data</a> <img class="arrow" src="/i/crumb_arrow.png" alt=""/> <a href="/analysis/">Variable & Recode Definitions</a> <img class="arrow" src="/i/crumb_arrow.png" alt=""/> <a href="/analysis/incidence.html">Incidence Site Recode Variables</a> <img class="arrow" src="/i/crumb_arrow.png" alt=""/> <a href="/siterecode/index.html">Site Recode</a> <img class="arrow" src="/i/crumb_arrow.png" alt=""/> Site Recode ICD-O-3/WHO 2008</div>            <h1><!--body_title-->Site Recode ICD-O-3/WHO 2008 Definition<a href="#footnotes"><sup>*^</sup></a><!--/body_title--></h1>
+        </div>    	
+		    </div>
+    <div class="container body"><img src="/i/left-body.png" alt="" class="bg-front">
+    	<div class="row">
+    	<!-- Smaller, Aside Column -->
+        <div class="col-md-3">
+           	
+ 	 	 	<div class="leftNav-wrap">
+            	<nav class="subNav leftNav" aria-label="Documentation &amp; Recodes">		
+	<strong><a href="/data-software/documentation/">Documentation for SEER Data</a></strong>
+	<ul>
+		<li><a href="/data-software/documentation/seerstat/">SEER*Stat Database Details</a></li>
+		<li><a href="/analysis/">Variable &amp; Recode Definitions</a>
+			<ul>
+			<li><a href="/behavrecode/">Behavior Recode for Analysis</a></li>
+			<li><a href="/analysis/stage.html">Cancer Stage Variables</a>
+				<ul>
+					<li><a href="/seerstat/variables/seer/ajcc-stage/">SEER Combined/AJCC Cancer Staging</a>
+					  <ul>
+					    <li><a href="/seerstat/variables/seer/ajcc-stage/seer-combined.html">SEER Combined Stage (2016+)</a></li>
+                        <li><a href="/seerstat/variables/seer/ajcc-stage/derived-ajcc.html">Derived AJCC Cancer Staging</a></li>
+					    <li><a href="/seerstat/databases/ssf/">Collaborative Stage Site-Specific Factors (CS SSF)</a>
+					      <ul>
+					        <li><a href="/seerstat/databases/ssf/her2-derived.html">Derived HER2 Recode</a></li>
+					        <li><a href="/seerstat/databases/ssf/breast-subtype.html">Breast Subtype (2010+)</a></li>
+				          </ul>
+				        </li>
+					    <li><a href="/seerstat/variables/seer/ajcc-stage/ann-arbor/">Lymphomas - Ann Arbor Staging</a></li>
+   					    <li><a href="/seerstat/variables/seer/ajcc-stage/6th/">Adjusted AJCC  6th ed. T, N, M, and Stage</a></li>
+					    <li><a href="/seerstat/variables/seer/ajcc-stage/3rd.html">AJCC 3rd Edition</a></li>
+				      </ul>
+					</li>
+					<li><a href="/seerstat/variables/seer/lrd-stage/">Localized/Regional/Distant Stage Adjustments</a></li>
+				</ul> 
+			</li>
+			<li><a href="/codrecode/">Cause of Death Recode</a></li>
+			<li><a href="/causespecific/">Cause-specific Death Classification</a></li>
+			<li><a href="/analysis/incidence.html">Incidence Site Recode Variables</a>
+				<ul>
+					<li><a href="/ayarecode/">AYA Site Recode</a></li>
+					<li><a href="/iccc/">International Classification of Childhood Cancer</a></li>
+					<li><a href="/lymphomarecode/">Lymphoma Subtype Recode</a></li>
+					<li><a class="active" href="/siterecode/">Site Recode</a></li>
+				</ul>          
+			</li>                    
+			<li><a href="/seerstat/variables/seer/insurance-recode/">Insurance Recode</a></li>	
+			<li><a href="/survivaltime/">Months Survived Based on Complete Dates</a></li>	
+			<li><a href="/seerstat/variables/mort/origin_recode_1990/">Policy for Calculating Hispanic Mortality</a></li>
+			<li><a href="/seerstat/variables/seer/race_ethnicity/">Race Recode</a></li>
+			<li><a href="/seerstat/variables/seer/surgery/">Site Specific Surgery (1983-1997)</a></li>
+			</ul>
+		</li>
+	</ul>	
+</nav>			</div>
+        </div>
+        <!-- Main Content Column -->	
+        <main class="col-md-9" id="content" role="main">          
+            <a name="skipnav" id="skipnav" tabindex="-1"></a>
+            <!--body_content--><p>The information provided in this table is also available in an <a href="index.txt" target="_blank">ASCII text file</a><span class="docinfo"> (TXT, 8 KB) </span> (semicolons are used as the delimiters).</p>
+<p>To see how this variable is used in SEER publications and to read about other site recode variables,  see the <a href="/siterecode/">Site Recode home page</a>.</p>
+
+<div class="table-responsive">
+<table>
+<thead>
+ <tr>
+   <th id="x1colheader">Site Group</th>
+   <th id="x2colheader">ICD-O-3 Site</th>
+   <th id="x3colheader">ICD-O-3 Histology (Type)</th>
+   <th id="x4colheader">Recode</th>
+ </tr>
+</thead>
+<tbody>
+ <tr>
+   <th headers="x1colheader" id="thn_1" class="secthead" colspan="4"><strong>Oral Cavity and Pharynx</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Lip</td>
+   <td headers="x2colheader thn_1">C000-C009</td>
+   <td headers="x3colheader thn_1" rowspan="10">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_1">20010</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Tongue</td>
+   <td headers="x2colheader thn_1">C019-C029</td>
+   <td headers="x4colheader thn_1">20020</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Salivary Gland</td>
+   <td headers="x2colheader thn_1">C079-C089</td>
+   <td headers="x4colheader thn_1">20030</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Floor of Mouth</td>
+   <td headers="x2colheader thn_1">C040-C049</td>
+   <td headers="x4colheader thn_1">20040</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Gum and Other Mouth</td>
+   <td headers="x2colheader thn_1">C030-C039,  C050-C059,  C060-C069</td>
+   <td headers="x4colheader thn_1">20050</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Nasopharynx</td>
+   <td headers="x2colheader thn_1">C110-C119</td>
+   <td headers="x4colheader thn_1">20060</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Tonsil</td>
+   <td headers="x2colheader thn_1">C090-C099</td>
+   <td headers="x4colheader thn_1">20070</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Oropharynx</td>
+   <td headers="x2colheader thn_1">C100-C109</td>
+   <td headers="x4colheader thn_1">20080</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Hypopharynx</td>
+   <td headers="x2colheader thn_1">C129,  C130-C139</td>
+   <td headers="x4colheader thn_1">20090</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_1">Other Oral Cavity and Pharynx</td>
+   <td headers="x2colheader thn_1">C140,  C142, C148</td>
+   <td headers="x4colheader thn_1">20100</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_12" class="secthead" colspan="4"><strong>Digestive System</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Esophagus</td>
+   <td headers="x2colheader thn_12">C150-C159</td>
+   <td headers="x3colheader thn_12" rowspan="3">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_12">21010</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Stomach</td>
+   <td headers="x2colheader thn_12">C160-C169</td>
+   <td headers="x4colheader thn_12">21020</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Small Intestine</td>
+   <td headers="x2colheader thn_12">C170-C179</td>
+   <td headers="x4colheader thn_12">21030</td>
+ </tr>
+ <tr>
+   <th class="left_indent_l2 secthead" id="thn_16" colspan="4" headers="x1colheader thn_12">Colon and Rectum</th>
+ </tr>
+ <tr>
+   <th class="left_indent_l3 secthead" id="thn_17" headers="x1colheader thn_12 thn_16" colspan="4">Colon excluding Rectum</th>
+
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Cecum</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C180</td>
+   <td headers="x3colheader thn_12 thn_16 thn_17" rowspan="9">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21041</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Appendix</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C181</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21042</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Ascending Colon</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C182</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21043</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Hepatic Flexure</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C183</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21044</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Transverse Colon</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C184</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21045</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Splenic Flexure</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C185</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21046</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Descending Colon</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C186</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21047</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Sigmoid Colon</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C187</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21048</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_17">Large Intestine,  NOS</td>
+   <td headers="x2colheader thn_12 thn_16 thn_17">C188-C189,  C260</td>
+   <td headers="x4colheader thn_12 thn_16 thn_17">21049</td>
+ </tr>
+ <tr>
+   <th class="left_indent_l3 secthead" id="thn_27" headers="x1colheader thn_12 thn_16" colspan="4">Rectum and Rectosigmoid Junction</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_27">Rectosigmoid Junction</td>
+   <td headers="x2colheader thn_12 thn_16 thn_27">C199</td>
+   <td headers="x3colheader thn_12 thn_16 thn_27" rowspan="3">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_12 thn_16 thn_27">21051</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l4" headers="x1colheader thn_12 thn_16 thn_27">Rectum</td>
+   <td headers="x2colheader thn_12 thn_16 thn_27">C209</td>
+   <td headers="x4colheader thn_12 thn_16 thn_27">21052</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Anus,  Anal Canal and Anorectum</td>
+   <td headers="x2colheader thn_12">C210-C212,  C218</td>
+   <td headers="x4colheader thn_12">21060</td>
+ </tr>
+ <tr>
+   <th id="thn_31" class="left_indent_l2 secthead" headers="x1colheader thn_12" colspan="4">Liver and Intrahepatic Bile Duct</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_12 thn_31">Liver</td>
+   <td headers="x2colheader thn_12 thn_31 thn_32">C220</td>
+   <td headers="x3colheader thn_12 thn_31" rowspan="8">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_12 thn_31 thn_32">21071</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_12 thn_31">Intrahepatic Bile Duct</td>
+   <td headers="x2colheader thn_12 thn_31">C221</td>
+   <td headers="x4colheader thn_12 thn_31">21072</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Gallbladder</td>
+   <td headers="x2colheader thn_12">C239</td>
+   <td headers="x4colheader thn_12">21080</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Other Biliary</td>
+   <td headers="x2colheader thn_12">C240-C249</td>
+   <td headers="x4colheader thn_12">21090</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Pancreas</td>
+   <td headers="x2colheader thn_12">C250-C259</td>
+   <td headers="x4colheader thn_12">21100</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Retroperitoneum</td>
+   <td headers="x2colheader thn_12">C480</td>
+   <td headers="x4colheader thn_12">21110</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Peritoneum,  Omentum and Mesentery</td>
+   <td headers="x2colheader thn_12">C481-C482</td>
+   <td headers="x4colheader thn_12">21120</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_12">Other Digestive Organs</td>
+   <td headers="x2colheader thn_12">C268-C269,  C488</td>
+   <td headers="x4colheader thn_12">21130</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_40" class="secthead" colspan="4"><strong>Respiratory System</strong></th>
+
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_40">Nose,  Nasal Cavity and Middle Ear</td>
+   <td headers="x2colheader thn_40">C300-C301,  C310-C319</td>
+   <td headers="x3colheader thn_40" rowspan="5">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_40">22010</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_40">Larynx</td>
+   <td headers="x2colheader thn_40">C320-C329</td>
+   <td headers="x4colheader thn_40">22020</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_40">Lung and Bronchus</td>
+   <td headers="x2colheader thn_40">C340-C349</td>
+   <td headers="x4colheader thn_40">22030</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_40">Pleura</td>
+   <td headers="x2colheader thn_40">C384</td>
+   <td headers="x4colheader thn_40">22050</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_40">Trachea,  Mediastinum and Other Respiratory Organs</td>
+   <td headers="x2colheader thn_40">C339,  C381-C383,  C388,  C390,  C398,  C399</td>
+   <td headers="x4colheader thn_40">22060</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Bones and Joints</strong></td>
+   <td headers="x2colheader">C400-C419</td>
+   <td headers="x3colheader">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader">23000</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Soft Tissue including Heart</strong></td>
+   <td headers="x2colheader">C380,  C470-C479,  C490-C499</td>
+   <td headers="x3colheader">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader">24000</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_48" class="secthead" colspan="4"><strong>Skin excluding Basal and Squamous</strong></th>
+
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_48">Melanoma of the Skin</td>
+   <td headers="x2colheader thn_48">C440-C449</td>
+   <td headers="x3colheader thn_48">8720-8790</td>
+   <td headers="x4colheader thn_48">25010 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_48">Other Non-Epithelial Skin</td>
+   <td headers="x2colheader thn_48">C440-C449</td>
+   <td headers="x3colheader thn_48">excluding 8000-8005,  8010-8046,  8050-8084,  8090-8110,  8720-8790,  9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_48">25020</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Breast</strong></td>
+   <td headers="x2colheader">C500-C509</td>
+   <td headers="x3colheader">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader">26000</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_52" class="secthead" colspan="4"><strong>Female Genital System</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_52">Cervix Uteri</td>
+   <td headers="x2colheader thn_52 thn_53">C530-C539</td>
+   <td headers="x3colheader thn_52 thn_53">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_52 thn_53">27010 </td>
+ </tr>
+ <tr>
+   <th class="secthead left_indent_l2" id="thn_54" headers="x1colheader thn_52" colspan="4">Corpus and Uterus,  NOS</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_52 thn_54">Corpus Uteri</td>
+   <td headers="x2colheader thn_52 thn_54">C540-C549</td>
+   <td headers="x3colheader thn_52 thn_54" rowspan="6">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_52 thn_54">27020 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_52 thn_54">Uterus,  NOS</td>
+   <td headers="x2colheader thn_52 thn_54">C559</td>
+   <td headers="x4colheader thn_52 thn_54">27030 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_52">Ovary</td>
+   <td headers="x2colheader thn_52">C569</td>
+   <td headers="x4colheader thn_52">27040 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_52">Vagina</td>
+   <td headers="x2colheader thn_52">C529</td>
+   <td headers="x4colheader thn_52">27050 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_52">Vulva</td>
+   <td headers="x2colheader thn_52">C510-C519</td>
+   <td headers="x4colheader thn_52">27060 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_52">Other Female Genital Organs</td>
+   <td headers="x2colheader thn_52">C570-C579, C589</td>
+   <td headers="x4colheader thn_52">27070 </td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_61" class="secthead" colspan="4"><strong>Male Genital System</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_61">Prostate</td>
+   <td headers="x2colheader thn_61">C619</td>
+   <td headers="x3colheader thn_61" rowspan="4">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_61">28010 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_61">Testis</td>
+   <td headers="x2colheader thn_61">C620-C629</td>
+   <td headers="x4colheader thn_61">28020 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_61">Penis</td>
+   <td headers="x2colheader thn_61">C600-C609</td>
+   <td headers="x4colheader thn_61">28030 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_61">Other Male Genital Organs</td>
+   <td headers="x2colheader thn_61">C630-C639</td>
+   <td headers="x4colheader thn_61">28040 </td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_66" class="secthead" colspan="4"><strong>Urinary System</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_66">Urinary Bladder</td>
+   <td headers="x2colheader thn_66">C670-C679</td>
+   <td headers="x3colheader thn_66" rowspan="4">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_66">29010</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_66">Kidney and Renal Pelvis</td>
+   <td headers="x2colheader thn_66">C649,  C659</td>
+   <td headers="x4colheader thn_66">29020</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_66">Ureter</td>
+   <td headers="x2colheader thn_66">C669</td>
+   <td headers="x4colheader thn_66">29030 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_66">Other Urinary Organs</td>
+   <td headers="x2colheader thn_66">C680-C689</td>
+   <td headers="x4colheader thn_66">29040</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Eye and Orbit</strong></th>
+   <td headers="x2colheader">C690-C699</td>
+   <td headers="x3colheader">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader">30000</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_72" class="secthead" colspan="4"><strong>Brain and Other Nervous System</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_72">Brain</td>
+   <td headers="x2colheader thn_72">C710-C719</td>
+   <td headers="x3colheader thn_72">excluding 9050-9055,  9140,  9530-9539,  9590-9992</td>
+   <td headers="x4colheader thn_72">31010</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_72" rowspan="2">Cranial Nerves Other Nervous System</td>
+   <td headers="x2colheader thn_72">C710-C719</td>
+   <td headers="x3colheader thn_72">9530-9539</td>
+   <td headers="x4colheader thn_72" rowspan="2">31040 </td>
+ </tr>
+ <tr>
+   <td headers="x2colheader thn_72">C700-C709,  C720-C729</td>
+   <td headers="x3colheader thn_72">excluding 9050-9055,  9140,  9590-9992</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_76" class="secthead" colspan="4"><strong>Endocrine System</strong></th>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_76">Thyroid</td>
+   <td headers="x2colheader thn_76">C739</td>
+   <td headers="x3colheader thn_76" rowspan="2">excluding 9050-9055,  9140,  9590-9992</td>
+   <td headers="x4colheader thn_76">32010 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l2" headers="x1colheader thn_76">Other Endocrine including Thymus</td>
+   <td headers="x2colheader thn_76">C379,  C740-C749,  C750-C759</td>
+   <td headers="x4colheader thn_76">32020 </td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_79" class="secthead" colspan="4"><strong>Lymphoma</strong></th>
+ </tr>
+ <tr>
+   <th class="left_indent_l2 secthead" id="thn_80" headers="x1colheader thn_79" colspan="4">Hodgkin Lymphoma</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_79 thn_80">Hodgkin - Nodal</td>
+   <td headers="x2colheader thn_79 thn_80">C024,  C098-C099,  C111,  C142,  C379,  C422,  C770-C779</td>
+   <td headers="x3colheader thn_79 thn_80" rowspan="2">9650-9667</td>
+   <td headers="x4colheader thn_79 thn_80">33011</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_79 thn_80">Hodgkin - Extranodal</td>
+   <td headers="x2colheader thn_79 thn_80">All other sites</td>
+   <td headers="x4colheader thn_79 thn_80">33012</td>
+ </tr>
+ <tr>
+   <th id="thn_83" class="left_indent_l2 secthead" headers="x1colheader thn_79" colspan="4">Non-Hodgkin Lymphoma</th>
+
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_79 thn_83">NHL - Nodal</td>
+   <td headers="x2colheader thn_79 thn_83">C024,  C098, C099,  C111, C142,  C379, C422,  C770-C779</td>
+   <td headers="x3colheader thn_79 thn_83">9590-9597,  9670-9671,  9673,  9675,  9678-9680,  9684,  9687-9691,  9695,  9698-9702,  9705,  9708-9709,  9712,  9714-9719,  9724-9729,  9735,  9737-9738,  9811-9818,  9823,  9827,  9837</td>
+   <td headers="x4colheader thn_79 thn_83">33041</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_79 thn_83" rowspan="2">NHL - Extranodal</td>
+   <td headers="x2colheader thn_79 thn_83">All sites except C024,  C098-C099,  C111,  C142,  C379,  C422,  C770-C779</td>
+   <td headers="x3colheader thn_79 thn_83">9590-9597,  9670-9671,  9673,  9675,  9678-9680,  9684,  9687,  9688,  9689-9691,  9695,  9698-9702,  9705,  9708-9709,  9712,  9714-9719,  9724-9729,  9735,  9737,  9738</td>
+   <td headers="x4colheader thn_79 thn_83" rowspan="2">33042</td>
+ </tr>
+ <tr>
+   <td headers="x2colheader thn_79 thn_83">All sites except C024,  C098-C099,  C111,  C142,  C379,  C420-C422,  C424,  C770-C779</td>
+   <td headers="x3colheader thn_79 thn_83">9811-9818,  9823,  9827,  9837</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Myeloma</strong></td>
+   <td headers="x2colheader" class="secthead"> </td>
+   <td headers="x3colheader" class="secthead">9731-9732,  9734</td>
+   <td headers="x4colheader" class="secthead">34000</td>
+ </tr>
+ <tr>
+   <th headers="x1colheader" id="thn_88" class="secthead" colspan="4"><strong>Leukemia</strong></th>
+ </tr>
+ <tr>
+   <th  class="left_indent_l2 secthead" id="thn_89" headers="x1colheader thn_88" colspan="4">Lymphocytic Leukemia</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_89" rowspan="2">Acute Lymphocytic Leukemia</td>
+   <td headers="x2colheader thn_88 thn_89"> </td>
+   <td headers="x3colheader thn_88 thn_89">9826,  9835-9836</td>
+   <td headers="x4colheader thn_88 thn_89" rowspan="2">35011 </td>
+ </tr>
+ <tr>
+   <td headers="x2colheader thn_88 thn_89">C420,  C421,  C424</td>
+   <td headers="x3colheader thn_88 thn_89">9811-9818,  9837</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_89">Chronic Lymphocytic Leukemia</td>
+   <td headers="x2colheader thn_88 thn_89">C420,  C421,  C424</td>
+   <td headers="x3colheader thn_88 thn_89">9823</td>
+   <td headers="x4colheader thn_88 thn_89">35012 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_89">Other Lymphocytic Leukemia</td>
+   <td headers="x2colheader thn_88 thn_89"> </td>
+   <td headers="x3colheader thn_88 thn_89">9820,  9832-9834,  9940</td>
+   <td headers="x4colheader thn_88 thn_89">35013</td>
+ </tr>
+ <tr>
+   <th class="left_indent_l2 secthead" id="thn_94" headers="x1colheader thn_88" colspan="4">Myeloid and Monocytic Leukemia</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_94">Acute Myeloid Leukemia</td>
+   <td headers="x2colheader thn_88 thn_94"> </td>
+   <td headers="x3colheader thn_88 thn_94">9840,  9861,  9865-9867,  9869,  9871-9874,  9895-9897,  9898,  9910-9911,  9920</td>
+   <td headers="x4colheader thn_88 thn_94">35021 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_94">Acute Monocytic Leukemia</td>
+   <td headers="x2colheader thn_88 thn_94"> </td>
+   <td headers="x3colheader thn_88 thn_94">9891</td>
+   <td headers="x4colheader thn_88 thn_94">35031 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_94">Chronic Myeloid Leukemia</td>
+   <td headers="x2colheader thn_88 thn_94"> </td>
+   <td headers="x3colheader thn_88 thn_94">9863,  9875-9876,  9945-9946</td>
+   <td headers="x4colheader thn_88 thn_94">35022 </td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_94">Other Myeloid/Monocytic Leukemia</td>
+   <td headers="x2colheader thn_88 thn_94"> </td>
+   <td headers="x3colheader thn_88 thn_94">9860,  9930</td>
+   <td headers="x4colheader thn_88 thn_94">35023</td>
+ </tr>
+ <tr>
+   <th class="left_indent_l2 secthead" id="thn_99" headers="x1colheader thn_88" colspan="4">Other Leukemia</th>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_99">Other Acute Leukemia</td>
+   <td headers="x2colheader thn_88 thn_99"> </td>
+   <td headers="x3colheader thn_88 thn_99">9801,  9805-9809,  9931</td>
+   <td headers="x4colheader thn_88 thn_99">35041</td>
+ </tr>
+ <tr>
+   <td class="left_indent_l3" headers="x1colheader thn_88 thn_99" rowspan="2">Aleukemic,  subleukemic and NOS</td>
+   <td headers="x2colheader thn_88 thn_99"> </td>
+   <td headers="x3colheader thn_88 thn_99">9733,  9742,  9800,  9831,  9870,  9948,  9963-9964</td>
+   <td headers="x4colheader thn_88 thn_99" rowspan="2">35043</td>
+ </tr>
+ <tr>
+   <td headers="x2colheader thn_88 thn_99">C420,  C421,  C424</td>
+   <td headers="x3colheader thn_88 thn_99">9827</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Mesothelioma</strong> </td>
+   <td headers="x2colheader"> </td>
+   <td headers="x3colheader">9050-9055</td>
+   <td headers="x4colheader">36010</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Kaposi Sarcoma</strong> </td>
+   <td headers="x2colheader"> </td>
+   <td headers="x3colheader">9140</td>
+   <td headers="x4colheader">36020</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader" rowspan="4"><strong>Miscellaneous</strong></td>
+   <td headers="x2colheader"> </td>
+   <td headers="x3colheader">9740-9741,  9750-9769,  9950,  9960-9962,  9965-9967,  9970-9971,  9975,  9980,  9982-9987,  9989,  9991-9992</td>
+   <td headers="x4colheader" rowspan="4">37000</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x2colheader">C760-C768,  C809</td>
+   <td headers="x3colheader" rowspan="3">excluding 9050-9055,  9140,  9590-9992</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x2colheader">C420-C424</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x2colheader">C770-C779</td>
+ </tr>
+ <tr class="secthead">
+   <td headers="x1colheader"><strong>Invalid</strong></td>
+   <td headers="x2colheader" colspan="2">Site or histology code not within valid range or site code not found in this table.</td>
+   <td headers="x4colheader">99999</td>
+ </tr>
+</tbody>
+</table>
+</div>
+
+<p id="footnotes">* This table was updated for Hematopoietic codes based on <em>WHO Classification of Tumours of Haematopoietic and Lymphoid Tissues (2008)</em>.<br />
+^ Subject to change based on evolving ICD-O-3 coding rules. </p> 
+<p class="to_top"><a href="#content" name="siterecode">Return to top</a></p><!--/body_content-->        </main>
+        </div><!--close row-->
+    <img src="/i/right-body.png" alt="" class="bg-back"></div>
+    
+    <div class="wrapper">
+        <meta http-equiv="last_modified" content="Fri, 02 Nov 2018 14:17:04 -0400" />
+    </div>
+</div>
+
+<!-- Blue Footer -->
+<footer class="footer" role="contentinfo">
+	<a class="returntop" href="#content" style="display: inline;"><span>Return to Top</span></a>
+	<div class="container">
+    	<div class="row">
+    		<div class="col-md-10 col-md-offset-1">
+				<p class="seer-logo">SEER is supported by the <a href="https://surveillance.cancer.gov/">Surveillance Research Program (SRP)</a> in NCI's <a href="https://cancercontrol.cancer.gov/">Division of Cancer Control and Population Sciences (DCCPS)</a>. SRP provides national leadership in the science of cancer surveillance as well as analytical tools and methodological expertise in collecting, analyzing, interpreting, and disseminating reliable population-based statistics.</p>
+			</div>
+        </div>
+	</div>
+	
+	<div class="footer-links">
+    	<div class="container"> 
+			<div class="row links-col">
+				<div class="col-sm-3">
+					<h2>Follow SEER</h2>
+					<ul class="social">
+						<li><a href="https://twitter.com/NCICancerStats"><img src="/i/twitter.png" alt="Twitter"></a></li>
+						<li><a href="https://surveillance.cancer.gov/blog"><img src="/i/blog-icon.png" alt="SRP Blog"></a></li>
+					</ul>
+				</div>
+				
+				<div class="col-sm-3">
+					<h2>Contact Information</h2>
+					<ul>        	
+						<li><a href="/about/contact.html">Contact SEER</a></li>
+						<li><a href="https://livehelp.cancer.gov/">NCI LiveHelp Online Chat</a></li>
+					</ul>
+				</div>
+				
+				<div class="col-sm-3">
+					<h2>More Information</h2>
+					<ul>    
+						<li><a href="https://surveillance.cancer.gov/jobs/">Careers</a></li>	
+						<li><a href="/sitemap.html">Sitemap</a></li>
+						<li><a href="/about/using-website.html">Using This Website</a></li>
+					</ul>
+				</div>	
+				
+				<div class="col-sm-3">
+					<h2>Policies</h2>
+					<ul>        						
+						<li><a href="https://www.cancer.gov/policies/accessibility">Accessibility</a></li>
+						<li><a href="https://www.cancer.gov/policies/disclaimer">Disclaimer</a></li>
+						<li><a href="https://www.cancer.gov/policies/foia">FOIA</a></li>
+						<li><a href="https://www.cancer.gov/policies/privacy-security">Privacy &amp; Security</a></li>
+						<li><a href="https://www.cancer.gov/policies/copyright-reuse">Reuse of Graphics and Text</a></li>
+						<li><a href="https://www.cancer.gov/policies/linking">Website Linking</a></li>
+					</ul>
+				</div>	
+			</div>
+
+			<ul class="linkList">
+				<li><a href="https://www.hhs.gov/">U.S. Department of Health and Human Services</a></li>
+				<li><a href="https://www.nih.gov/">National Institutes of Health</a></li>
+				<li><a href="https://www.cancer.gov/">National Cancer Institute</a></li>
+				<li class="last"><a href="https://www.usa.gov/">USA.gov</a></li>
+			</ul>
+			<p class="center">NIH... Turning Discovery Into Health<sup>&reg;</sup></p>
+    	</div>
+	</div>
+</footer>
+
+
+<script type="text/javascript" src="/j/general.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/toolbox/javascript/jquery-ui-1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/j/mnav.js" type="text/javascript"></script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58af0e69573f72ef"></script> 
+<script type="text/javascript" src="/j/addthis_override.js"></script>
+
+<!-- NCI WEB ANALYTICS CODE -->
+<script src="//static.cancer.gov/webanalytics/WA_DCCPS_PageLoad.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125238734-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125238734-1');
+</script>
+<!-- Additional Scripts -->
+
+</body>
+</html>
+ 

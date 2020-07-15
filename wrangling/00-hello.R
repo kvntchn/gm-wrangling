@@ -36,8 +36,8 @@ names(cohort) <- tolower(names(cohort))
 setDT(cohort)
 
 # changing race to binary; assume all non-black folks are white
-cohort[finrace !=2, race:= 1]
-cohort[finrace ==2, race:= 0]
+cohort[finrace != 2, race:= 1]
+cohort[finrace == 2, race:= 0]
 
 if (is.auto_vs_15) {
 	cohort[, yod := yod15]
@@ -47,7 +47,9 @@ if (is.auto_vs_15) {
 	cohort[icd == "" | icd == "N/A", icd := NA]
 	# Exclude people who are classified as dead, but have no
 	#   cause of death or date of death
-	cohort[(status15 == 6 & (is.na(icd) | is.na(yod))), .(studyno, status15, icd, yod, v_icd)]
+	# cohort[(status15 == 6 & (is.na(icd) | is.na(yod))), .(
+	# 	studyno, status15, icd, yod, v_icd,
+	# 	possdiscr_new, wh, nohist, cancinccoh15_new, tenure = yout16 - yin16)]
 	cohort <- cohort[!(status15 == 6 & (is.na(yod)))]
 }
 
@@ -70,7 +72,7 @@ cohort[studyno == 118137, yob := yob - 5]
 
 # nrow(cohort)
 # nrow(cohort[yout16 - yin16 < 3,])
-# nrow(cohort[sex == 1 & wh == 1 & nohist == 0 & possdiscr_new != 3 & plant != 3 & flag77 == 0 & oddend == 0 & (is.na(yod15) | yod15 >= 73) & (yout16 - yin16 >= 3)])
+# nrow(cohort[wh == 1 & nohist == 0 & possdiscr_new != 3 & flag77 == 0 & oddend == 0 & (is.na(yod15) | yod15 >= 85) & (yout16 - yin16 >= 3)])
  
 cohort <- cohort[yout16 - yin16 >= 3,]
 
