@@ -8,6 +8,10 @@ library(tidyverse)
 library(data.table)
 library(lubridate)
 
+if (!"gm.to.date" %in% ls()) {
+	source(here::here("wrangling/02-Get-person-year.R"))
+}
+
 get.jobhist <- function(
 	rebuild = F,
 	save.jobhist = T) {
@@ -60,7 +64,9 @@ get.jobhist <- function(
 		# Pretty order and cull variables
 		jobhist <- jobhist[order(studyno, datein)]
 		jobhist <- jobhist[, .(
-			studyno, years, datein, dateout, histcode, plant, mach)]
+			studyno, years, datein, dateout, histcode, plant, mach,
+			bio, cl, ea, tea, trz, s, no2,
+			NULL)]
 
 		# No need to conisder machining codes; collapse by studyno, datein, dateout, histcode, plant
 		jobhist <- jobhist[!duplicated(jobhist)]
@@ -80,28 +86,46 @@ get.jobhist <- function(
 
 		# Just a check for duplicates; there are none
 		# nrow(jobhist[duplicated(jobhist)])
-		jobhist <- jobhist[!duplicated(jobhist), -"mach", with = F]
+		jobhist <- jobhist[!duplicated(jobhist[,-"mach", with = F])]
 
 		# Cast machining
+		table(jobhist$machining)
 		jobhist <- dcast(jobhist,
-										 studyno + datein + dateout + years + histcode + plant ~ machining,
+										 as.formula(paste(
+										 	paste(names(jobhist)[!names(jobhist) == "machining"], collapse = " + "),
+										 	" ~ machining")),
 										 value.var = "machining",
 										 fun.aggregate = function(x) {as.numeric(length(x) >= 1)})
 
-		# All NA machinining codes have histcode off, missing, or discrepancy
-		# jobhist[`NA` > 0, histcode] %>% table
+		# All NA machinining codes have histcode off, missing, or discrepancy OR mach NO
+		# jobhist[`NA` > 0 & assembly == 0 & machining == 0, histcode] %>% table
+		# jobhist[`NA` > 0 & assembly == 0 & machining == 0 & histcode == "numeric", mach] %>% table
 		jobhist <- jobhist[,-"NA"]
 
+		# Convert dichotomous flags to integer
+		flags.names <- c("bio", "cl", "ea", "tea", "trz", "s", "no2")
+		jobhist[,(flags.names):=(
+			lapply(flags.names, function(x) {
+				x <- get(x)
+				x <- as.numeric(factor(x, c("N", "Y"))) - 1
+				x[is.na(x)] <- 0
+				x
+			})
+		)]
+		
 		# Collapse by studyno, datein, datout, histcode, plant
 		jobhist <- jobhist[, .(years = sum(years),
 													 assembly,
-													 machining),
+													 machining,
+													 mach,
+													 bio, cl, ea, tea, trz, s, no2),
 											 by = .(studyno, datein, dateout, histcode, plant)]
 
 		# Cast by studyno-datein-dateout ####
+		table(jobhist$histcode)
 		jobhist <- dcast(
 			jobhist,
-			studyno + datein + dateout + plant + assembly + machining ~ histcode,
+			studyno + datein + dateout + plant + assembly + machining + bio + cl + ea + tea + trz + s + no2 ~ histcode,
 			value.var = "histcode",
 			fun.aggregate = function(x) {as.numeric(length(x) >= 1)})
 
@@ -117,7 +141,15 @@ get.jobhist <- function(
 			numeric = max(numeric),
 			off = max(off),
 			missing = max(missing),
-			discrepancy = max(discrepancy)),
+			discrepancy = max(discrepancy),
+			bio = max(bio),
+			cl = max(cl),
+			ea = max(ea),
+			tea = max(tea),
+			trz = max(trz),
+			s = max(s),
+			no2 = max(no2)
+			),
 			by = .(studyno, plant, datein, dateout)]
 
 		# Many plants?
@@ -176,6 +208,17 @@ get.jobhist <- function(
 			imputed = 1
 		)]
 		jobhist[is.na(imputed), imputed := 0]
+		jobhist[imputed == 1 & is.na(bio) & is.na(cl) &
+							is.na(ea) & is.na(tea) & is.na(trz) & is.na(s) & is.na(no2),
+						`:=`(
+							bio = 0,
+							cl = 0,
+							ea = 0,
+							tea = 0,
+							trz = 0,
+							s = 0,
+							no2 = 0
+						)]
 
 		# # studyno, datein, dateout gives unique row? YES
 		# jobhist[,.N, by = .(studyno, datein, dateout)][N > 1]
@@ -508,6 +551,13 @@ get.jobhist <- function(
 			missing,
 			discrepancy,
 			off,
+			bio,
+			cl,
+			ea,
+			tea,
+			trz,
+			s,
+			no2,
 			# Use of unique() slows down runtime
 			dateout.date = dateout.date[1],
 			employment_end.date = employment_end.date[1],
@@ -547,6 +597,13 @@ get.jobhist <- function(
 			missing = sum(missing * record.days),
 			discrepancy = sum(discrepancy * record.days),
 			off = sum(off * record.days),
+			bio = sum(bio * record.days),
+			cl = sum(cl * record.days),
+			ea = sum(ea * record.days),
+			tea = sum(tea * record.days),
+			trz = sum(trz * record.days),
+			s = sum(s * record.days),
+			no2 = sum(no2 * record.days),
 			dateout.date = dateout.date[1],
 			employment_end.date = employment_end.date[1],
 			employment_end.date.legacy = employment_end.date.legacy[1],
@@ -562,6 +619,13 @@ get.jobhist <- function(
 			missing = missing/year.days,
 			discrepancy = discrepancy/year.days,
 			off = off/year.days,
+			bio = bio / year.days,
+			cl = cl / year.days,
+			ea = ea / year.days,
+			tea = tea / year.days,
+			trz = trz / year.days,
+			s = s / year.days,
+			no2 = no2 / year.days,
 			record.years = record.days/year.days
 		)]
 
@@ -574,6 +638,13 @@ get.jobhist <- function(
 														 							"missing",
 														 							"discrepancy",
 														 							"off",
+														 							"bio",
+														 							"cl",
+														 							"ea",
+														 							"tea",
+														 							"trz",
+														 							"s",
+														 							"no2",
 														 							"record.days",
 														 							"record.years"))
 		jobhist_py.cast[is.na(jobhist_py.cast)] <- 0

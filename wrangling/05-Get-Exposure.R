@@ -67,16 +67,6 @@ get.exposure <- function(rebuild = F,
 			# 	check.names = F
 			# )
 
-			data.frame(
-				# No yout - yin >= 3 restriction
-				Plant    = c('Gear & Axle', 'Hydramatic', 'Saginaw'),
-				Exposure = c(16061, 17268, 12739),
-				Cohort   = c(16260, 17180, 12760),
-				'Cohort (WH = 1)' = c(15379, 17092, 12613),
-				'Cohort (WH = 1 & NOHIST = 0)' = c(14965, 17086, 12604),
-				check.names = F
-			)
-
 		# Multiple plant folks
 		# sort(intersect(san.E$studyno, han.E$studyno))
 		# sort(intersect(san.E$studyno, gan.E$studyno))

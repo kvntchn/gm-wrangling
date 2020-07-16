@@ -18,7 +18,7 @@ if ("here" %in% .packages()) {
 	detach("package:here", unload = T)
 }
 setwd('../gm-wrangling')
-library(here) 
+library(here)
 
 boxr::box_auth()
 dta <- box_read(520881275183) # calls in the auto_vs_15.Rdata file
