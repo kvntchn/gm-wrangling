@@ -69,7 +69,7 @@ get.cohort_py <- function(
 	cohort_py[,`:=`(sex = ifelse(sex == 1, 'M', 'F'),
 									finrace = ifelse(
 										finrace %in% c(1, 2), finrace, 9),
-									race = ifelse(race == 0, "Not white", "White"),
+									race = ifelse(race == 0, "Black", "White"),
 									plant = as.character(plant),
 									yod = gm.to.date(yod),
 									yob = gm.to.date(yob),
@@ -93,8 +93,8 @@ get.cohort_py <- function(
 		sex = factor(sex,
 								 levels = c("M", "F"), labels = c("M", "F")),
 		race = factor(race,
-									levels = c("White", "Not white"),
-									labels = c("White", "Not white")),
+									levels = c("White", "Black"),
+									labels = c("White", "Black")),
 		plant = factor(plant, levels = c(1,2,3,9))
 	),
 	by = .(studyno)]
