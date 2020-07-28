@@ -1,0 +1,91 @@
+"Notes"	"Ten-Year Age Groups"	"Ten-Year Age Groups Code"	"Gender"	"Gender Code"	"Race"	"Race Code"	"Year"	"Year Code"	Deaths	Population	Crude Rate
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2009"	"2009"	33897	273838	12378.487
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2010"	"2010"	35552	282385	12589.904
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2011"	"2011"	36189	292691	12364.234
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2012"	"2012"	37332	307270	12149.575
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2013"	"2013"	37930	317960	11929.173
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2014"	"2014"	38227	327938	11656.777
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2015"	"2015"	39747	338522	11741.334
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2016"	"2016"	39739	346391	11472.296
+"Total"	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"			298613	2486995	12006.980
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2009"	"2009"	427715	3256878	13132.669
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2010"	"2010"	444775	3314447	13419.282
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2011"	"2011"	458957	3429955	13380.846
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2012"	"2012"	462820	3484596	13281.884
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2013"	"2013"	470952	3536701	13316.138
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2014"	"2014"	466798	3569034	13079.113
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2015"	"2015"	484502	3604246	13442.534
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2016"	"2016"	476956	3628186	13145.853
+"Total"	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"			3693475	27824043	13274.401
+"Total"	"85+ years"	"85+"	"Female"	"F"					3992088	30311038	13170.410
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2009"	"2009"	15459	106153	14562.942
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2010"	"2010"	16243	110382	14715.262
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2011"	"2011"	16254	114793	14159.400
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2012"	"2012"	17012	123493	13775.680
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2013"	"2013"	17664	129339	13657.134
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2014"	"2014"	18100	136175	13291.720
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2015"	"2015"	18601	142359	13066.262
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2016"	"2016"	19192	147306	13028.661
+"Total"	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"			138525	1010000	13715.347
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2009"	"2009"	241261	1570486	15362.187
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2010"	"2010"	252958	1617352	15640.256
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2011"	"2011"	262205	1709767	15335.715
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2012"	"2012"	269654	1765739	15271.453
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2013"	"2013"	278557	1830158	15220.380
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2014"	"2014"	282424	1882783	15000.348
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2015"	"2015"	294014	1933950	15202.772
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2016"	"2016"	294729	1972484	14942.022
+"Total"	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"			2175802	14282719	15233.808
+"Total"	"85+ years"	"85+"	"Male"	"M"					2314327	15292719	15133.522
+"Total"	"85+ years"	"85+"							6306415	45603757	13828.718
+"Total"									6306415	45603757	13828.718
+"---"
+"Dataset: Underlying Cause of Death, 1999-2017"
+"Query Parameters:"
+"Gender: Female; Male"
+"Race: Black or African American; White"
+"Ten-Year Age Groups: 85+ years"
+"Year/Month: 2009; 2010; 2011; 2012; 2013; 2014; 2015; 2016"
+"Group By: Ten-Year Age Groups; Gender; Race; Year"
+"Show Totals: True"
+"Show Zero Values: False"
+"Show Suppressed: False"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/ucd.html for more information."
+"---"
+"Query Date: Jul 15, 2019 7:10:02 PM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death"
+"1999-2017 on CDC WONDER Online Database, released December, 2018. Data are from the Multiple Cause of Death Files, 1999-2017, as"
+"compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program. Accessed"
+"at http://wonder.cdc.gov/ucd-icd10.html on Jul 15, 2019 7:10:02 PM"
+"---"
+Caveats:
+"1. As of April 3, 2017, the underlying cause of death has been revised for 125 deaths in 2014. More information:"
+"http://wonder.cdc.gov/wonder/help/ucd.html#2014-Revision."
+"2. Deaths of persons with Age ""Not Stated"" are included in ""All"" counts and rates, but are not distributed among age groups,"
+"so are not included in age-specific counts, age-specific rates or in any age-adjusted rates. More information:"
+"http://wonder.cdc.gov/wonder/help/ucd.html#Not Stated."
+"3. Information included on the death certificate about the race and Hispanic ethnicity of the decedent is reported by the"
+"funeral director as provided by an informant, often the surviving next of kin, or, in the absence of an informant, on the basis"
+"of observation. Race and ethnicity information from the census is by self-report. To the extent that race and Hispanic origin"
+"are inconsistent between these two data sources, death rates will be biased. More information:"
+"http://wonder.cdc.gov/wonder/help/ucd.html#Racial Differences."
+"4. The population figures for year 2017 are bridged-race estimates of the July 1 resident population, from the Vintage 2017"
+"postcensal series released by NCHS on June 27, 2018. The population figures for year 2016 are bridged-race estimates of the July"
+"1 resident population, from the Vintage 2016 postcensal series released by NCHS on June 26, 2017. The population figures for"
+"year 2015 are bridged-race estimates of the July 1 resident population, from the Vintage 2015 postcensal series released by NCHS"
+"on June 28, 2016. The population figures for year 2014 are bridged-race estimates of the July 1 resident population, from the"
+"Vintage 2014 postcensal series released by NCHS on June 30, 2015. The population figures for year 2013 are bridged-race"
+"estimates of the July 1 resident population, from the Vintage 2013 postcensal series released by NCHS on June 26, 2014. The"
+"population figures for year 2012 are bridged-race estimates of the July 1 resident population, from the Vintage 2012 postcensal"
+"series released by NCHS on June 13, 2013. The population figures for year 2011 are bridged-race estimates of the July 1 resident"
+"population, from the Vintage 2011 postcensal series released by NCHS on July 18, 2012. Population figures for 2010 are April 1"
+"Census counts. The population figures for years 2001 - 2009 are bridged-race estimates of the July 1 resident population, from"
+"the revised intercensal county-level 2000 - 2009 series released by NCHS on October 26, 2012. Population figures for 2000 are"
+"April 1 Census counts. Population figures for 1999 are from the 1990-1999 intercensal series of July 1 estimates. Population"
+"figures for the infant age groups are the number of live births. <br/><b>Note:</b> Rates and population figures for years 2001 -"
+"2009 differ slightly from previously published reports, due to use of the population estimates which were available at the time"
+"of release."

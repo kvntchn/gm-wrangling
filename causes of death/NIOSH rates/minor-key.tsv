@@ -1,0 +1,93 @@
+Code	LTAS	Description
+01	respiratory tuberculosis
+02	other tuberculosis
+03	mn lip
+04	mn tongue
+05	mn other buccal
+06	mn pharynx
+07	mn esophagus	Esophageal cancer
+08	mn stomach	Stomach cancer
+09	mn intestine	Intestinal cancer
+10	mn rectum	Rectal cancer
+11	mn biliary liver, gallblader	Bile duct, liver, and gallbladder cancers
+12	mn pancreas	Pancreatic cancer
+13	mn peritoneum, other & unspec. site
+14	mn larynx	Laryngeal cancer
+15	mn trachea, bronchus, lung	Lung cancer
+16	mn pleura
+17	mn other respiratory sites
+18	mn breast	Breast cancer
+19	mn cervix
+20	mn other parts of uterus
+21	mn ovary
+22	mn other female genital
+23	mn prostate	Prostate cancer
+24	mn other male genital
+25	mn kidney	Kidney cancer
+26	mn bladder & other urinary	Bladder and urinary organ cancers
+27	mn skin	Skin cancer
+28	mesothelioma
+29	mn eye
+30	mn brain & other nervous	Brain and nervous system cancers
+31	mn thyroid
+32	mn bone
+33	mn connective
+34	mn other & unspec. site
+35	non-hodgkin's lymphoma
+36	hodgkin's disease
+37	leukemia	Leukemia
+38	multiple myeloma
+39	bn eye, brain, other nervous
+40	unn eye, brain, other nervous
+41	bn & unn other
+42	diabetes mellitus (minor)
+43	pernicious anemia
+44	other & unspec. anemia
+45	coagulation & hemorrhagic cond.
+46	other dis. blood-forming organs
+47	Alcoholism
+48	Other mental disorders
+49	multiple sclerosis
+50	other nervous system diseases
+51	Rheumatic heart disease	Rheumatic heart disease
+52	Ischemic heart disease	Ischemic heart disease
+53	Chronic dis. endocardium
+54	Hypertension w/ heart disease
+55	other heart disease
+56	hypertension w/o heart disease
+57	cerebrovascular disease	Cerebrovascular disease
+58	dis. arteries, veins, pulm. circ.
+59	acute resp infec, except flu, pneu
+60	influenza	Influenza
+61	pneumonia	Pneumonia
+62	COPD	Chronic obstructive pulmonary disease
+63	asthma
+64	pneumoconiosis & other resp. dis.
+65	diseases of stomach & duodenum
+66	hernia & intestinal obstruction
+67	cirrhosis & other chronic liver dis.	Cirrhosis and other chronic liver disease
+68	other diseaes of digestive sys.
+69	acute glomerulonephritis & renal failure
+70	chr & unsp nephritis & renal failure
+71	kidney infection
+72	urinary system calculi
+73	prostate hyperplasia
+74	other dis. male genital organs
+75	diseases of breast
+76	dis. female genital organs
+77	other genito-urinary dis.
+78	skin & subcutaneous infections
+79	other dis. skin & subcutaneous
+80	arthritis & spondylitis
+81	osteomyelitis & periostitis
+82	other dis. musculoskeletal
+83	sympt. & ill-def. conditions
+84	transportation accidents
+85	accidental poisoning
+86	accidenital falls
+87	other accidents	Other accidents
+88	medical causes
+89	suicide
+90	homicide	Homicide
+91	terrorism
+92	other & unspec. causes

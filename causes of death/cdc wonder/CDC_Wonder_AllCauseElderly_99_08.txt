@@ -1,0 +1,97 @@
+"Notes"	"Ten-Year Age Groups"	"Ten-Year Age Groups Code"	"Gender"	"Gender Code"	"Race"	"Race Code"	"Year"	"Year Code"	Deaths	Population	Crude Rate
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"1999"	"1999"	31517	228287	13805.867
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2000"	"2000"	32478	232962	13941.329
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2001"	"2001"	32898	230714	14259.213
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2002"	"2002"	33438	229536	14567.650
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2003"	"2003"	33614	230168	14604.115
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2004"	"2004"	32752	232605	14080.523
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2005"	"2005"	34096	240390	14183.618
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2006"	"2006"	33364	246500	13535.091
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2007"	"2007"	33939	254734	13323.310
+	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"	"2008"	"2008"	34767	263829	13177.854
+"Total"	"85+ years"	"85+"	"Female"	"F"	"Black or African American"	"2054-5"			332863	2389725	13928.925
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"1999"	"1999"	400339	2686737	14900.565
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2000"	"2000"	406352	2728892	14890.732
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2001"	"2001"	410086	2764796	14832.414
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2002"	"2002"	416311	2787871	14932.936
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2003"	"2003"	420120	2833313	14827.871
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2004"	"2004"	406151	2864926	14176.666
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2005"	"2005"	423549	2933570	14438.006
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2006"	"2006"	419923	3019780	13905.748
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2007"	"2007"	423294	3104112	13636.557
+	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"	"2008"	"2008"	440349	3175136	13868.666
+"Total"	"85+ years"	"85+"	"Female"	"F"	"White"	"2106-3"			4166474	28899133	14417.298
+"Total"	"85+ years"	"85+"	"Female"	"F"					4499337	31288858	14379.998
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"1999"	"1999"	14768	85342	17304.493
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2000"	"2000"	14560	86713	16791.023
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2001"	"2001"	14489	84375	17172.148
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2002"	"2002"	14584	83120	17545.717
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2003"	"2003"	14294	83223	17175.540
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2004"	"2004"	14548	84728	17170.239
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2005"	"2005"	14856	88591	16769.198
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2006"	"2006"	14778	91732	16109.973
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2007"	"2007"	15255	96068	15879.377
+	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"	"2008"	"2008"	15506	100819	15380.037
+"Total"	"85+ years"	"85+"	"Male"	"M"	"Black or African American"	"2054-5"			147638	884711	16687.709
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"1999"	"1999"	191610	1079319	17752.861
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2000"	"2000"	196409	1108629	17716.387
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2001"	"2001"	199179	1143217	17422.677
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2002"	"2002"	207144	1172820	17662.045
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2003"	"2003"	209575	1217588	17212.308
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2004"	"2004"	207589	1254635	16545.768
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2005"	"2005"	218990	1311843	16693.309
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2006"	"2006"	221622	1380032	16059.193
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2007"	"2007"	228227	1446668	15776.045
+	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"	"2008"	"2008"	240030	1507448	15922.937
+"Total"	"85+ years"	"85+"	"Male"	"M"	"White"	"2106-3"			2120375	12622199	16798.777
+"Total"	"85+ years"	"85+"	"Male"	"M"					2268013	13506910	16791.502
+"Total"	"85+ years"	"85+"							6767350	44795768	15107.119
+"Total"									6767350	44795768	15107.119
+"---"
+"Dataset: Underlying Cause of Death, 1999-2017"
+"Query Parameters:"
+"Gender: Female; Male"
+"Race: Black or African American; White"
+"Ten-Year Age Groups: 85+ years"
+"Year/Month: 1999; 2000; 2001; 2002; 2003; 2004; 2005; 2006; 2007; 2008"
+"Group By: Ten-Year Age Groups; Gender; Race; Year"
+"Show Totals: True"
+"Show Zero Values: False"
+"Show Suppressed: False"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/ucd.html for more information."
+"---"
+"Query Date: Jul 16, 2019 5:11:47 PM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death"
+"1999-2017 on CDC WONDER Online Database, released December, 2018. Data are from the Multiple Cause of Death Files, 1999-2017, as"
+"compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program. Accessed"
+"at http://wonder.cdc.gov/ucd-icd10.html on Jul 16, 2019 5:11:47 PM"
+"---"
+Caveats:
+"1. Deaths of persons with Age ""Not Stated"" are included in ""All"" counts and rates, but are not distributed among age groups,"
+"so are not included in age-specific counts, age-specific rates or in any age-adjusted rates. More information:"
+"http://wonder.cdc.gov/wonder/help/ucd.html#Not Stated."
+"2. Information included on the death certificate about the race and Hispanic ethnicity of the decedent is reported by the"
+"funeral director as provided by an informant, often the surviving next of kin, or, in the absence of an informant, on the basis"
+"of observation. Race and ethnicity information from the census is by self-report. To the extent that race and Hispanic origin"
+"are inconsistent between these two data sources, death rates will be biased. More information:"
+"http://wonder.cdc.gov/wonder/help/ucd.html#Racial Differences."
+"3. The population figures for year 2017 are bridged-race estimates of the July 1 resident population, from the Vintage 2017"
+"postcensal series released by NCHS on June 27, 2018. The population figures for year 2016 are bridged-race estimates of the July"
+"1 resident population, from the Vintage 2016 postcensal series released by NCHS on June 26, 2017. The population figures for"
+"year 2015 are bridged-race estimates of the July 1 resident population, from the Vintage 2015 postcensal series released by NCHS"
+"on June 28, 2016. The population figures for year 2014 are bridged-race estimates of the July 1 resident population, from the"
+"Vintage 2014 postcensal series released by NCHS on June 30, 2015. The population figures for year 2013 are bridged-race"
+"estimates of the July 1 resident population, from the Vintage 2013 postcensal series released by NCHS on June 26, 2014. The"
+"population figures for year 2012 are bridged-race estimates of the July 1 resident population, from the Vintage 2012 postcensal"
+"series released by NCHS on June 13, 2013. The population figures for year 2011 are bridged-race estimates of the July 1 resident"
+"population, from the Vintage 2011 postcensal series released by NCHS on July 18, 2012. Population figures for 2010 are April 1"
+"Census counts. The population figures for years 2001 - 2009 are bridged-race estimates of the July 1 resident population, from"
+"the revised intercensal county-level 2000 - 2009 series released by NCHS on October 26, 2012. Population figures for 2000 are"
+"April 1 Census counts. Population figures for 1999 are from the 1990-1999 intercensal series of July 1 estimates. Population"
+"figures for the infant age groups are the number of live births. <br/><b>Note:</b> Rates and population figures for years 2001 -"
+"2009 differ slightly from previously published reports, due to use of the population estimates which were available at the time"
+"of release."

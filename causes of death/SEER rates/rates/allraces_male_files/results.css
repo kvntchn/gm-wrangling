@@ -1,0 +1,74 @@
+@charset "utf-8";
+/******results page******/
+body {
+	margin:0;	
+}
+
+.wrap h2 {	
+	padding:20px 0 0 20px;
+	/*text-align:center;*/
+	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
+	font-size:1.4em;
+	color:#0D3952;
+	margin:0;
+}
+
+.wrap dl {
+	width:auto;
+	/*margin:0 auto;*/	
+	color:#444;
+	font-family: Helvetica, sans-serif;
+	padding:20px;
+	line-height:1.4em;
+}
+
+.wrap form {
+	margin:0;
+}
+
+.wrap form dl dt {
+	padding: 20px 0 5px;
+	font-weight:bold;	
+}
+
+table {
+	background:#eee;
+	padding:20px;	
+	margin-top:20px;
+}
+
+table thead, th {
+	border:none;
+	background:#ccc;	
+}
+
+dd table {
+    margin-bottom: 10px;
+    margin-top: 0;
+	background:none;
+	padding:0;
+	border:none;
+	border-collapse:collapse;
+}
+
+dd table th, dd table td {
+	padding:5px;	
+	border: 1px solid #eee;
+	color:#444;
+}
+
+td {
+	text-align:right;	
+}
+
+tr:nth-child(even) {
+	background:#eee;	
+}
+
+.footnote {
+	color: #0D3952;
+	font-family: Helvetica, sans-serif;
+	font-size:0.8em;	
+}
+/* CSS Document */
+

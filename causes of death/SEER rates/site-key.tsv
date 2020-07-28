@@ -1,0 +1,108 @@
+0	All Sites
+1	Oral Cavity and Pharynx
+2	Lip
+3	Tongue
+4	Salivary Gland
+5	Floor of Mouth
+6	Gum and Other Mouth
+7	Nasopharynx
+8	Tonsil
+9	Oropharynx
+10	Hypopharynx
+11	Other Oral Cavity and Pharynx
+12	All Digestive System
+13	Esophageal
+14	Stomach
+15	Small Intestine
+16	Colorectal
+17	Colon excluding Rectum
+18	Cecum
+19	Appendix
+20	Ascending Colon
+21	Hepatic Flexure
+22	Transverse Colon
+23	Splenic Flexure
+24	Descending Colon
+25	Sigmoid Colon
+26	Large Intestine, NOS
+27	Rectum and Rectosigmoid Junction
+28	Rectosigmoid Junction
+29	Rectal
+30	Anus, Anal Canal and Anorectum
+31	Liver and Intrahepatic Bile Duct
+32	Liver
+33	Intrahepatic Bile Duct
+34	Gallbladder
+35	Other Biliary
+36	Pancreatic
+37	Retroperitoneum
+38	Peritoneum, Omentum and Mesentery
+39	Other Digestive Organs
+40	All Respiratory System
+41	Nose, Nasal Cavity and Middle Ear
+42	Laryngeal
+43	Lung and Bronchial
+44	Pleura
+45	Trachea, Mediastinum and Other Respiratory Organs
+46	Bones and Joints
+47	Soft Tissue including Heart
+48	Skin excluding Basal and Squamous
+49	Melanoma
+50	Other Non-Epithelial Skin
+51	Breast
+52	Female Genital System
+53	Cervix Uteri
+54	Corpus and Uterus, NOS
+55	Corpus Uteri
+56	Uterus, NOS
+57	Ovary
+58	Vagina
+59	Vulva
+60	Other Female Genital Organs
+61	Male Genital System
+62	Prostate
+63	Testis
+64	Penis
+65	Other Male Genital Organs
+66	Urinary System
+67	Bladder (Urinary)
+68	Kidney and Renal Pelvic
+69	Ureter
+70	Other Urinary Organs
+71	Eye and Orbit
+72	Brain and Nervous System
+73	Brain
+74	Cranial Nerves Other Nervous System
+75	Endocrine System
+76	Thyroid
+77	Other Endocrine including Thymus
+78	Lymphoma
+79	Hodgkin Lymphoma
+80	Hodgkin - Nodal
+81	Hodgkin - Extranodal
+82	Non-Hodgkin Lymphoma
+83	NHL - Nodal
+84	NHL - Extranodal
+85	Myeloma
+86	Leukemia
+87	Lymphocytic Leukemia
+88	Acute Lymphocytic Leukemia
+89	Chronic Lymphocytic Leukemia
+90	Other Lymphocytic Leukemia
+91	Myeloid and Monocytic Leukemia
+92	Acute Myeloid Leukemia
+93	Acute Monocytic Leukemia
+94	Chronic Myeloid Leukemia
+95	Other Myeloid/Monocytic Leukemia
+96	Other Leukemia
+97	Other Acute Leukemia
+98	Aleukemic, Subleukemic and NOS
+99	Mesothelioma (9050-9055)
+100	Kaposi Sarcoma (9140)
+101	Miscellaneous
+102	Neuroblastoma (9490-9509)
+103	Wilms Tumor (8960)
+104	Squamous cell Lung and Bronchus (8051-8130)
+105	Adenocarcinoma of the Lung and Bronchus
+106	Small Cell Lung and Bronchus (8041-8045)
+107	Non-Small Cell Lung and Bronchus

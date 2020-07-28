@@ -38,6 +38,17 @@ additional_outcomes <- function(v_icd, outcome) {
 			c(expand_icd10('C22'))
 		}
 	}
+	
+	'Alcohol-related Liver Disease' = {
+		# Case & Deaton definition, Farah's study
+		if (v_icd == 9) {
+			paste0(c("571"), c(0:6, 9, "x"))
+		} else {
+			c(paste0('K70', c(0:4)),
+				paste0('K73', c(0:2, 8:9)),
+				expand_icd10(paste0("K", c(738:746))))
+		}
+	}
 
 	'Gallbladder and extrahepatic bile duct cancer' = {
 		if (v_icd == 9) {
