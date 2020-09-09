@@ -112,7 +112,7 @@ get.jobhist <- function(
 				x
 			})
 		)]
-		
+
 		# Collapse by studyno, datein, datout, histcode, plant
 		jobhist <- jobhist[, .(years = sum(years),
 													 assembly,

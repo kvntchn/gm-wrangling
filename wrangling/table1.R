@@ -40,38 +40,38 @@ get.tab1 <- function(
 		"\\hspace{10pt}Synthetic" = as.numeric(cum_synthetic[.N] > 0),
 		"Deceased by end of follow-up" = {
 			if (!incidence) {
-			as.numeric(!is.na(yod[1]) & yod[1] <= as.Date(paste0(year[.N], "-12-31")))
+				as.numeric(!is.na(yod[1]) & yod[1] <= as.Date(paste0(year[.N], "-12-31")))
 			} else {
-					as.numeric(!is.na(ddiag_first[1]) & ddiag_first[1] <= as.Date(paste0(year[.N], "-12-31")))
-				}
-			},
+				as.numeric(!is.na(ddiag_first[1]) & ddiag_first[1] <= as.Date(paste0(year[.N], "-12-31")))
+			}
+		},
 
 
 		# Years since follow-up
 		"\\hline Years of follow-up" = {
-				if (!incidence) {
-					if (since_leavework) {
-						time_length(
-							difftime(min(yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), jobloss.date[1]), 'years') } else {
-								time_length(
-									difftime(min(yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), yin[1]), 'years') - 3
-							}}
-				if (incidence) {
+			if (!incidence) {
+				if (since_leavework) {
+					time_length(
+						difftime(min(yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), jobloss.date[1]), 'years')
+				} else {
+					time_length(
+						difftime(min(yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), yin[1]), 'years') - 3
+				}} else {
 					if (since_leavework) {
 						time_length(
 							difftime(min(ddiag_first[1], yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), jobloss.date[1]), 'years') } else {
 								time_length(
 									difftime(min(ddiag_first[1], yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), yin[1]), 'years') - 3
 							}}
-			},
+		},
 		"Years at work$^*$" = {
 			if (year(jobloss.date[1]) == 1995) {
 				NaN} else {time_length(
 					difftime(jobloss.date[1], yin[1]), 'years'
 				)}},
-		'Year of hire' = as.numeric(year(yin[1])),
-		'Age at hire (years)' = time_length(difftime(yin[1], yob[1]), 'year'),
-		'Year of birth' = as.numeric(year(yob[1])),
+		'Year of hire' = yin.gm[1],
+		'Age at hire (years)' = yin.gm[1] - yob.gm[1],
+		'Year of birth' = yob.gm[1],
 		'Year of death among deceased' = {
 			if (!incidence) {
 				as.numeric(unique(year(yod)))} else {
@@ -222,10 +222,18 @@ get.tab1 <- function(
 	tab1 <- cbind(tab1, spread.which = c(
 		rep("$n$, \\%", grep("\\hline", rownames(tab1)) - 1),
 		rep("median, Q1, Q3", nrow(tab1) - grep("\\hline", rownames(tab1)) + 1))
-								)
+	)
 
 	# Clean up rownames
-	rownames(tab1) <- gsub(" $", "", rownames(tab1))
+	rownames(tab1)[duplicated(rownames(tab1))] <- paste0(rownames(tab1)[duplicated(rownames(tab1))], " ")
+	tab1 <- as.data.frame(tab1, make.names = F)
+
+	# If not mathmode
+	if (!mathmode) {
+		tab1 <- apply(tab1, 2, function(x) {
+			gsub("\\\\,", ",", gsub("\\$", "", x))
+		})
+	}
 
 	# if (save_tab1) {
 	# saveRDS(tab1,
@@ -241,12 +249,17 @@ render.tab1 <- function(tab1,
 												tab1.cap = NULL,
 												table_engine = 'xtable',
 												exposure_lag = 21,
-												df = cohort_analytic[
+												df = as.data.table(as.data.frame(cohort_analytic[
 													immortal == 0 &
 														nohist == 0 &
 														wh == 1 &
-														right.censored == 0],
-												table.break = "Years of follow-") {
+														right.censored == 0])),
+												table.break = "Years of follow-",
+												description.width = 7,
+												column.width = 1.5,
+												table.break.header = paste0('\\hline ', '& Median & 25\\textsuperscript{th} \\%tile & 75\\textsuperscript{th} \\%tile \\\\ \n'),
+												table.align = NULL,
+												...) {
 
 	if (is.null(tab1.cap)) {
 		tab1.cap <- paste0(
@@ -260,25 +273,27 @@ render.tab1 <- function(tab1,
 		)
 	}
 
-	description.width <- 7
-	column.width <- 1.5
-
 	if (table_engine == 'xtable') {
-		tab1 %>% xtable(
+		tab1 %>% as.data.frame(make.names = F) %>% xtable(
 			label = "tab1.tab",
-			align = paste0('p{', description.width, 'cm}',
+			align = {if (is.null(table.align)) {
+				paste0('p{', description.width, 'cm}',
 										 paste0(rep(
 										 	paste0('R{', column.width, 'cm}'), ncol(.)
 										 ),
-										 collapse = '')),
-			caption = tab1.cap
-		) %>% print.xtable(
+										 collapse = ''))
+			} else {table.align}},
+			caption = if (nchar(tab1.cap) > 0) {tab1.cap} else {NULL}
+		) %>% print(
 			comment = F,
 			include.rownames = T,
 			add.to.row = list(
-				pos = list(grep(table.break, rownames(tab1)) - 1, nrow(.)),
+				pos = {
+					if (!is.null(table.break.header)) {
+						list(grep(table.break, rownames(tab1)) - 1, nrow(.))
+						} else {list(nrow(.))}},
 				command = c(
-					paste0('\\hline ', '& Median & 25\\textsuperscript{th} \\%tile & 75\\textsuperscript{th} \\%tile \\\\ \n'),
+					table.break.header,
 					paste0(
 						'\\hline ',
 						'\\multicolumn{',
@@ -305,7 +320,8 @@ render.tab1 <- function(tab1,
 					)
 				)
 			)
-		)
+			# ...
+		) # end print table
 	}
 
 	if (table_engine == 'pander') {
@@ -398,9 +414,9 @@ get.ips_tab1 <- function(
 		},
 		# "\\textbf{Years at work}" = {if (since_leavework) {
 		# 	time_length(difftime(jobloss.date[1], yin[1]), 'year')}},
-		'\\textbf{Year of hire}' = as.numeric(year(yin[1])),
-		'\\textbf{Age at hire}' = time_length(difftime(yin[1], yob[1]), 'years'),
-		'\\textbf{Year of birth}' = as.numeric(year(yob[1])),
+		'\\textbf{Year of hire}' = yin.gm[1],
+		'\\textbf{Age at hire}' = yin.gm[1] - yob.gm[1],
+		'\\textbf{Year of birth}' = yob.gm[1],
 		'\\textbf{Year of worker exit}' = year(jobloss.date[1]),
 		'\\textbf{Age at worker exit}' = time_length(difftime(jobloss.date[1],	yob[1]), 'years'),
 		'\\textbf{Age at death among deceased}' = time_length(difftime(

@@ -139,99 +139,17 @@ get.ltab_obs <- function(
 		)]))
 
 	# Additional deaths ####
-	death_additional <- as.data.table(as.data.frame(
-		cohort_full[, .(
-			studyno,
-			`Gallbladder cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Gallbladder and extrahepatic bile duct cancer")) |
-					(v_icd == 10 &
-					 	icd %in% additional_outcomes(
-					 		10, "Gallbladder and extrahepatic bile duct cancer")),
-				1,
-				0
-			),
-			`Liver cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Liver cancer")) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, "Liver cancer")),
-				1,
-				0
-			),
-			`Biliary cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Biliary cancer")) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, "Biliary cancer")),
-				1,
-				0
-			),
-			`Brain cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Brain cancer")) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, "Brain cancer")),
-				1,
-				0
-			),
-			`Colorectal cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Colorectal cancer")) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, "Colorectal cancer")),
-				1,
-				0
-			),
-			`Colon cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Colon cancer")) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, "Colon cancer")),
-				1,
-				0
-			),
-			`Small intestinal cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, 'Small intestinal cancer')) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, 'Small intestinal cancer')),
-				1,
-				0
-			),
-			`Bladder cancer` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, 'Bladder cancer')) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, 'Bladder cancer')),
-				1,
-				0
-			),
-			`Melanoma` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, 'Melanoma')) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, 'Melanoma')),
-				1,
-				0
-			),
-			`Lymphoid leukemia` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, 'Lymphoid leukemia')) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, 'Lymphoid leukemia')),
-				1,
-				0
-			),
-			`Alzheimer's disease` = ifelse(
-				(v_icd == 9 & icd %in% additional_outcomes(
-					9, "Alzheimer's disease")) |
-					(v_icd == 10 & icd %in% additional_outcomes(
-						10, "Alzheimer's disease")),
-				1,
-				0
-			)
-		)]))
+	get.death_indicator <- function(description, icd, v_icd) {
+		ifelse((v_icd == 9 & icd %in% additional_outcomes(9, description)) | (
+			v_icd == 10 & icd %in% additional_outcomes(10, description)),
+			1, 0 )}
+
+	additional_outcomes.list <- additional_outcomes(list_all = T)
+
+	death_additional <- cohort_full[, .(studyno, icd, v_icd)]
+	death_additional[,(additional_outcomes.list) := lapply(
+		additional_outcomes.list, function(x) {
+			get.death_indicator(x, icd, v_icd)})]
 
 	# Merging indicator columns
 	setDT(death_obs)
@@ -249,7 +167,7 @@ get.ltab_obs <- function(
 										 by = 'studyno', all = T)
 	death_obs <- merge(death_obs, death_All_causes,
 										 by = 'studyno', all = T)
-	death_obs <- merge(death_obs, death_additional,
+	death_obs <- merge(death_obs, death_additional[,-c("icd", "v_icd")],
 										 by = 'studyno', all = T)
 
 	# Remove individuals not in cohort_py

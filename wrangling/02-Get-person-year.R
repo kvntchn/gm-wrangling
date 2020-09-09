@@ -64,6 +64,7 @@ get.cohort_py <- function(
 
 	# Make if censoring date greater than observed date of death, make NA
 	cohort_py[yoc > gm.to.date(yod), yoc := NA]
+	# cohort_py[, yoc.gm := date.to.gm(yoc)]
 
 	# Transform variable classes, labels, names
 	cohort_py[,`:=`(sex = ifelse(sex == 1, 'M', 'F'),
@@ -71,18 +72,21 @@ get.cohort_py <- function(
 										finrace %in% c(1, 2), finrace, 9),
 									race = ifelse(race == 0, "Black", "White"),
 									plant = as.character(plant),
+									yod.gm = yod + 1900,
 									yod = gm.to.date(yod),
+									yob.gm = yob + 1900,
 									yob = gm.to.date(yob),
 									start = gm.to.date(get(start.name)),
 									end = {
 										end <- gm.to.date(yod)
-										end[is.na(yod) | (
-											year(gm.to.date(yod)) > end.year + 1)] <- as.Date(
+										end[is.na(yod) | (floor(yod + 1900) > end.year)] <- as.Date(
 												paste0(end.year, '-12-31'))
 										end
 									},
 									yrin = gm.to.date(yrin16),
+									yin.gm = yin16 + 1900,
 									yin = gm.to.date(yin16),
+									yout.gm = yout16 + 1900,
 									yout = gm.to.date(yout16)
 	)]
 
@@ -126,7 +130,7 @@ get.cohort_py <- function(
 				canc_tmp[is.na(canc_tmp)] <- 0
 				canc_tmp})
 		)]
-		
+
 		# Include SEER data?
 		if (use_seer) {
 			if ("seer" %in% ls(envir = .GlobalEnv)) {
@@ -154,7 +158,7 @@ get.cohort_py <- function(
 					as.numeric(get(code) + canc.seer > 0)
 				})
 			)]
-			
+
 			# Use first record: date
 			incidence.tab[studyno %in% seer$studyno, (ddiag.names):=(
 				lapply(ddiag.names, function(code) {

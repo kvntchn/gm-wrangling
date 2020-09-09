@@ -73,7 +73,7 @@ cohort[studyno == 118137, yob := yob - 5]
 # nrow(cohort)
 # nrow(cohort[yout16 - yin16 < 3,])
 # nrow(cohort[wh == 1 & nohist == 0 & possdiscr_new != 3 & flag77 == 0 & oddend == 0 & (is.na(yod15) | yod15 >= 85) & (yout16 - yin16 >= 3)])
- 
+
 cohort <- cohort[yout16 - yin16 >= 3,]
 
 # For building anlaytic dataset ####

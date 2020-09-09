@@ -9,64 +9,71 @@ get.cohort_analytic <- function(
 	deathage.max = NULL,
 	outcome_type = "mortality",
 	include_alcohol = F,
-	end.year = 2015,
+	year.max = 2015,
 	hire.year.min = 1938,
 	hire.year.max = Inf,
 	use_seer = F) {
-	
-	
+
+
 	if (is.null(cohort_full)) {
 		cohort_full <- as.data.table(as.data.frame(cohort))
 	}
 
 	if (is.null(cohort_py)) {
-		cohort_py <-
-			get.ltab_obs(cohort_full = as.data.frame(cohort_full),
-									 include_alcohol = include_alcohol,
-									 hire.year.min = hire.year.min,
-									 end.year = end.year,
-									 outcome_type = outcome_type,
-									 deathage.max = deathage.max,
-									 use_seer = use_seer)
+		cohort_py <- get.ltab_obs(cohort_full = as.data.frame(cohort_full),
+															include_alcohol = include_alcohol,
+															hire.year.min = hire.year.min,
+															end.year = year.max,
+															outcome_type = outcome_type,
+															deathage.max = deathage.max,
+															use_seer = use_seer)
 	} else {
 		cohort_py <- as.data.table(as.data.frame(cohort_py))
 	}
 
-	# Collapse by person-year
-	exposure <<- exposure[,.(
-		missyr = {if (sum(!is.na(missyr)) < 1) {
-			NaN} else {
-				sum(missyr, na.rm = T)
-			}},
-		soluble = {if (sum(!is.na(soluble)) < 1) {
-			NaN} else {
-				sum(soluble, na.rm = T)
-			}},
-		straight = {if (sum(!is.na(straight)) < 1) {
-			NaN} else {
-				sum(straight, na.rm = T)
-			}},
-		synthetic = {if (sum(!is.na(synthetic)) < 1) {
-			NaN} else {
-				sum(synthetic, na.rm = T)
-			}},
-		grinding = {if (sum(!is.na(grinding)) < 1) {
-			NaN} else {
-				sum(grinding, na.rm = T)
-			}},
-		machining = {if (sum(!is.na(machining)) < 1) {
-			NaN} else {
-				sum(machining, na.rm = T)
-			}},
-		`grinding soluble` = {if (sum(!is.na(`grinding soluble`)) < 1) {
-			NaN} else {
-				sum(`grinding soluble`, na.rm = T)
-			}},
-		`machining soluble` = {if (sum(!is.na(`machining soluble`)) < 1) {
-			NaN} else {
-				sum(`machining soluble`, na.rm = T)
-			}}
-	), by = .(studyno, year)]
+	# Exposure data ####
+	if (sum(grepl('exposure.names', ls(envir = .GlobalEnv))) == 0) {
+		exposure.names <- c('missyr',
+												# 'dry',
+												'soluble',
+												'straight',
+												'synthetic',
+												'grinding',
+												'machining',
+												'grinding soluble',
+												'machining soluble',
+												# 'str.grinding',
+												# 'str.machining',
+												# 'syn.grinding',
+												# 'syn.machining'
+												NULL
+		)}
+
+	# Function that takes sum or returns NaN if all NA
+	sum_or_na <- function(x) {
+		if (sum(!is.na(x)) < 1) {NaN} else {
+			sum(x, na.rm = T)}}
+
+	# Make exposure data person-year specific
+	setorder(exposure, studyno, year)
+	if (length(table(exposure[,.N, by = .(studyno, year)]$N)) > 1) {
+		exposure[,`:=`(I = 1:.N, N = .N), by = .(studyno, year)]
+		# for (w in exposure.names) {
+		# exposure[, (w) := lapply(w, function(x) {
+		# 	sum_or_na(get(x))
+		# }), by = .(studyno, year)]}
+		# exposure <<- exposure[I == 1, -c("I", "N", "plant"), with = F]
+		exposure <- exposure[, .(
+			missyr = sum_or_na(missyr),
+			soluble = sum_or_na(soluble),
+			straight = sum_or_na(straight),
+			synthetic = sum_or_na(synthetic),
+			grinding = sum_or_na(grinding),
+			machining = sum_or_na(machining),
+			`grinding soluble` = sum_or_na(`grinding soluble`),
+			`machining soluble` = sum_or_na(`machining soluble`)
+		), by = .(studyno, year)]
+	}
 
 	# Left outer join
 	if (class(cohort_py$plant) == "factor") {
@@ -113,39 +120,100 @@ get.cohort_analytic <- function(
 		}
 		# Fill forward
 		plant <- zoo::na.locf(plant)
-
 		plant
 	}, by = .(studyno)]
 
-	# Lag exposure
-	if (exposure.lag != 0) {
-		exposure_obs[, `:=`(
-			missyr = shift(missyr, exposure.lag, fill = 0),
-			soluble = shift(soluble, exposure.lag, fill = 0),
-			straight = shift(straight, exposure.lag, fill = 0),
-			synthetic = shift(synthetic, exposure.lag, fill = 0),
-			grinding = shift(grinding, exposure.lag, fill = 0),
-			machining = shift(machining, exposure.lag, fill = 0),
-			`grinding soluble` = shift(`grinding soluble`, exposure.lag, fill = 0),
-			`machining soluble` = shift(`machining soluble`, exposure.lag, fill = 0)
-		), by = .(studyno)]
-	}
-
 	# Merge ####
-	cohort_analytic <-
-		merge(cohort_py[,-'plant'],
-					exposure_obs,
-					by = c('studyno', 'year'),
-					all.x = T)
+	cohort_analytic <- merge(
+		cohort_py[,-'plant'],
+		exposure_obs,
+		by = c('studyno', 'year'),
+		all.x = T)
 
 	cohort_analytic <- merge(
 		cohort_analytic[,-c("numeric.gan", "numeric.han", "numeric.san")],
 		jobhist_py.cast,
 		by = c("studyno", "year"), all.x = T)
 
+	component.names <- list(c("bio", "cl", "ea", "tea", "trz", "s", "no2"))
+	component.names <- list(component.names[[1]],
+													paste0(rep(component.names[[1]], each = 3), c(".gan", ".han", ".san"))
+													 			 )
+	# for (w in component.names[[1]]) {
+	# cohort_analytic[,(w) := lapply(w, function(x) {
+	# 	get(paste0(x, ".gan")) + get(paste0(x, ".han")) + get(paste0(x, ".san"))
+	# })]}
+	cohort_analytic[, `:=`(
+		bio = bio.gan + bio.han + bio.san,
+		cl = cl.gan + cl.han + cl.san,
+		ea = ea.gan + ea.han + ea.san,
+		tea = tea.gan + tea.han + tea.san,
+		trz = trz.gan + trz.han + trz.san,
+		s = s.gan + s.han + s.san,
+		no2 = no2.gan + no2.han + no2.san
+	)]
+	cohort_analytic <- cohort_analytic[, -c(
+		"bio.gan", "bio.han", "bio.san",
+		"cl.gan", "cl.han", "cl.san",
+		"ea.gan", "ea.han", "ea.san",
+		"tea.gan", "tea.han", "tea.san",
+		"trz.gan", "trz.han", "trz.san",
+		"s.gan", "s.han", "s.san",
+		"no2.gan", "no2.han", "no2.san"
+	), with = F]
+
+	# Lag exposure
+	if (exposure.lag != 0) {
+		# for (w in exposure.names) {
+		# cohort_analytic[, (w) := lapply(w, function(x) {
+		# 		shift(get(x), n = exposure.lag, fill = 0)
+		# }), by = .(studyno)]}
+		# for (w in unlist(component.names)) {
+		# cohort_analytic[, (unlist(component.names)) := lapply(w, function(x) {
+		# 		shift(get(x), n = exposure.lag, fill = 0)
+		# 	}), by = .(studyno)]}
+		cohort_analytic[,`:=`(
+			missyr = shift(missyr, n = exposure.lag, fill = 0),
+			soluble = shift(soluble, n = exposure.lag, fill = 0),
+			straight = shift(straight, n = exposure.lag, fill = 0),
+			synthetic = shift(synthetic, n = exposure.lag, fill = 0),
+			grinding = shift(grinding, n = exposure.lag, fill = 0),
+			machining = shift(machining, n = exposure.lag, fill = 0),
+			`grinding soluble` = shift(`grinding soluble`, n = exposure.lag, fill = 0),
+			`machining soluble` = shift(`machining soluble`, n = exposure.lag, fill = 0),
+			bio = shift(bio, n = exposure.lag, fill = 0),
+			cl = shift(cl, n = exposure.lag, fill = 0),
+			ea = shift(ea, n = exposure.lag, fill = 0),
+			tea = shift(tea, n = exposure.lag, fill = 0),
+			trz = shift(trz, n = exposure.lag, fill = 0),
+			s = shift(s, n = exposure.lag, fill = 0),
+			no2 = shift(no2, n = exposure.lag, fill = 0)
+			# bio.gan = shift(bio.gan, n = exposure.lag, fill = 0),
+			# bio.han = shift(bio.han, n = exposure.lag, fill = 0),
+			# bio.san = shift(bio.san, n = exposure.lag, fill = 0),
+			# cl.gan = shift(cl.gan, n = exposure.lag, fill = 0),
+			# cl.han = shift(cl.han, n = exposure.lag, fill = 0),
+			# cl.san = shift(cl.san, n = exposure.lag, fill = 0),
+			# ea.gan = shift(ea.gan, n = exposure.lag, fill = 0),
+			# ea.han = shift(ea.han, n = exposure.lag, fill = 0),
+			# ea.san = shift(ea.san, n = exposure.lag, fill = 0),
+			# tea.gan = shift(tea.gan, n = exposure.lag, fill = 0),
+			# tea.han = shift(tea.han, n = exposure.lag, fill = 0),
+			# tea.san = shift(tea.san, n = exposure.lag, fill = 0),
+			# trz.gan = shift(trz.gan, n = exposure.lag, fill = 0),
+			# trz.han = shift(trz.han, n = exposure.lag, fill = 0),
+			# trz.san = shift(trz.san, n = exposure.lag, fill = 0),
+			# s.gan = shift(s.gan, n = exposure.lag, fill = 0),
+			# s.han = shift(s.han, n = exposure.lag, fill = 0),
+			# s.san = shift(s.san, n = exposure.lag, fill = 0),
+			# no2.gan = shift(no2.gan, n = exposure.lag, fill = 0),
+			# no2.han = shift(no2.han, n = exposure.lag, fill = 0),
+			# no2.san = shift(no2.san, n = exposure.lag, fill = 0)
+		), by = .(studyno)]
+	}
+
 	# Also include original plant
-	cohort_analytic <-
-		merge(cohort_analytic,
+	cohort_analytic <- merge(cohort_analytic,
 					cohort_py[,.(PLANT = unique(plant)), by = .(studyno)],
 					by = c('studyno'),
 					all.x = T)
@@ -158,34 +226,18 @@ get.cohort_analytic <- function(
 		cohort_analytic[, `:=`(calendar = factor(ltab_calendar(year)))]
 	}
 
-	if (sum(grepl('exposure.names', ls(envir = .GlobalEnv))) == 0) {
-		exposure.names <<- c('missyr',
-												 # 'dry',
-												 'soluble',
-												 'straight',
-												 'synthetic',
-												 'grinding',
-												 'machining',
-												 'grinding soluble',
-												 'machining soluble'
-												 # 'str.grinding',
-												 # 'str.machining',
-												 # 'syn.grinding',
-												 # 'syn.machining'
-		)
-	}
-
 	# Misisng data folks (studyno 133570 is pesky)
 	cohort_analytic[!complete.cases(
 		cohort_analytic[,.(
 			straight, soluble, synthetic
 		)]) &
 			# year < year(yout)  &
-			wh == 1 & nohist == 0, .(
-				studyno, year, yout,
-				straight,
-				soluble,
-				synthetic)]
+			wh == 1 & nohist == 0, c(
+				"studyno", "year", "yout",
+				"straight",
+				"soluble",
+				"synthetic",
+				component.names[[1]]), with = F]
 
 	cohort_analytic[!complete.cases(
 		cohort_analytic[,.(
@@ -198,21 +250,28 @@ get.cohort_analytic <- function(
 				synthetic = 0)]
 
 	# Cumulative exposure
-	cum_exposure.names <- paste0("cum_", exposure.names)
-	cohort_analytic[order(year), (cum_exposure.names) := list(
+	cum_exposure.names <- paste0("cum_", c(exposure.names, component.names[[1]]))
+	# for (w in cum_exposure.names) {
+	# cohort_analytic[order(year), (gsub(" ", "_", w)) := lapply(
+	# 	w, function(x) {
+	# 		cumsum(get(gsub("^cum_", "", x)))
+	# 	}), by = .(studyno)]}
+	cohort_analytic[order(year), `:=`(
 		cum_missyr = cumsum(missyr),
-		# cum_dry = cumsum(dry),
 		cum_soluble = cumsum(soluble),
 		cum_straight = cumsum(straight),
 		cum_synthetic = cumsum(synthetic),
 		cum_grinding = cumsum(grinding),
 		cum_machining = cumsum(machining),
-		cum_grinding_soluble= cumsum(`grinding soluble`),
-		cum_machining_soluble = cumsum(`machining soluble`)
-		# cum_str.grinding = cumsum(str.grinding),
-		# cum_str.machining = cumsum(str.machining),
-		# cum_str.grinding = cumsum(syn.grinding),
-		# cum_str.machining = cumsum(syn.machining)
+		cum_grinding_soluble = cumsum(`grinding soluble`),
+		cum_machining_soluble = cumsum(`machining soluble`),
+		cum_bio = cumsum(bio),
+		cum_cl = cumsum(cl),
+		cum_ea = cumsum(ea),
+		cum_tea = cumsum(tea),
+		cum_trz = cumsum(trz),
+		cum_s = cumsum(s),
+		cum_no2 = cumsum(no2)
 	), by = .(studyno)]
 
 	# Year out of work
