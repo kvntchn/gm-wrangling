@@ -1,5 +1,5 @@
 # Additional outcomes ####
-additional_outcomes <- function(v_icd, outcome) {
+additional_outcomes <- function(v_icd, outcome, list_all = F) {
 
 	expand_icd9 <- function(code) {
 		c(code,
@@ -14,118 +14,98 @@ additional_outcomes <- function(v_icd, outcome) {
 			}))
 	}
 
-	"Biliary cancer" = {
-		if (v_icd == 9) {
-			c(1551, 1561, 1562, 1568, 1569)
-		} else {
-			c("C221", paste0("C24", c(0:1, 8:9)))
+	icd.list <- list(
+		"Biliary cancer" = list(
+			icd9 = c(1551, 1561, 1562, 1568, 1569),
+			icd10 = c("C221", paste0("C24", c(0:1, 8:9)))
+		),
+
+		'Liver and intrahepatic bile duct cancer' = list(
+			icd9 = expand_icd9(c(155)),
+			icd10 =  c(expand_icd10(c('C21', 'C22')))
+		),
+
+		'Liver cancer' = list(
+			icd9 = expand_icd9(c(155))[
+				expand_icd9(c(155)) != '1551'],
+			icd10 = c(expand_icd10('C22'))
+		),
+
+		'Alcohol-related Liver Disease' = list(
+			# Case & Deaton definition, Farah's study
+			icd9 = paste0(c("571"), c(0:6, 9, "x")),
+			icd10 = c(paste0('K70', c(0:4, 9)),
+								paste0('K73', c(0:2)),
+								expand_icd10(paste0("K", c(738:746))))
+		),
+
+		'Gallbladder and extrahepatic bile duct cancer' = list(
+			icd9 = c('156x', 1560, 1561, 1562, 1568, 1569),
+			icd10 = c(expand_icd10('C23'), expand_icd10('C24'))
+		),
+
+		'Brain cancer' = list(
+			icd9 = expand_icd9(191),
+			icd10 = c(expand_icd10('C70'), expand_icd10('C71'))
+		),
+
+		'Colorectal cancer' = list(
+			icd9 = expand_icd9(c(153, 154)),
+			icd10 = expand_icd10(c("C18", 'C19', 'C20', 'C21'))
+		),
+
+		'Colon cancer' = list(
+			icd9 = expand_icd9(c(153)),
+			icd10 = expand_icd10(c("C18"))
+		),
+
+		'Small intestinal cancer' = list(
+			icd9 = expand_icd9(c(152)),
+			icd10 = expand_icd10(c("C17"))
+		),
+
+		'Bladder cancer' = list(
+			icd9 = expand_icd9(c(188)),
+			icd10 = expand_icd10(c("C67"))
+		),
+
+		'Melanoma' = list(
+			icd9 = expand_icd9(c(172)),
+			icd10 = expand_icd10(c("C43"))
+		),
+
+		'Lymphoid leukemia' = list(
+			icd9 = expand_icd9(c(204)),
+			icd10 = expand_icd10(c('C91'))
+		),
+
+		"Alzheimer's disease" = list(
+			icd9 = c(3310),
+			icd10 = expand_icd10(c('G30'))
+		),
+
+		"Hemorrhagic stroke" = list(
+			icd9 = expand_icd9(c(431, 432)),
+			icd10 = c("I61", "I62")
+		),
+
+		"Ischemic stroke" = list(
+			icd9 = expand_icd9(c(433, 434)),
+			icd10 = expand_icd10("I63") # ICD-10 not validated
+		),
+
+		"Ischemic stroke (broad)" = list(
+			icd9 = expand_icd9(c(433, 434, 436, 437)),
+			icd10 = expand_icd10(c("I63", "I64", "I69")) # ICD-10 not validated
+		)
+	)
+
+	if (list_all) {
+		return(names(icd.list))
+	} else {
+		return(icd.list[[outcome]][[ifelse(v_icd == 9, "icd9", "icd10")]])
 		}
-	}
 
-	'Liver and intrahepatic bile duct cancer' = {
-		if (v_icd == 9) {
-			expand_icd9(c(155))
-		} else {
-			c(expand_icd10(c('C21', 'C22')))
-		}
-	}
-
-	'Liver cancer' = {
-		if (v_icd == 9) {
-			expand_icd9(c(155))[
-				expand_icd9(c(155)) != '1551']
-		} else {
-			c(expand_icd10('C22'))
-		}
-	}
-	
-	'Alcohol-related Liver Disease' = {
-		# Case & Deaton definition, Farah's study
-		if (v_icd == 9) {
-			paste0(c("571"), c(0:6, 9, "x"))
-		} else {
-			c(paste0('K70', c(0:4)),
-				paste0('K73', c(0:2, 8:9)),
-				expand_icd10(paste0("K", c(738:746))))
-		}
-	}
-
-	'Gallbladder and extrahepatic bile duct cancer' = {
-		if (v_icd == 9) {
-			c('156x', 1560, 1561, 1562, 1568, 1569)
-		} else {
-			c(expand_icd10('C23'),
-				expand_icd10('C24'))
-		}
-	}
-
-	'Brain cancer' = {
-		if (v_icd == 9) {
-			expand_icd9(191)
-		} else {
-			c(expand_icd10('C70'),
-				expand_icd10('C71'))
-		}
-	}
-
-	'Colorectal cancer' = {
-		if (v_icd == 9){
-				expand_icd9(c(153, 154))
-				} else {
-					expand_icd10(c("C18", 'C19', 'C20', 'C21'))
-				}
-	}
-
-	'Colon cancer' = {
-		if (v_icd == 9){
-				expand_icd9(c(153))
-				} else {
-					expand_icd10(c("C18"))
-				}
-	}
-
-	'Small intestinal cancer' = {
-		if (v_icd == 9){
-				expand_icd9(c(152))
-				} else {
-					expand_icd10(c("C17"))
-				}
-	}
-
-	'Bladder cancer' = {
-		if (v_icd == 9){
-				expand_icd9(c(188))
-				} else {
-					expand_icd10(c("C67"))
-				}
-	}
-
-	'Melanoma' = {
-		if (v_icd == 9){
-				expand_icd9(c(172))
-				} else {
-					expand_icd10(c("C43"))
-				}
-	}
-
-	'Lymphoid leukemia' = {
-		if (v_icd == 9){
-				expand_icd9(c(204))
-				} else {
-					expand_icd10(c('C91'))
-				}
-	}
-
-	"Alzheimer's disease" = {
-		if (v_icd == 9){
-				c(3310)
-				} else {
-					expand_icd10(c('G30'))
-				}
-	}
-
-
-	return(get(outcome))
 }
 
 # Self injury (adapte from Suzanne Dufault) ####
@@ -206,9 +186,9 @@ self_injury.function <- function(alcohol = F) {
 
 	overdose_codes <- c(
 		accidentalPoison9, accidentalPoison10,
-			intentUnknown9, intentUnknown10
-			#, intentTherapeutic10
-			)
+		intentUnknown9, intentUnknown10
+		#, intentTherapeutic10
+	)
 
 	output <- list(
 		suicide_codes = list(icd = suicide_codes,
@@ -646,24 +626,24 @@ spec_icd_codes <- function(totals = T,
 				)),
 				# All external causes
 				c(
-						# Accidents
-				expand_icd9(c(
-					# Transportation accidents and other
-					800:848, 929,
-					# THESE ARE POISONINGS
-					850:869,
-					# Accidental falls
-					880:888,
-					# Other accidents (includes some of our poisoning codes)
-					890:928, 980:999,
-					# Medical complications
-					870:879, 930:949,
-					# Homicide
-					960:978)),
-				# Suicide
-				self_injury$suicide_codes$icd[self_injury$suicide_codes$v_icd == 9]
+					# Accidents
+					expand_icd9(c(
+						# Transportation accidents and other
+						800:848, 929,
+						# THESE ARE POISONINGS
+						850:869,
+						# Accidental falls
+						880:888,
+						# Other accidents (includes some of our poisoning codes)
+						890:928, 980:999,
+						# Medical complications
+						870:879, 930:949,
+						# Homicide
+						960:978)),
+					# Suicide
+					self_injury$suicide_codes$icd[self_injury$suicide_codes$v_icd == 9]
 				)
-				)
+			)
 
 		} else {
 			# ICD-9 Full list ####
@@ -795,7 +775,7 @@ spec_icd_codes <- function(totals = T,
 					# Medical complications
 					870:879, 930:949)),
 				# Other accidents
-					expand_icd9(c(890:928, 980:999)),
+				expand_icd9(c(890:928, 980:999)),
 				# Homicide
 				expand_icd9(c(960:978))
 				# Suicide
@@ -898,14 +878,14 @@ spec_icd_codes <- function(totals = T,
 						paste0('Y', sprintf('%02d', c(10:34, 36, 86, 89))), "Y872",
 						# Medical complications
 						paste0('Y', sprintf('%02d', 40:84)), "Y88",
-					 	# Homicide
+						# Homicide
 						paste0("X", 85:99),
 						paste0("Y", sprintf('%02d', 0:9)),
 						"Y35")),
-						"Y871",
-						# Suicide
-						self_injury$suicide_codes$icd[
-							self_injury$suicide_codes$v_icd == 10])
+					"Y871",
+					# Suicide
+					self_injury$suicide_codes$icd[
+						self_injury$suicide_codes$v_icd == 10])
 			)
 		} else {
 			# ICD-10 Full list ####
@@ -1116,14 +1096,14 @@ spec_icd_codes <- function(totals = T,
 						paste0('Y', sprintf('%02d', c(10:34, 36, 86, 89))), "Y872",
 						# Medical complications
 						paste0('Y', sprintf('%02d', 40:84)), "Y88",
-					 	# Homicide
+						# Homicide
 						paste0("X", 85:99),
 						paste0("Y", sprintf('%02d', 0:9)),
 						"Y35")),
-						"Y871",
-						# Suicide
-						self_injury$suicide_codes$icd[
-							self_injury$suicide_codes$v_icd == 10]),
+					"Y871",
+					# Suicide
+					self_injury$suicide_codes$icd[
+						self_injury$suicide_codes$v_icd == 10]),
 				# Accidents
 				expand_icd10(c(
 					# Transportation accidents
@@ -1145,12 +1125,12 @@ spec_icd_codes <- function(totals = T,
 												 paste0('X', sprintf('%02d', 0:39)),
 												 paste0('X', sprintf('%02d', 50:59)),
 												 paste0('Y', sprintf('%02d', c(10:34, 36, 86, 89)))
-												 )), "Y872"),
+				)), "Y872"),
 				# Homicide
 				c(expand_icd10(c(
-						paste0("X", 85:99),
-						paste0("Y", sprintf('%02d', 0:9)),
-						"Y35")),
+					paste0("X", 85:99),
+					paste0("Y", sprintf('%02d', 0:9)),
+					"Y35")),
 					"Y871")
 				# Suicide
 				# self_injury$suicide_codes$icd[self_injury$suicide_codes$v_icd == 10]
@@ -1282,12 +1262,12 @@ death_type <- function(icd,
 		}
 
 		description.output <-	as.data.frame(matrix(NA, nrow = length(c(icd)),
-													 ncol = max(c(
-													 	unlist(lapply(cat9, length))
-													 ),
-													 unlist(
-													 	lapply(cat10, length)
-													 ))))
+																							 ncol = max(c(
+																							 	unlist(lapply(cat9, length))
+																							 ),
+																							 unlist(
+																							 	lapply(cat10, length)
+																							 ))))
 
 		if (sum(v_icd == 9, na.rm = T) > 0) {
 			which9 <- which(v_icd == 9 & !is.na(v_icd))
