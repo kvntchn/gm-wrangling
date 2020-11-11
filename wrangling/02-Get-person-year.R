@@ -2,10 +2,8 @@
 # Kevin Chen
 # July 15, 2019
 
-incidence.key <- data.table::fread(here::here("cancer incidence", 'cancer-key.tsv'))
-
 gm.to.date <- function(x) {
-	x <- x + 1900
+	if (x < 200) {x <- x + 1900}
 	as.Date(paste0(floor(x), '/01/01')) +
 		floor((x - floor(x)) * time_length(difftime(
 			as.Date(paste0(floor(x), "-12-31")),
@@ -30,6 +28,8 @@ get.cohort_py <- function(
 	start.name = "yin16",
 	deathage.max = NULL,
 	use_seer = F) {
+
+	incidence.key <- data.table::fread(here::here("../gm-wrangling/cancer incidence", 'cancer-key.tsv'))
 
 	if (is.null(full_cohort)) {
 		full_cohort <- as.data.table(as.data.frame(cohort))
@@ -112,7 +112,7 @@ get.cohort_py <- function(
 			by = .(studyno)],
 		on = "studyno")
 
-	cohort_py$end %>% summary
+	# cohort_py$end %>% summary
 
 	if (outcome_type == 'incidence') {
 

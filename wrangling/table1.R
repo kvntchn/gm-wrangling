@@ -2,6 +2,22 @@
 # 9/6/2019
 # Requires cohort_analytic
 
+gm.to.date <- function(x) {
+	if (x < 200) {x <- x + 1900}
+	as.Date(paste0(floor(x), '/01/01')) +
+		floor((x - floor(x)) * time_length(difftime(
+			as.Date(paste0(floor(x), "-12-31")),
+			as.Date(paste0(floor(x), "-01-01"))), "day"
+		))}
+
+date.to.gm <- function(x = "2013-01-01") {
+	as.numeric(
+		year(x) +
+			time_length(difftime(x, as.Date(paste0(year(x), "-01-01"))), "year") / (
+				time_length(difftime(as.Date(paste0(year(x), "-12-31")),
+														 as.Date(paste0(year(x), "-01-01"))), "year"))
+	)}
+
 get.tab1 <- function(
 	df = as.data.table(as.data.frame(cohort_analytic)),
 	timescale = "work",
@@ -21,11 +37,11 @@ get.tab1 <- function(
 		'Race' = NA,
 		'\\hspace{10pt}White' = if (use_finrace) {
 			ifelse(finrace[1] == 1, 1, 0)} else {
-				ifelse(finrace[1] == 1 | finrace[1] == 9, 1, 0)
+				ifelse(finrace[1] == 1 | finrace[1] %in% c(0, 9), 1, 0)
 			},
 		'\\hspace{10pt}Black' = ifelse(finrace[1] == 2, 1, 0),
 		'\\hspace{10pt}Unknown' = if (use_finrace) {
-			ifelse(finrace[1] == 9, 1, 0)},
+			ifelse(finrace[1] %in% c(0, 9), 1, 0)},
 		'Sex' = NA,
 		'\\hspace{10pt}Male' = ifelse(sex[1] == 'M', 1, 0),
 		'\\hspace{10pt}Female' = ifelse(sex[1] == 'F', 1, 0),
@@ -64,14 +80,16 @@ get.tab1 <- function(
 									difftime(min(ddiag_first[1], yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), yin[1]), 'years') - 3
 							}}
 		},
+		'Year of birth' = yob.gm[1],
+		'Year of hire' = yin.gm[1],
+		'Age at hire (years)' = yin.gm[1] - yob.gm[1],
+		'Year of leaving work' = date.to.gm(jobloss.date)[1],
+		'Age at leaving work (years)' = date.to.gm(jobloss.date)[1] - yob.gm[1],
 		"Years at work$^*$" = {
 			if (year(jobloss.date[1]) == 1995) {
 				NaN} else {time_length(
 					difftime(jobloss.date[1], yin[1]), 'years'
 				)}},
-		'Year of hire' = yin.gm[1],
-		'Age at hire (years)' = yin.gm[1] - yob.gm[1],
-		'Year of birth' = yob.gm[1],
 		'Year of death among deceased' = {
 			if (!incidence) {
 				as.numeric(unique(year(yod)))} else {
@@ -210,12 +228,13 @@ get.tab1 <- function(
 		matrix(c(
 			paste0("$", prettyNum(
 				n_distinct(df$studyno), '\\\\,'), "$"),
-			"$100\\%$",
+			paste0("$", prettyNum(
+				nrow(df), '\\\\,'), "$"),
 			NA
 			# , NA, NA
 		),
 		nrow = 1,
-		dimnames = list(c("Study population size ($N$)"), NULL)),
+		dimnames = list(c("Study population size (person-years)"), NULL)),
 		tab1)
 
 	# Make column indicating stat type
@@ -245,26 +264,30 @@ get.tab1 <- function(
 	return(tab1)
 }
 
-render.tab1 <- function(tab1,
-												tab1.cap = NULL,
-												table_engine = 'xtable',
-												exposure_lag = 21,
-												df = as.data.table(as.data.frame(cohort_analytic[
-													immortal == 0 &
-														nohist == 0 &
-														wh == 1 &
-														right.censored == 0])),
-												table.break = "Years of follow-",
-												description.width = 7,
-												column.width = 1.5,
-												table.break.header = paste0('\\hline ', '& Median & 25\\textsuperscript{th} \\%tile & 75\\textsuperscript{th} \\%tile \\\\ \n'),
-												table.align = NULL,
-												...) {
+render.tab1 <- function(
+	tab1,
+	tab1.cap = NULL,
+	table_engine = 'xtable',
+	space_for_comma = T,
+	exposure_lag = 21,
+	df = as.data.table(as.data.frame(cohort_analytic[
+		immortal == 0 &
+			nohist == 0 &
+			wh == 1 &
+			right.censored == 0])),
+	table.break = "Years of follow-",
+	description.width = 7,
+	column.width = 1.5,
+	table.break.header = paste0('\\hline ', '& Median & 25\\textsuperscript{th} \\%tile & 75\\textsuperscript{th} \\%tile \\\\ \n'),
+	table.align = NULL,
+	notes = T,
+	...,
+	return_table = F) {
 
 	if (is.null(tab1.cap)) {
 		tab1.cap <- paste0(
 			'Summary of study population characteristics ($N =',
-			prettyNum(n_distinct(df$studyno), '\\\\,'),
+			prettyNum(n_distinct(df$studyno), ifelse(space_for_comma, '\\\\,', ",")),
 			'$; $',
 			round(nrow(df) / 10 ^ 6, 2),
 			'$ million person-years). The cohort was restricted to individuals who were hired in or after ',
@@ -273,92 +296,100 @@ render.tab1 <- function(tab1,
 		)
 	}
 
-	if (table_engine == 'xtable') {
-		tab1 %>% as.data.frame(make.names = F) %>% xtable(
-			label = "tab1.tab",
-			align = {if (is.null(table.align)) {
-				paste0('p{', description.width, 'cm}',
-										 paste0(rep(
-										 	paste0('R{', column.width, 'cm}'), ncol(.)
-										 ),
-										 collapse = ''))
-			} else {table.align}},
-			caption = if (nchar(tab1.cap) > 0) {tab1.cap} else {NULL}
-		) %>% print(
-			comment = F,
-			include.rownames = T,
-			add.to.row = list(
-				pos = {
-					if (!is.null(table.break.header)) {
-						list(grep(table.break, rownames(tab1)) - 1, nrow(.))
+	if (return_table) {
+		if (table_engine == 'pander') {
+			# Remove/replace LaTeX commands
+			rownames(tab1) <- gsub(
+				"\\\\hspace\\{.*\\}", "&#9;", rownames(tab1))
+			rownames(tab1) <- gsub(
+				"\\\\hline ", "", rownames(tab1))
+			# Footnotes
+			# rownames(tab1) <- gsub(
+			# 	"\\$\\^\\\\flat\\$", "$^1$", rownames(tab1))
+			rownames(tab1) <- gsub(
+				"\\$\\^\\\\sharp\\$", "$^3$", rownames(tab1))
+			rownames(tab1) <- gsub(
+				"\\$\\^\\*\\$", "$^2$", rownames(tab1))
+			rownames(tab1) <- gsub(
+				"\\$\\^\\\\natural\\$", "$^1$", rownames(tab1))
+
+			tab1 <- rbind(
+				tab1[1:(which(grepl(table.break, rownames(tab1))) - 1),],
+				matrix(c("Median", "Q1", "Q3", NA), T),
+				tab1[(which(grepl(table.break, rownames(tab1)))):nrow(tab1),]
+				)
+
+			rownames(tab1)[grep("^Median$", tab1[,1])] <- "&nbsp;"
+		}
+		return(as.data.frame(tab1, make.names = F))
+	} else {
+
+		if (table_engine == 'xtable') {
+			tab1 %>% as.data.frame(make.names = F) %>% xtable(
+				label = "tab1.tab",
+				align = {if (is.null(table.align)) {
+					paste0('p{', description.width, 'cm}',
+								 paste0(rep(
+								 	paste0('R{', column.width, 'cm}'), ncol(.)
+								 ),
+								 collapse = ''))
+				} else {table.align}},
+				caption = if (nchar(tab1.cap) > 0) {tab1.cap} else {NULL}
+			) %>% print(
+				comment = F,
+				include.rownames = T,
+				add.to.row = list(
+					pos = {
+						if (!is.null(table.break.header)) {
+							list(grep(table.break, rownames(tab1)) - 1, nrow(.))
 						} else {list(nrow(.))}},
-				command = c(
-					table.break.header,
-					paste0(
-						'\\hline ',
-						'\\multicolumn{',
-						ncol(.) + 1,
-						'}{p{',
-						description.width + ncol(tab1) * column.width + 1,
-						'cm}}{\\footnotesize{',
-						'$^\\natural$ For individuals who worked at several plants, plant was taken to be the site where they accrued the most work record time.',
-						'}}\\\\',
-						'\\multicolumn{',
-						ncol(.) + 1,
-						'}{p{',
-						description.width + ncol(tab1) * column.width + 1,
-						'cm}}{\\footnotesize{',
-						'$^*$ Among those with known date of worker exit.',
-						'}}\\\\',
-						'\\multicolumn{',
-						ncol(.) + 1,
-						'}{p{',
-						description.width + ncol(tab1) * column.width + 1,
-						'cm}}{\\footnotesize{',
-						'$^\\sharp$ Summary statistics calculated for ever-exposed individuals at end of follow-up only. Exposures were lagged ', exposure_lag, ' years.',
-						'}}\\\\'
+					command = c(
+						table.break.header,
+						if (notes) {paste0(
+							'\\hline ',
+							'\\multicolumn{',
+							ncol(.) + 1,
+							'}{p{',
+							description.width + ncol(tab1) * column.width + 1,
+							'cm}}{\\footnotesize{',
+							'$^\\natural$ For individuals who worked at several plants, plant was taken to be the site where they accrued the most work record time.',
+							'}}\\\\',
+							'\\multicolumn{',
+							ncol(.) + 1,
+							'}{p{',
+							description.width + ncol(tab1) * column.width + 1,
+							'cm}}{\\footnotesize{',
+							'$^*$ Among those with known date of worker exit.',
+							'}}\\\\',
+							'\\multicolumn{',
+							ncol(.) + 1,
+							'}{p{',
+							description.width + ncol(tab1) * column.width + 1,
+							'cm}}{\\footnotesize{',
+							'$^\\sharp$ Summary statistics calculated for ever-exposed individuals at end of follow-up only. Exposures were lagged ', exposure_lag, ' years.',
+							'}}\\\\'
+						)}
 					)
 				)
-			)
-			# ...
-		) # end print table
+				# ...
+			) # end print table
+		}
+
+		if (table_engine == 'pander') {
+			pander(tab1[,1:3],
+						 justify = c('left', 'right', 'right', 'right'),
+						 emphasize.rownames = F,
+						 missing = "&nbsp;",
+						 caption = tab1.cap
+			) %>% cat
+
+			if (notes) {
+				paste0(
+					'^1^ For individuals who worked at several plants, plant was taken to be the site where they accrued the most work record time.\n\n',
+					'^2^ Among those with known date of worker exit.\n\n',
+					'^3^ Summary statistics calculated for exposed individuals at end of follow-up only. Exposures were lagged ', exposure_lag, ' years\n\n') %>% cat}
+		}
 	}
-
-	if (table_engine == 'pander') {
-		# Remove/replace LaTeX commands
-		rownames(tab1) <- gsub(
-			"\\\\hspace\\{.*\\}", "&#9;", rownames(tab1))
-		rownames(tab1) <- gsub(
-			"\\\\hline ", "", rownames(tab1))
-		# Footnotes
-		# rownames(tab1) <- gsub(
-		# 	"\\$\\^\\\\flat\\$", "$^1$", rownames(tab1))
-		rownames(tab1) <- gsub(
-			"\\$\\^\\\\sharp\\$", "$^3$", rownames(tab1))
-		rownames(tab1) <- gsub(
-			"\\$\\^\\*\\$", "$^2$", rownames(tab1))
-		rownames(tab1) <- gsub(
-			"\\$\\^\\\\natural\\$", "$^1$", rownames(tab1))
-
-		tab1 <- rbind(
-			tab1[1:(which(grepl(table.break, rownames(tab1))) - 1),],
-			c("Median", "Q1", "Q3"),
-			tab1[which(grepl(table.break, rownames(tab1))):nrow(tab1),]
-		)
-
-		pander(tab1,
-					 justify = c('left', 'right', 'right', 'right'),
-					 emphasize.rownames = F,
-					 missing = "&nbsp;",
-					 caption = tab1.cap
-		) %>% cat
-
-		paste0(
-			'^1^ For individuals who worked at several plants, plant was taken to be the site where they accrued the most work record time.\n\n',
-			'^2^ Among those with known date of worker exit.\n\n',
-			'^3^ Summary statistics calculated for exposed individuals at end of follow-up only. Exposures were lagged ', exposure_lag, ' years\n\n') %>% cat
-	}
-
 }
 
 get.ips_tab1 <- function(
