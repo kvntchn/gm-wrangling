@@ -3,7 +3,7 @@
 # July 15, 2019
 
 gm.to.date <- function(x) {
-	if (x < 200) {x <- x + 1900}
+	if (x[1] < 200) {x <- x + 1900}
 	as.Date(paste0(floor(x), '/01/01')) +
 		floor((x - floor(x)) * time_length(difftime(
 			as.Date(paste0(floor(x), "-12-31")),

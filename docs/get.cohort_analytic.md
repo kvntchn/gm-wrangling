@@ -1,0 +1,94 @@
+## Making the analytic cohort data object
+
+### Description
+
+`get.cohort_analytic()`, defined in `06-get-exposure-outcome.R`, returns a `data.table` including the demographic variables, exposure, and outcomes (mortality or cancer incidence). Note that smooth operation depends on successful sourcing of `00-hello.R`.
+
+### Usage
+
+```{r}
+get.cohort_analytic(cohort_full = NULL, cohort_py = NULL,
+	 exposure.lag = 21, deathage.max = NULL,
+	 outcome_type = "mortality", include_alcohol = F,
+	 year.max = 2015, hire.year.min = 1938, hire.year.max = Inf,
+	  use_seer = F)
+```
+
+### Arguments
+
+<table width="775">
+<tr>
+<td><code font-size:10px>cohort_full</code></td> <td>matrix-like object including demographic data indexed by <code font-size:10px>studyno</code> to be made into a long dataset indexed by <code font-size:10px>studyno</code> and <code font-size:10px>year</code>. When argument is <code font-size:10px>NULL</code>, the function gets <code font-size:10px>cohort</code> from the global environment.</td>
+</tr>
+<tr>
+<td><code font-size:10px>cohort_py</code></td> <td>matrix-like object in long format indexed by <code font-size:10px>studyno</code> and <code font-size:10px>year</code>. When argument is <code font-size:10px>NULL</code>, the function constructs this object using <code font-size:10px>get.ltab_obs()</code>, which returns a <code font-size:10px>data.table</code> in long format which includes cause of death indicators (coded according to the NIOSH definitions).</td>
+</tr>
+<tr>
+<td><code font-size:10px>exposure.lag</code></td> <td>numeric, the number of years to lag exposure.</td>
+</tr>
+<tr>
+<td><code font-size:10px>deathage.max</td> <td>numeric, the age at which individuals are considered lost to follow-up, which is passed to <code font-size:10px>get.ltab_obs()</code> then <code font-size:10px>get.cohort_py()</code>. When argument is <code font-size:10px>NULL</code>, the function <code font-size:10px>get.cohort_py()</code> uses the oldest observed age at death in <code font-size:10px>cohort_full</code>.</td>
+</tr>
+<tr>
+<td><code font-size:10px>outcome_type</td> <td>string that determines whether or not cancer incidence outcome data is merged or not. Pass value "incidence" for cancer incidence.</td>
+</tr>
+<tr>
+<td><code font-size:10px>include_alcohol</td> <td>logical indicating whether acute alcoholic poisonings are included in poisoning deaths.</td>
+</tr>
+<tr>
+<td><code font-size:10px>year.max</td> <td>numeric, the final year to include in the person-time dataset.</td>
+</tr>
+<tr>
+<td><code font-size:10px>hire.year.min</td> <td>numeric, the minimum year of hire inclusion criterion.</td>
+</tr>
+<tr>
+<td><code font-size:10px>hire.year.max</td> <td>numeric, the maximum year of hire inclusion criterion: <code font-size:10px>Inf</code> by default.</td>
+</tr>
+<tr>
+<td><code font-size:10px>use_seer</td> <td>logical indicating whether cancer incidence data from SEER should be included. Sensible only when <code font-size:10px>outcome_type = "incidence"</code>.</td>
+</tr>
+</table>
+
+### Details
+
+The `get.cohort_analytic()` function stitches together the output of `get.ltab_obs()` with `exposure`, that must be in the global environment. The `get.ltab_obs()` function takes the person-year dataset created by `get.cohort_py()` and returns that dataset augmented with indicator columns for several causes of death by using the `icd` and `yod` variables.
+
+`get.ltab_obs()` is defined in `03-Get-Outcome.R`. Code for cleaning and loading the exposure data are found in `05-Get-Exposure.R`. `get.cohort_py()` is defined in `02-Get-person-year.R`.
+
+The object of class `data.table` returned by `get.cohort_analytic()` should be verified before use. In particular, take note of the `wh`, `nohist`, `immortal`, and `right.censored` variables. The variables `wh` and `nohist` are as described in the data dictionary for `auto_vs_15`.
+
+Rows where `immmortal == 1` are those corresponding to the 3 years immediately after hire, during which nobody can experience a mortality event. Rows where `right.censored == 1` are those corresponding to the years after loss to follow-up.
+
+Of particular utility when fitting Cox models are the variables `age.year1`,  `age.year2`, `year1`, and `year2`. These variables may be used as the start and stop times for each row; they should already account for the fact that at-risk person-time does not start until 3 years after the date of hire (and not just the start of the year) and that at-risk person-time ends on the day the outcome occurs.
+
+### Examples
+
+For the cancer mortality paper Costello et al. (2020), we used
+
+```{r}
+cohort_analytic <- get.cohort_analytic(
+		outcome_type = "mortality",
+		exposure.lag = 21,
+		deathage.max = NULL
+	)
+# data should already be ordered, but to be sure
+setorder(cohort_analytic, studyno, year)
+cohort_analytic <- cohort_analytic[year >= 1941 & (
+		year(yin) < 1938 | year >= year(yin + 365.25 * 3)
+	)]
+```
+
+For the suicide and fatal overdose paper Eisen et al. (2020), we used
+
+```{r}
+cohort_analytic <- get.cohort_analytic(
+	outcome_type = "mortality",
+	exposure.lag = 0,
+	deathage.max = 100
+)
+# data should already be ordered, but to be sure
+setorder(cohort_analytic, studyno, year)
+cohort_analytic <- cohort_analytic[
+	year >= 1941 & year(yin) <= 1982 &
+		(year <= year(yoc) | is.na(yoc))]
+```

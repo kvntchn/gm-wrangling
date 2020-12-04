@@ -27,6 +27,8 @@ get.tab1 <- function(
 	since_leavework = F,
 	use_finrace = T,
 	incidence = F,
+	use_nrow = T,
+	py = "py",
 	mathmode = T) {
 
 	df <- as.data.table(as.data.frame(df))
@@ -229,7 +231,7 @@ get.tab1 <- function(
 			paste0("$", prettyNum(
 				n_distinct(df$studyno), '\\\\,'), "$"),
 			paste0("$", prettyNum(
-				nrow(df), '\\\\,'), "$"),
+				ifelse(use_nrow, nrow(df), sum(df[,py])), '\\\\,'), "$"),
 			NA
 			# , NA, NA
 		),
