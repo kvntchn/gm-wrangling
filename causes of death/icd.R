@@ -97,6 +97,11 @@ additional_outcomes <- function(v_icd, outcome, list_all = F) {
 		"Ischemic stroke (broad)" = list(
 			icd9 = expand_icd9(c(433, 434, 436, 437)),
 			icd10 = expand_icd10(c("I63", "I64", "I69")) # ICD-10 not validated
+		),
+
+		"Non-Hodgkin lymphoma" = list(
+			icd9 = expand_icd9(c(200, 202)),
+			icd10 = expand_icd10(c(paste0("C", c(82:85, 96))))
 		)
 	)
 
