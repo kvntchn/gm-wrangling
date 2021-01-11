@@ -1,12 +1,22 @@
-## Making the analytic cohort data object
+---
+title: Making the analytic cohort data object
+author: "Kevin Chen"
+# fontsize: 10pt
+output: html_document
+---
 
-### Description
+```{r setup, include=F}
+library(knitr)
+knitr::opts_chunk$set(eval=F)
+```
+
+# Description
 
 `get.cohort_analytic()`, defined in `06-get-exposure-outcome.R`, returns a `data.table` including the demographic variables, exposure, and outcomes (mortality or cancer incidence). Note that smooth operation depends on successful sourcing of `00-hello.R`.
 
-### Usage
+# Usage
 
-```{r}
+```{r, eval=F}
 get.cohort_analytic(cohort_full = NULL, cohort_py = NULL,
 	 exposure.lag = 21, deathage.max = NULL,
 	 outcome_type = "mortality", include_alcohol = F,
@@ -14,7 +24,7 @@ get.cohort_analytic(cohort_full = NULL, cohort_py = NULL,
 	  use_seer = F)
 ```
 
-### Arguments
+# Arguments
 
 <table width="775">
 <tr>
@@ -49,7 +59,7 @@ get.cohort_analytic(cohort_full = NULL, cohort_py = NULL,
 </tr>
 </table>
 
-### Details
+# Details
 
 The `get.cohort_analytic()` function stitches together the output of `get.ltab_obs()` with `exposure`, that must be in the global environment. The `get.ltab_obs()` function takes the person-year dataset created by `get.cohort_py()` and returns that dataset augmented with indicator columns for several causes of death by using the `icd` and `yod` variables.
 
@@ -61,7 +71,7 @@ Rows where `immmortal == 1` are those corresponding to the 3 years immediately a
 
 Of particular utility when fitting Cox models are the variables `age.year1`,  `age.year2`, `year1`, and `year2`. These variables may be used as the start and stop times for each row; they should already account for the fact that at-risk person-time does not start until 3 years after the date of hire (and not just the start of the year) and that at-risk person-time ends on the day the outcome occurs.
 
-### Examples
+# Examples
 
 For the cancer mortality paper Costello et al. (2020), we used
 

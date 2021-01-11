@@ -1,0 +1,38 @@
+
+digraph G {
+
+		rankdir=LR;
+		node[shape=box];
+		splines=ortho
+
+		subgraph cluster_0 {
+
+				dem[label = "\texttt{auto\_vs\_15.rdata}"
+						pos = "0,0!"]
+				
+				admin[label = "\begin{tabular}{c}
+							Trade year of hire \\\\
+							for 30 pairs \end{tabular}"
+							pos = "2,0!"]
+				
+				unknownDeath[label = "\begin{tabular}{c}
+							10 dead with \\\\
+							unknown yod \end{tabular}"
+							pos = "4,0!"]
+				
+				unusuYoung[label = "\begin{tabular}{c}
+							Make studyno 118137 \\\\
+							5 years older \end{tabular}"
+							pos = "1,-1!"]
+				
+				removeImmortals[label = "\begin{tabular}{c}
+							Remove 134 people \\\\
+							worked less than 3 years \end{tabular}"
+							pos = "3,-1!"]
+				
+				dem -> admin -> unknownDeath -> unusuYoung -> removeImmortals;
+				
+				label = "\Large Demographic data";
+		}
+		     
+ }

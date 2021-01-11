@@ -1,0 +1,319 @@
+---
+title: "Pulling and processing the data"
+subtitle: "GM-UAW Cohort Study"
+date: \today
+aspectratio: 169
+output:
+  beamer_presentation:
+    # latex_engine: lualatex
+    includes:
+      in_header: "~/HeadRs/BeamerHead.sty"
+    keep_tex: true
+    # toc: true
+    # slide_level: 2
+# bibliography: "`r path.expand('~/Box Sync/papers (environmental epi)/EnvEpi.bib')`"
+csl: "`r path.expand('~/HeadRs/csl/ama.csl')`"
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(
+	echo = F,
+	warning = F,
+	message = F,
+	cache = F,
+	fig.align = "center",
+	fig.pos = "H",
+	results = "asis")
+
+library(here); library(tidyverse); library(data.table);
+library(lubridate); library(xtable)
+
+source("~/HeadRs/00-my-theme.R")
+source("~/HeadRs/dot2tex.R")
+
+```
+
+# Overview
+
+- Pulling and preliminary cleaning
+- Building analytic dataset
+	- Demographic data in person-time format
+	- Map ICD codes to causes of death/cancer types
+	- Merge exposure data and job history data
+- Intermediate objects are saved in [Box folder 113431246688](https://berkeley.app.box.com/folder/113431246688)
+- `R` code for doing all of this on [Github](https://github.com/tao-feng/gm-wrangling.git)
+
+# Pulling and preliminary cleaning
+
+```{r dem, eval=F}
+con <- file("resources/dem.dot")
+writeLines('
+digraph G {
+
+		rankdir=LR;
+		node[shape=box];
+		splines=ortho
+
+		subgraph cluster_0 {
+
+				dem[label = "\\texttt{auto\\_vs\\_15.rdata}"
+						pos = "0,0!"]
+				
+				admin[label = "\\begin{tabular}{c}
+							Trade year of hire \\\\\\\\
+							for 30 pairs \\end{tabular}"
+							pos = "2,0!"]
+				
+				unknownDeath[label = "\\begin{tabular}{c}
+							10 dead with \\\\\\\\
+							unknown yod \\end{tabular}"
+							pos = "4,0!"]
+				
+				unusuYoung[label = "\\begin{tabular}{c}
+							Make studyno 118137 \\\\\\\\
+							5 years older \\end{tabular}"
+							pos = "1,-1!"]
+				
+				removeImmortals[label = "\\begin{tabular}{c}
+							Remove 134 people \\\\\\\\
+							worked less than 3 years \\end{tabular}"
+							pos = "3,-1!"]
+				
+				dem -> admin -> unknownDeath -> unusuYoung -> removeImmortals;
+				
+				label = "\\Large Demographic data";
+		}
+		     
+ }', con)
+close.connection(con)
+
+dot2tex("dem", directory = here::here("docs/overview/resources"), prog = "fdp")
+```
+
+```{r exposure, eval=F}
+con <- file("resources/exposure.dot")
+writeLines('
+digraph G {
+
+		rankdir=LR;
+		node[shape=box];
+
+		subgraph cluster_1 {
+				
+				exposure[label = "\\begin{tabular}{c} 
+						\\texttt{ganexp3.sas7bdat} (Plant 1) \\\\\\\\
+						\\texttt{hanexp3.sas7bdat} (Plant 2) \\\\\\\\
+						\\texttt{sanexp3.sas7bdat} (Plant 3) \\\\\\\\
+						\\end{tabular}"]
+						
+				long[label = "\\begin{tabular}{c} 
+						wide to long \\\\\\\\
+						by \\texttt{studyno}, \\texttt{plant}, \\texttt{year}
+						\\end{tabular}"]
+						
+				final[label = "\\begin{tabular}{c} 
+						\\texttt{exposure.rdata} on Box \\\\\\\\
+						({folder 113431246688})
+						\\end{tabular}"]
+						
+				exposure -> long -> final
+				
+				label = "\\Large Annualized exposure data"
+		}
+		     
+ }', con)
+close.connection(con)
+
+dot2tex("exposure", directory = here::here("docs/overview/resources"))
+
+```
+
+```{r job, eval=F}
+con <- file("resources/job.dot")
+writeLines('
+digraph G {
+
+		rankdir=TB;
+		node[shape=box];
+		splines=ortho;
+
+		subgraph cluster_1 {
+				
+				job[label = "\\begin{tabular}{c} 
+						\\texttt{gpp84\\_3.sas7bdat} (Plant 1) \\\\\\\\
+						\\texttt{hpp84\\_3.sas7bdat} (Plant 2) \\\\\\\\
+						\\texttt{spp84\\_3.sas7bdat} (Plant 3) \\\\\\\\
+						\\end{tabular}"
+						pos = "0,0!"]
+						
+				filter[label = "\\begin{tabular}{c} 
+						Drop columns except for: \\\\\\\\
+						\\texttt{studyno}, \\texttt{years}, \\texttt{datein}, \\texttt{dateout} \\\\\\\\
+						\\texttt{histcode}, \\texttt{plant}, \\texttt{mach}, mwf components \\\\\\\\
+						\\end{tabular}"
+						pos = "2.55,0!"]
+						
+				drop[label = "\\begin{tabular}{c} 
+						Drop duplicate rows
+						\\end{tabular}"
+						pos = "5,0!"]
+						
+				simplify[label = "\\begin{tabular}{c} 
+						Simplify variables: \\\\\\\\
+								\\begin{tabular}{rl}
+								\\texttt{histcode}: & off if ``OFF\'\' or ``SR\'\';
+								missing if ``MSS\'\'; \\\\\\\\
+								& discrepancy if ``MD\'\' \\\\\\\\
+								\\texttt{machining}: & assembly if ``AS\'\'; machining otherwise
+								\\end{tabular}
+						\\end{tabular}"
+						pos = "0.75,-1!"]
+						
+				machining[label = "\\begin{tabular}{c} 
+						Aggregate time spent machining/assembly \\\\\\\\
+						by \\texttt{datein}/\\texttt{dateout}, \\texttt{histcode}, and \\texttt{plant}
+						\\end{tabular}"
+						pos = "4.5,-1!"]
+						
+				histcode[label = "\\begin{tabular}{c} 
+						Indicator columns for \\texttt{histcode}s and mwf\\\\\\\\
+						indexing by \\texttt{datein}/\\texttt{dateout} and \\texttt{plant}
+						\\end{tabular}"
+						pos = "0.75,-2!"]
+						
+				cont[label = "\\begin{tabular}{c} 
+						Find gaps in \\texttt{datein}/\texttt{dateout} coverage \\\\\\\\
+						(appear to be holidays; assume 0 exposure)
+						\\end{tabular}"
+						pos = "4,-2!"]
+						
+				clean[label = "\\begin{tabular}{c} 
+						Convert to person-year format: \\\\\\\\
+						count number of days in [\\texttt{datein}, \\texttt{dateout})
+						\\end{tabular}"
+						pos = "1,-3!"]
+				
+				final[label = "\\begin{tabular}{c} 
+						\\texttt{jobhist\\_py.rdata} on Box \\\\\\\\
+						({folder 113431246688})
+						\\end{tabular}"
+						pos = "4,-3!"]
+				
+				job -> filter -> drop -> simplify -> machining
+				machining -> histcode -> cont -> clean -> final
+				
+				label = "\\Large Job history data"
+		}
+		     
+ }', con)
+close.connection(con)
+
+dot2tex("job", directory = here::here("docs/overview/resources"), prog = "fdp")
+
+```
+
+\begin{minipage}{\linewidth}
+	\centering
+	\begin{adjustbox}{scale = 0.7}
+	\input{resources/dem.tex}
+	\end{adjustbox}
+\end{minipage}\vspace{1em}
+\begin{minipage}{\linewidth}
+	\centering
+	\begin{adjustbox}{scale = 0.7}
+	\input{resources/exposure.tex}
+	\end{adjustbox}
+\end{minipage}
+
+# 
+
+\begin{center}
+	\begin{adjustbox}{scale = 0.7}
+	\input{resources/job.tex}
+	\end{adjustbox}
+\end{center}
+
+# Person-year dataset
+
+- Start with the cleaned demographic data `cohort`
+- Duplicate each row so that each year from hire to death/end of FU is represented
+- Index appropriately by calendar year and age
+
+# Outcome labels
+
+- Cause of death labels coded up using ICD mappings given by the NIOSH-92 death categories document (linked [here](https://www.cdc.gov/niosh/ltas/pdf/Rate-Info-Table-3.pdf))
+- Cancer incidence from MCR coded up by Liza (thank you!)
+- Cancer incidence from SEER coded up using the Site Recode ICD-O-3/WHO 2008 Definitions (linked [here](https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html)), taking into account both the ICD-O-3 Site code _and_ the ICD-O-3 Histology code
+	- Cleaned up SEER incidence data frames on Box (see `SEER incidence.csv` in (folder 113431246688)[https://berkeley.app.box.com/folder/113431246688])
+
+# Merging exposure and job history data
+
+- Recall that exposure data was indexed by `studyno`, `year`, _and_ `plant`
+	- Before merging, exposure was summed across plants i.e. indexed by `studyno` and `year` only
+- `plant` was taken to be plant with the most days in `jobhist_py.rdata`, for that `year`
+
+# Code: it's all on github
+
+\begin{center}
+\begin{adjustbox}{max width = 0.75\linewidth}
+\href{https://github.com/tao-feng/gm-wrangling.git}{\includegraphics{resources/repo.png}}
+\end{adjustbox}
+\end{center}
+
+# Getting the code
+
+```{sh, eval=F, echo=T}
+#!/bin/sh 
+
+cd "~" # Must must clone into your home directory
+git clone https://github.com/tao-feng/HeadRs.git # Dependencies
+
+cd "directory/of your/choice"
+git clone https://github.com/tao-feng/gm-wrangling.git
+```
+
+Or Download ZIP -- after unzipping, please change the directory names to "HeadRs" and "gm-wrangling"
+
+The home directory `R` sees can be found by running `path.expand("~")`
+
+# Getting the data and helper functions
+
+```{r, eval=F, echo=T}
+# Check that necessary packages are installed
+lapply(c("tidyverse", "xtable", "pander", "tikzDevice", "knitr",
+	"data.table", "zoo", "boxr", "lubridate", "sas7bdat", "Hmisc"),
+	function(package) {if (!package %in% installed.packages()) {
+		install.packages(package)}})
+
+# Get data and helper functions
+source("directory/of your/choice/gm-wrangling/wrangling/00-hello.R")
+```
+
+Note: Setting up `boxr` is a bit of a pain...
+
+# What you get from running `00-hello.R`
+
+\begin{center}\begin{adjustbox}{max width = 0.85\linewidth}\ttfamily
+\begin{tabular}{llll}
+  \toprule
+additional\_outcomes() & get.cohort\_py() & jobhist & mytheme.web \\ 
+  cohort & get.exposure() & jobhist\_py & og.dir \\ 
+  date.to.gm() & get.jobhist() & jobhist\_py.cast & self\_injury.function() \\ 
+  death\_type() & get.ltab\_obs() & latex() & spec\_icd\_codes() \\ 
+  drive\_D & gm.to.date() & ltab\_age() & tikzLualatexPackages.option \\ 
+  dta & hook\_output() & ltab\_calendar() & to\_drive\_D() \\ 
+  exposure & icd\_codes.function() & lualatex()  \\ 
+  get.cohort\_analytic() & is.auto\_vs\_15 & mytheme  \\ 
+   \bottomrule
+\end{tabular}
+\end{adjustbox}\end{center}
+
+Notes
+
+- `cohort` is the cleaned demographic data
+	- Please check variable names and types
+	- Most variables correspond to those in `auto_vs_15`
+- `exposure` is the pulled/merged exposure data
+- `jobhist_py` is the cleaned person-year job history data
+
+# Making the analytic data object

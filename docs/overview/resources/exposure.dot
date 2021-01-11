@@ -1,0 +1,30 @@
+
+digraph G {
+
+		rankdir=LR;
+		node[shape=box];
+
+		subgraph cluster_1 {
+				
+				exposure[label = "\begin{tabular}{c} 
+						\texttt{ganexp3.sas7bdat} (Plant 1) \\\\
+						\texttt{hanexp3.sas7bdat} (Plant 2) \\\\
+						\texttt{sanexp3.sas7bdat} (Plant 3) \\\\
+						\end{tabular}"]
+						
+				long[label = "\begin{tabular}{c} 
+						wide to long \\\\
+						by \texttt{studyno}, \texttt{plant}, \texttt{year}
+						\end{tabular}"]
+						
+				final[label = "\begin{tabular}{c} 
+						\texttt{exposure.rdata} on Box \\\\
+						({folder 113431246688})
+						\end{tabular}"]
+						
+				exposure -> long -> final
+				
+				label = "\Large Annualized exposure data"
+		}
+		     
+ }

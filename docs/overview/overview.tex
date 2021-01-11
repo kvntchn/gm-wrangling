@@ -1,0 +1,472 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Pulling and processing the data},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+%---------------------------------------------------------------------------
+% BeamerHead.sty
+%---------------------------------------------------------------------------
+\usepackage{ifxetex,ifluatex}
+
+%---------------------------------------------------------------------------
+% General
+%---------------------------------------------------------------------------
+\usepackage{setspace}
+\setstretch{1.25}
+
+%\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+% \usepackage[utf8]{inputenc}
+% \usepackage{lmodern}
+
+%\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+
+% \setbeamerfont{item}{size*={7.5}{8}}
+% \setbeamerfont{item projected}{size*={7.5}{8}}
+% \setbeamerfont{itemize item}{size*={7.5}{8}}
+% \setbeamerfont{itemize subitem}{size*={7.5}{8}}
+% \setbeamerfont{itemize subsubitem}{size*={7.5}{8}}
+% \setbeamerfont{itemize/enumerate body}{size*={7.5}{8}}
+% \setbeamerfont{itemize/enumerate subbody}{size*={7.5}{8}}
+% \setbeamerfont{itemize/enumerate subsubbody}{size*={7.5}{8}}
+% \setbeamerfont{caption}{size*={7.5}{8}}
+% \setbeamerfont{caption name}{size*={7.5}{8}}
+% \setbeamerfont{frametitle}{size*={9}{9.5}}
+% \setbeamerfont{normal text}{size*={7.5}{8}}
+% Smaller itemize bullets
+\setbeamertemplate{itemize items}{
+	\raisebox{0.15\height}{$\vcenter{\hbox{\scalebox{0.5}{
+	\usebeamercolor[fg]{structure} $\blacktriangleright$}}}$}}
+
+%\usepackage{sectsty} % Allows customizing section commands
+%\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+%\numberwithin{equation}{section} % Number equations within sections
+%\numberwithin{figure}{section} % Number figures within sections
+%\numberwithin{table}{section} % Number tables within sections
+
+\usepackage{multicol}
+\setlength{\columnsep}{20pt}
+\newlength\Colsep
+
+%---------------------------------------------------------------------------
+% Header/footer
+%---------------------------------------------------------------------------
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[page number]
+
+%---------------------------------------------------------------------------
+% Citations
+%---------------------------------------------------------------------------
+% \usepackage[backend=bibtex]{biblatex}
+
+%---------------------------------------------------------------------------
+% Tables, figures, images
+%---------------------------------------------------------------------------
+\usepackage{wrapfig}
+\usepackage{longtable}
+\setlength{\LTcapwidth}{\textwidth}
+\usepackage{xtab, booktabs}
+\usepackage{multirow}
+
+\usepackage{tikz}% Probability trees and flow charts and the like
+\usetikzlibrary{%
+trees,
+arrows,
+shapes,
+%decoration,
+automata,
+backgrounds,
+petri}
+
+% Witin cell wrapping
+% https://tex.stackexchange.com/questions/2441/how-to-add-a-forced-line-break-inside-a-table-cell
+\usepackage{makecell}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+% Usage
+% \thead{Two line \\ head}
+% \makecell{Some really \\ longer text}
+
+% \usepackage{graphicx,grffile}
+% For tables and figures in parts %%%%
+\usepackage{caption}
+\DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
+% \usepackage{subcaption}
+% \captionsetup{font=scriptsize,labelfont=scriptsize}
+%\graphicspath{ {file.path.here} }
+
+% \usepackage{subfloat}
+
+% Set column widths in tabular environment!
+\usepackage{array}
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}p{#1}}
+
+% Fancy fit image command with optional caption
+\usepackage{adjustbox} % Shrink stuff
+% \usepackage{showframe} % Useful for debugging
+
+%---------------------------------------------------------------------------
+% Typographical addendum
+%---------------------------------------------------------------------------
+\input{\string~/HeadRs/common_supplement.tex}
+
+\title{Pulling and processing the data}
+\subtitle{GM-UAW Cohort Study}
+\author{}
+\date{\vspace{-2.5em}\today}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}[fragile]{Overview}
+\protect\hypertarget{overview}{}
+
+\begin{itemize}
+\tightlist
+\item
+  Pulling and preliminary cleaning
+\item
+  Building analytic dataset
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Demographic data in person-time format
+  \item
+    Map ICD codes to causes of death/cancer types
+  \item
+    Merge exposure data and job history data
+  \end{itemize}
+\item
+  Intermediate objects are saved in
+  \href{https://berkeley.app.box.com/folder/113431246688}{Box folder
+  113431246688}
+\item
+  \texttt{R} code for doing all of this on
+  \href{https://github.com/tao-feng/gm-wrangling.git}{Github}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Pulling and preliminary cleaning}
+\protect\hypertarget{pulling-and-preliminary-cleaning}{}
+
+\begin{minipage}{\linewidth}
+    \centering
+    \begin{adjustbox}{scale = 0.7}
+    \input{resources/dem.tex}
+    \end{adjustbox}
+\end{minipage}\vspace{1em}
+\begin{minipage}{\linewidth}
+    \centering
+    \begin{adjustbox}{scale = 0.7}
+    \input{resources/exposure.tex}
+    \end{adjustbox}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}{}
+\protect\hypertarget{section}{}
+
+\begin{center}
+    \begin{adjustbox}{scale = 0.7}
+    \input{resources/job.tex}
+    \end{adjustbox}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Person-year dataset}
+\protect\hypertarget{person-year-dataset}{}
+
+\begin{itemize}
+\tightlist
+\item
+  Start with the cleaned demographic data \texttt{cohort}
+\item
+  Duplicate each row so that each year from hire to death/end of FU is
+  represented
+\item
+  Index appropriately by calendar year and age
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Outcome labels}
+\protect\hypertarget{outcome-labels}{}
+
+\begin{itemize}
+\tightlist
+\item
+  Cause of death labels coded up using ICD mappings given by the
+  NIOSH-92 death categories document (linked
+  \href{https://www.cdc.gov/niosh/ltas/pdf/Rate-Info-Table-3.pdf}{here})
+\item
+  Cancer incidence from MCR coded up by Liza (thank you!)
+\item
+  Cancer incidence from SEER coded up using the Site Recode ICD-O-3/WHO
+  2008 Definitions (linked
+  \href{https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html}{here}),
+  taking into account both the ICD-O-3 Site code \emph{and} the ICD-O-3
+  Histology code
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Cleaned up SEER incidence data frames on Box (see
+    \texttt{SEER\ incidence.csv} in (folder
+    113431246688){[}\url{https://berkeley.app.box.com/folder/113431246688}{]})
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Merging exposure and job history data}
+\protect\hypertarget{merging-exposure-and-job-history-data}{}
+
+\begin{itemize}
+\tightlist
+\item
+  Recall that exposure data was indexed by \texttt{studyno},
+  \texttt{year}, \emph{and} \texttt{plant}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Before merging, exposure was summed across plants i.e.~indexed by
+    \texttt{studyno} and \texttt{year} only
+  \end{itemize}
+\item
+  \texttt{plant} was taken to be plant with the most days in
+  \texttt{jobhist\_py.rdata}, for that \texttt{year}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Code: it's all on github}
+\protect\hypertarget{code-its-all-on-github}{}
+
+\begin{center}
+\begin{adjustbox}{max width = 0.75\linewidth}
+\href{https://github.com/tao-feng/gm-wrangling.git}{\includegraphics{resources/repo.png}}
+\end{adjustbox}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Getting the code}
+\protect\hypertarget{getting-the-code}{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#!/bin/sh }
+
+\BuiltInTok{cd} \StringTok{"~"} \CommentTok{# Must must clone into your home directory}
+\FunctionTok{git}\NormalTok{ clone https://github.com/tao-feng/HeadRs.git }\CommentTok{# Dependencies}
+
+\BuiltInTok{cd} \StringTok{"directory/of your/choice"}
+\FunctionTok{git}\NormalTok{ clone https://github.com/tao-feng/gm-wrangling.git}
+\end{Highlighting}
+\end{Shaded}
+
+Or Download ZIP -- after unzipping, please change the directory names to
+``HeadRs'' and ``gm-wrangling''
+
+The home directory \texttt{R} sees can be found by running
+\texttt{path.expand("\textasciitilde{}")}
+
+\end{frame}
+
+\begin{frame}[fragile]{Getting the data and helper functions}
+\protect\hypertarget{getting-the-data-and-helper-functions}{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Check that necessary packages are installed}
+\KeywordTok{lapply}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{, }\StringTok{"xtable"}\NormalTok{, }\StringTok{"pander"}\NormalTok{, }\StringTok{"tikzDevice"}\NormalTok{, }\StringTok{"knitr"}\NormalTok{,}
+    \StringTok{"data.table"}\NormalTok{, }\StringTok{"zoo"}\NormalTok{, }\StringTok{"boxr"}\NormalTok{, }\StringTok{"lubridate"}\NormalTok{, }\StringTok{"sas7bdat"}\NormalTok{, }\StringTok{"Hmisc"}\NormalTok{),}
+    \ControlFlowTok{function}\NormalTok{(package) \{}\ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{package }\OperatorTok{%in%}\StringTok{ }\KeywordTok{installed.packages}\NormalTok{()) \{}
+        \KeywordTok{install.packages}\NormalTok{(package)\}\})}
+
+\CommentTok{# Get data and helper functions}
+\KeywordTok{source}\NormalTok{(}\StringTok{"directory/of your/choice/gm-wrangling/wrangling/00-hello.R"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Note: Setting up \texttt{boxr} is a bit of a pain\ldots{}
+
+\end{frame}
+
+\begin{frame}[fragile]{What you get from running \texttt{00-hello.R}}
+\protect\hypertarget{what-you-get-from-running-00-hello.r}{}
+
+\begin{center}\begin{adjustbox}{max width = 0.85\linewidth}\ttfamily
+\begin{tabular}{llll}
+  \toprule
+additional\_outcomes() & get.cohort\_py() & jobhist & mytheme.web \\ 
+  cohort & get.exposure() & jobhist\_py & og.dir \\ 
+  date.to.gm() & get.jobhist() & jobhist\_py.cast & self\_injury.function() \\ 
+  death\_type() & get.ltab\_obs() & latex() & spec\_icd\_codes() \\ 
+  drive\_D & gm.to.date() & ltab\_age() & tikzLualatexPackages.option \\ 
+  dta & hook\_output() & ltab\_calendar() & to\_drive\_D() \\ 
+  exposure & icd\_codes.function() & lualatex()  \\ 
+  get.cohort\_analytic() & is.auto\_vs\_15 & mytheme  \\ 
+   \bottomrule
+\end{tabular}
+\end{adjustbox}\end{center}
+
+Notes
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{cohort} is the cleaned demographic data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Please check variable names and types
+  \item
+    Most variables correspond to those in \texttt{auto\_vs\_15}
+  \end{itemize}
+\item
+  \texttt{exposure} is the pulled/merged exposure data
+\item
+  \texttt{jobhist\_py} is the cleaned person-year job history data
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Making the analytic data object}
+\protect\hypertarget{making-the-analytic-data-object}{}
+
+\end{frame}
+
+\end{document}

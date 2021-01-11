@@ -1,0 +1,76 @@
+
+digraph G {
+
+		rankdir=TB;
+		node[shape=box];
+		splines=ortho;
+
+		subgraph cluster_1 {
+				
+				job[label = "\begin{tabular}{c} 
+						\texttt{gpp84\_3.sas7bdat} (Plant 1) \\\\
+						\texttt{hpp84\_3.sas7bdat} (Plant 2) \\\\
+						\texttt{spp84\_3.sas7bdat} (Plant 3) \\\\
+						\end{tabular}"
+						pos = "0,0!"]
+						
+				filter[label = "\begin{tabular}{c} 
+						Drop columns except for: \\\\
+						\texttt{studyno}, \texttt{years}, \texttt{datein}, \texttt{dateout} \\\\
+						\texttt{histcode}, \texttt{plant}, \texttt{mach}, mwf components \\\\
+						\end{tabular}"
+						pos = "2.55,0!"]
+						
+				drop[label = "\begin{tabular}{c} 
+						Drop duplicate rows
+						\end{tabular}"
+						pos = "5,0!"]
+						
+				simplify[label = "\begin{tabular}{c} 
+						Simplify variables: \\\\
+								\begin{tabular}{rl}
+								\texttt{histcode}: & off if ``OFF'' or ``SR'';
+								missing if ``MSS''; \\\\
+								& discrepancy if ``MD'' \\\\
+								\texttt{machining}: & assembly if ``AS''; machining otherwise
+								\end{tabular}
+						\end{tabular}"
+						pos = "0.75,-1!"]
+						
+				machining[label = "\begin{tabular}{c} 
+						Aggregate time spent machining/assembly \\\\
+						by \texttt{datein}/\texttt{dateout}, \texttt{histcode}, and \texttt{plant}
+						\end{tabular}"
+						pos = "4.5,-1!"]
+						
+				histcode[label = "\begin{tabular}{c} 
+						Indicator columns for \texttt{histcode}s and mwf\\\\
+						indexing by \texttt{datein}/\texttt{dateout} and \texttt{plant}
+						\end{tabular}"
+						pos = "0.75,-2!"]
+						
+				cont[label = "\begin{tabular}{c} 
+						Find gaps in \texttt{datein}/	exttt{dateout} coverage \\\\
+						(appear to be holidays; assume 0 exposure)
+						\end{tabular}"
+						pos = "4,-2!"]
+						
+				clean[label = "\begin{tabular}{c} 
+						Convert to person-year format: \\\\
+						count number of days in [\texttt{datein}, \texttt{dateout})
+						\end{tabular}"
+						pos = "1,-3!"]
+				
+				final[label = "\begin{tabular}{c} 
+						\texttt{jobhist\_py.rdata} on Box \\\\
+						({folder 113431246688})
+						\end{tabular}"
+						pos = "4,-3!"]
+				
+				job -> filter -> drop -> simplify -> machining
+				machining -> histcode -> cont -> clean -> final
+				
+				label = "\Large Job history data"
+		}
+		     
+ }
