@@ -16,8 +16,8 @@ digraph G {
 							pos = "2,0!"]
 				
 				unknownDeath[label = "\begin{tabular}{c}
-							10 dead with \\\\
-							unknown yod \end{tabular}"
+							Remove 10 dead \\\\
+							with unknown \texttt{yod} \end{tabular}"
 							pos = "4,0!"]
 				
 				unusuYoung[label = "\begin{tabular}{c}

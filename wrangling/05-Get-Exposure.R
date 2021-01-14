@@ -73,7 +73,7 @@ get.exposure <- function(rebuild = F,
 		# sort(intersect(gan.E$studyno, han.E$studyno))
 
 		# Wide to long
-		sapply(c('gan.E', 'han.E', 'san.E'), function (i) {
+		sapply(c('gan.E', 'han.E', 'san.E'), function (i = "gan.E") {
 			years <- sort(as.numeric(unique(substring(
 				names(gan.E),	(gregexpr('[0-9]*$', names(gan.E)))
 			))[-1]))

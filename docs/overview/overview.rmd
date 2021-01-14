@@ -1,6 +1,6 @@
 ---
 title: "Pulling and processing the data"
-subtitle: "GM-UAW Cohort Study"
+subtitle: "UAW-GM Cohort Study"
 date: \today
 aspectratio: 169
 output:
@@ -65,8 +65,8 @@ digraph G {
 							pos = "2,0!"]
 				
 				unknownDeath[label = "\\begin{tabular}{c}
-							10 dead with \\\\\\\\
-							unknown yod \\end{tabular}"
+							Remove 10 dead \\\\\\\\
+							with unknown \\texttt{yod} \\end{tabular}"
 							pos = "4,0!"]
 				
 				unusuYoung[label = "\\begin{tabular}{c}
@@ -182,7 +182,7 @@ digraph G {
 						pos = "0.75,-2!"]
 						
 				cont[label = "\\begin{tabular}{c} 
-						Find gaps in \\texttt{datein}/\texttt{dateout} coverage \\\\\\\\
+						Find gaps in \\texttt{datein}/\\texttt{dateout} coverage \\\\\\\\
 						(appear to be holidays; assume 0 exposure)
 						\\end{tabular}"
 						pos = "4,-2!"]
@@ -191,13 +191,13 @@ digraph G {
 						Convert to person-year format: \\\\\\\\
 						count number of days in [\\texttt{datein}, \\texttt{dateout})
 						\\end{tabular}"
-						pos = "1,-3!"]
+						pos = "1,-2.75!"]
 				
 				final[label = "\\begin{tabular}{c} 
 						\\texttt{jobhist\\_py.rdata} on Box \\\\\\\\
 						({folder 113431246688})
 						\\end{tabular}"
-						pos = "4,-3!"]
+						pos = "4,-2.75!"]
 				
 				job -> filter -> drop -> simplify -> machining
 				machining -> histcode -> cont -> clean -> final
@@ -244,7 +244,7 @@ dot2tex("job", directory = here::here("docs/overview/resources"), prog = "fdp")
 - Cause of death labels coded up using ICD mappings given by the NIOSH-92 death categories document (linked [here](https://www.cdc.gov/niosh/ltas/pdf/Rate-Info-Table-3.pdf))
 - Cancer incidence from MCR coded up by Liza (thank you!)
 - Cancer incidence from SEER coded up using the Site Recode ICD-O-3/WHO 2008 Definitions (linked [here](https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html)), taking into account both the ICD-O-3 Site code _and_ the ICD-O-3 Histology code
-	- Cleaned up SEER incidence data frames on Box (see `SEER incidence.csv` in (folder 113431246688)[https://berkeley.app.box.com/folder/113431246688])
+	- Cleaned up SEER incidence data frames on Box (see `SEER incidence.csv` in [folder 113431246688](https://berkeley.app.box.com/folder/113431246688))
 
 # Merging exposure and job history data
 
@@ -317,3 +317,51 @@ Notes
 - `jobhist_py` is the cleaned person-year job history data
 
 # Making the analytic data object
+
+- Running `00-hello.R` performs all the tasks outlined in the flow charts above
+- `get.cohort_py()` makes the person-time dataset
+- `get.exposure()` merges the exposure data
+- `get.ltab_obs()` runs `get.cohort_py()` and `get.exposure()` to generate a person-time dataset with the demographic data and cause of death indicator columns
+- `get.cohort_analytic()` runs `get.ltab_obs()` to generate an analytic dataset with the demographic data, exposure data, and indicator columns for different causes of death and incident cancers
+
+# Example of use
+
+For the cancer mortality paper Costello et al. (2020), the following works
+
+```{r, eval=F, echo=T}
+# Get data and helper functions
+source("directory/of your/choice/gm-wrangling/wrangling/00-hello.R")
+# Get data
+cohort_analytic <- get.cohort_analytic(
+		outcome_type = "mortality",
+		exposure.lag = 21,
+		deathage.max = NULL)
+# Filter data
+cohort_analytic <- cohort_analytic[year >= 1941 & (
+		year(yin) < 1938 | year >= year(yin + 365.25 * 3))]
+```
+
+# Example of use (continued)
+
+```{r, eval=F, echo=F}
+xtable(head(cohort_analytic[,.(studyno, year, age.year1, age.year2, `All causes`)], 4),
+			 digits = 0)
+xtable(tail(cohort_analytic[studyno == 100001,.(studyno, year, age.year1, age.year2, `All causes`)], 4),
+			 digits = 0)
+```
+
+\begin{center}\ttfamily
+\begin{tabular}{ccccc}
+  \toprule
+studyno & year & age.year1 & age.year2 & All causes \\ 
+  \midrule
+100001 & 1974 & 11727 & 12053 & 0 \\ 
+  100001 & 1975 & 12053 & 12418 & 0 \\ 
+  100001 & 1976 & 12418 & 12784 & 0 \\ 
+  100001 & 1977 & 12784 & 13149 & 0 \\ 
+  $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
+  100001 & 2013 & 25933 & 26298 & 0 \\ 
+  100001 & 2014 & 26298 & 26318 & 1 \\ 
+   \bottomrule
+\end{tabular}
+\end{center}

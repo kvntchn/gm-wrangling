@@ -237,7 +237,7 @@ petri}
 \input{\string~/HeadRs/common_supplement.tex}
 
 \title{Pulling and processing the data}
-\subtitle{GM-UAW Cohort Study}
+\subtitle{UAW-GM Cohort Study}
 \author{}
 \date{\vspace{-2.5em}\today}
 
@@ -341,8 +341,9 @@ petri}
   \tightlist
   \item
     Cleaned up SEER incidence data frames on Box (see
-    \texttt{SEER\ incidence.csv} in (folder
-    113431246688){[}\url{https://berkeley.app.box.com/folder/113431246688}{]})
+    \texttt{SEER\ incidence.csv} in
+    \href{https://berkeley.app.box.com/folder/113431246688}{folder
+    113431246688})
   \end{itemize}
 \end{itemize}
 
@@ -464,8 +465,72 @@ Notes
 
 \end{frame}
 
-\begin{frame}{Making the analytic data object}
+\begin{frame}[fragile]{Making the analytic data object}
 \protect\hypertarget{making-the-analytic-data-object}{}
+
+\begin{itemize}
+\tightlist
+\item
+  Running \texttt{00-hello.R} performs all the tasks outlined in the
+  flow charts above
+\item
+  \texttt{get.cohort\_py()} makes the person-time dataset
+\item
+  \texttt{get.exposure()} merges the exposure data
+\item
+  \texttt{get.ltab\_obs()} runs \texttt{get.cohort\_py()} and
+  \texttt{get.exposure()} to generate a person-time dataset with the
+  demographic data and cause of death indicator columns
+\item
+  \texttt{get.cohort\_analytic()} runs \texttt{get.ltab\_obs()} to
+  generate an analytic dataset with the demographic data, exposure data,
+  and indicator columns for different causes of death and incident
+  cancers
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example of use}
+\protect\hypertarget{example-of-use}{}
+
+For the cancer mortality paper Costello et al.~(2020), the following
+works
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Get data and helper functions}
+\KeywordTok{source}\NormalTok{(}\StringTok{"directory/of your/choice/gm-wrangling/wrangling/00-hello.R"}\NormalTok{)}
+\CommentTok{# Get data}
+\NormalTok{cohort_analytic <-}\StringTok{ }\KeywordTok{get.cohort_analytic}\NormalTok{(}
+        \DataTypeTok{outcome_type =} \StringTok{"mortality"}\NormalTok{,}
+        \DataTypeTok{exposure.lag =} \DecValTok{21}\NormalTok{,}
+        \DataTypeTok{deathage.max =} \OtherTok{NULL}\NormalTok{)}
+\CommentTok{# Filter data}
+\NormalTok{cohort_analytic <-}\StringTok{ }\NormalTok{cohort_analytic[year }\OperatorTok{>=}\StringTok{ }\DecValTok{1941} \OperatorTok{&}\StringTok{ }\NormalTok{(}
+        \KeywordTok{year}\NormalTok{(yin) }\OperatorTok{<}\StringTok{ }\DecValTok{1938} \OperatorTok{|}\StringTok{ }\NormalTok{year }\OperatorTok{>=}\StringTok{ }\KeywordTok{year}\NormalTok{(yin }\OperatorTok{+}\StringTok{ }\FloatTok{365.25} \OperatorTok{*}\StringTok{ }\DecValTok{3}\NormalTok{))]}
+\end{Highlighting}
+\end{Shaded}
+
+\end{frame}
+
+\begin{frame}{Example of use (continued)}
+\protect\hypertarget{example-of-use-continued}{}
+
+\begin{center}\ttfamily
+\begin{tabular}{ccccc}
+  \toprule
+studyno & year & age.year1 & age.year2 & All causes \\ 
+  \midrule
+100001 & 1974 & 11727 & 12053 & 0 \\ 
+  100001 & 1975 & 12053 & 12418 & 0 \\ 
+  100001 & 1976 & 12418 & 12784 & 0 \\ 
+  100001 & 1977 & 12784 & 13149 & 0 \\ 
+  $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
+  100001 & 2013 & 25933 & 26298 & 0 \\ 
+  100001 & 2014 & 26298 & 26318 & 1 \\ 
+   \bottomrule
+\end{tabular}
+\end{center}
 
 \end{frame}
 

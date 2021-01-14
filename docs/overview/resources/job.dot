@@ -50,7 +50,7 @@ digraph G {
 						pos = "0.75,-2!"]
 						
 				cont[label = "\begin{tabular}{c} 
-						Find gaps in \texttt{datein}/	exttt{dateout} coverage \\\\
+						Find gaps in \texttt{datein}/\texttt{dateout} coverage \\\\
 						(appear to be holidays; assume 0 exposure)
 						\end{tabular}"
 						pos = "4,-2!"]
@@ -59,13 +59,13 @@ digraph G {
 						Convert to person-year format: \\\\
 						count number of days in [\texttt{datein}, \texttt{dateout})
 						\end{tabular}"
-						pos = "1,-3!"]
+						pos = "1,-2.75!"]
 				
 				final[label = "\begin{tabular}{c} 
 						\texttt{jobhist\_py.rdata} on Box \\\\
 						({folder 113431246688})
 						\end{tabular}"
-						pos = "4,-3!"]
+						pos = "4,-2.75!"]
 				
 				job -> filter -> drop -> simplify -> machining
 				machining -> histcode -> cont -> clean -> final
