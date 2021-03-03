@@ -35,7 +35,7 @@ get.cohort_py <- function(
 		full_cohort <- as.data.table(as.data.frame(cohort))
 	}
 
-	if (outcome_type == "incidence" & is.null(end.year)) {
+	if (is.null(end.year)) {
 		end.year <- 2015
 	}
 
@@ -131,6 +131,8 @@ get.cohort_py <- function(
 				canc_tmp})
 		)]
 
+		# incidence.tab[studyno == 100016]$ddiag_ofe %>% is.na
+
 		# Include SEER data?
 		if (use_seer) {
 			if ("seer" %in% ls(envir = .GlobalEnv)) {
@@ -215,9 +217,10 @@ get.cohort_py <- function(
 
 	# Any incidence
 	canc_first <- melt(
-		cohort_py[
-			, grep("canc_|studyno|^year$", names(cohort_py)),
-			with = F], id.vars = c("studyno", "year"))[,.(
+		cohort_py[, grep("canc_|studyno|^year$", names(cohort_py)),
+			with = F], id.vars = c("studyno", "year"))
+
+	canc_first <- canc_first[,.(
 				canc_first = ifelse(sum(value) > 0, 1, 0)), by = .(studyno, year)]
 	ddiag_first <- melt(
 		cohort_py[
@@ -280,8 +283,6 @@ get.cohort_py <- function(
 							), by = .(studyno)]
 
 	cohort_py[is.na(I), py := 0]
-
-	cohort_py[I > 1 & I < N, py := 1]
 
 	cohort_py[I > 1 & I < N, py := 1]
 

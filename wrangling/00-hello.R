@@ -86,6 +86,20 @@ sapply(sprintf("%02d", 2:6), function(x = "02") {
 get.jobhist()
 get.exposure()
 
+# Additional cancer outcomes ####
+box_load(782029330903)
+additional_cancers <- c("cer", "ute", "ova", "vag", "vul", "ofe")
+cohort <- merge(cohort,
+			mcr[, c("studyno", as.vector(sapply(additional_cancers, grep, names(mcr), value = T))),
+					with = F],
+			by = "studyno",
+			all.x = T, all.y = F)
+
+for (x in additional_cancers) {
+	cohort[is.na(get(paste0("canc_", x))), (paste0("canc_", x)) := 0]
+}
+
+
 detach("package:here", unload = T)
 setwd(og.dir)
 library(here)
