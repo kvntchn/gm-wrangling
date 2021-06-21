@@ -13,7 +13,7 @@ ltab_age <- function(x) {
 }
 
 get.ltab_obs <- function(
-	cohort_full = as.data.frame(cohort),
+	cohort_full = data.table::copy(cohort),
 	cohort_py = NULL,
 	deathage.max,
 	outcome_type,
@@ -25,19 +25,19 @@ get.ltab_obs <- function(
 ) {
 
 	if (is.null(cohort_py)) {
-		cohort_py <- as.data.table(as.data.frame(get.cohort_py(
-			full_cohort = as.data.table(as.data.frame(cohort_full)),
+		cohort_py <- data.table::copy(get.cohort_py(
+			full_cohort = data.table::copy(cohort_full),
 			hire.year.min = hire.year.min,
 			end.year = end.year,
 			hire.year.max = Inf,
 			outcome_type = outcome_type,
 			deathage.max = deathage.max,
 			use_seer = use_seer
-			)))} else {
-				cohort_py <- as.data.table(as.data.frame(cohort_py))
+			))} else {
+				cohort_py <- data.table::copy(cohort_py)
 			}
 
-	cohort_full <- as.data.table(as.data.frame(cohort_full))
+	cohort_full <- data.table::copy(cohort_full)
 
 	# Get cohort death types
 	cohort.deaths <- death_type(
@@ -104,8 +104,7 @@ get.ltab_obs <- function(
 
 	# Suicide indicator ####
 	despair.icd <- self_injury.function(alcohol = include_alcohol)
-	death_suicide <- as.data.table(as.data.frame(
-		cohort_full[,.(
+	death_suicide <-  cohort_full[,.(
 			studyno,
 			v_icd,
 			icd,
@@ -115,11 +114,10 @@ get.ltab_obs <- function(
 					(v_icd == 10 & icd %in% despair.icd$suicide_codes$icd[
 						despair.icd$suicide_codes$v_icd == 10]),
 				1, 0)
-		)]))[,.(studyno, Suicide)]
+		)][,.(studyno, Suicide)]
 
 	# Overdose indicator ####
-	death_overdose <- as.data.table(as.data.frame(
-		cohort_full[,.(
+	death_overdose <-  cohort_full[,.(
 			studyno,
 			v_icd,
 			icd,
@@ -129,14 +127,13 @@ get.ltab_obs <- function(
 					(v_icd == 10 & icd %in% despair.icd$overdose_codes$icd[
 						despair.icd$overdose_codes$v_icd == 10]),
 				1, 0)
-		)]))[,.(studyno, Overdose)]
+		)][,.(studyno, Overdose)]
 
 	# All causes indicator ####
-	death_All_causes <- as.data.table(as.data.frame(
-		cohort_full[,.(
+	death_All_causes <-  cohort_full[,.(
 			studyno,
 			`All causes` = ifelse(!is.na(yod) & !is.na(icd),	1, 0)
-		)]))
+		)]
 
 	# Additional deaths ####
 	get.death_indicator <- function(description, icd, v_icd) {
@@ -184,7 +181,7 @@ get.ltab_obs <- function(
 	# cohort_py[, lapply(.SD, sum), by = .(studyno), .SDcols = cod][,-1] %>% unlist %>% sum
 
 	# Analytic dataset ####
-	ltab_obs <- as.data.frame(cohort_py)
+	ltab_obs <- data.table::copy(cohort_py)
 	setDT(ltab_obs)
 	ltab_obs[, `:=`(calendar = factor(ltab_calendar(year)),
 									age = factor(ltab_age(age)))]

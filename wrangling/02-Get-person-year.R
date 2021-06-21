@@ -32,14 +32,14 @@ get.cohort_py <- function(
 	incidence.key <- data.table::fread(here::here("../gm-wrangling/cancer incidence", 'cancer-key.tsv'))
 
 	if (is.null(full_cohort)) {
-		full_cohort <- as.data.table(as.data.frame(cohort))
+		full_cohort <- data.table::copy(cohort)
 	}
 
 	if (is.null(end.year)) {
 		end.year <- 2015
 	}
 
-	cohort_py <- as.data.table(as.data.frame(full_cohort))
+	cohort_py <- data.table::copy(full_cohort)
 
 	# Subset data by hire date
 	cohort_py <- cohort_py[floor(yin16 + 1900) >= hire.year.min &
@@ -83,10 +83,15 @@ get.cohort_py <- function(
 												paste0(end.year, '-12-31'))
 										end
 									},
+									yrout09.gm = yrout09 + 1900,
+									yrout09 = gm.to.date(yrout09),
+									yrin16.gm = yrin16 + 1900,
 									yrin = gm.to.date(yrin16),
 									yin.gm = yin16 + 1900,
 									yin = gm.to.date(yin16),
 									yout.gm = yout16 + 1900,
+									yout15.gm = yout15 + 1900,
+									yout15 = gm.to.date(yout15),
 									yout = gm.to.date(yout16)
 	)]
 
@@ -266,7 +271,7 @@ get.cohort_py <- function(
 	), by = .(studyno)]
 
 	# Immortal time
-	cohort_py[,immortal := c(1, 1, 1, rep(0, .N - 3)), by = .(studyno)]
+	cohort_py[,immortal := ifelse((year >= floor(yin.gm) + 3 & year >= 1941), 0, 1), by = .(studyno)]
 
 	# Right censoring
 	cohort_py[, right.censored := ifelse(

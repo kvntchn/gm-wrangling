@@ -16,11 +16,11 @@ get.cohort_analytic <- function(
 
 
 	if (is.null(cohort_full)) {
-		cohort_full <- as.data.table(as.data.frame(cohort))
+		cohort_full <- data.table::copy(cohort)
 	}
 
 	if (is.null(cohort_py)) {
-		cohort_py <- get.ltab_obs(cohort_full = as.data.frame(cohort_full),
+		cohort_py <- get.ltab_obs(cohort_full = data.table::copy(cohort_full),
 															include_alcohol = include_alcohol,
 															hire.year.min = hire.year.min,
 															end.year = year.max,
@@ -28,7 +28,7 @@ get.cohort_analytic <- function(
 															deathage.max = deathage.max,
 															use_seer = use_seer)
 	} else {
-		cohort_py <- as.data.table(as.data.frame(cohort_py))
+		cohort_py <- data.table::copy(cohort_py)
 	}
 
 	# Exposure data ####

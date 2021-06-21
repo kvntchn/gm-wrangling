@@ -28,7 +28,14 @@ is.auto_vs_15 <- T
 drive_D <- T
 
 # fixes discrepancies (sent to by Liza)
-source(here::here("wrangling", "01-Administrative.R"))
+if (!"fix_discrepancies" %in% ls(envir = .GlobalEnv)) {
+	source(here::here("wrangling", "01-Administrative.R"))
+} else {
+	if (fix_discrepancies) {
+		source(here::here("wrangling", "01-Administrative.R"))
+	}
+}
+
 cohort <- dta
 
 # Make names lower-case
@@ -74,9 +81,13 @@ cohort[studyno == 118137, yob := yob - 5]
 # nrow(cohort[yout16 - yin16 < 3,])
 # nrow(cohort[wh == 1 & nohist == 0 & possdiscr_new != 3 & flag77 == 0 & oddend == 0 & (is.na(yod15) | yod15 >= 85) & (yout16 - yin16 >= 3)])
 
-cohort <- cohort[yout16 - yin16 >= 3,]
+if (!"enforce_3_year" %in% ls(envir = .GlobalEnv)) {
+	cohort <- cohort[yout16 - yin16 >= 3,]
+} else {
+	if (enforce_3_year) {cohort <- cohort[yout16 - yin16 >= 3,]}
+}
 
-# For building anlaytic dataset ####
+# For building analytic dataset ####
 source(here::here('causes of death', 'icd.R'))
 sapply(sprintf("%02d", 2:6), function(x = "02") {
 	source(here::here(

@@ -3,7 +3,7 @@
 # Requires cohort_analytic
 
 gm.to.date <- function(x) {
-	if (x < 200) {x <- x + 1900}
+	if (x[1] < 200) {x <- x + 1900}
 	as.Date(paste0(floor(x), '/01/01')) +
 		floor((x - floor(x)) * time_length(difftime(
 			as.Date(paste0(floor(x), "-12-31")),
@@ -27,9 +27,9 @@ get.tab1 <- function(
 	since_leavework = F,
 	use_finrace = T,
 	incidence = F,
-	use_nrow = T,
 	py = "py",
-	mathmode = T) {
+	mathmode = T,
+	nrow_as_fu = F) {
 
 	df <- as.data.table(as.data.frame(df))
 
@@ -39,15 +39,20 @@ get.tab1 <- function(
 		'Race' = NA,
 		'\\hspace{10pt}White' = if (use_finrace) {
 			ifelse(finrace[1] == 1, 1, 0)} else {
-				ifelse(finrace[1] == 1 | finrace[1] %in% c(0, 9), 1, 0)
+				as.numeric(race[1] == "White")
 			},
-		'\\hspace{10pt}Black' = ifelse(finrace[1] == 2, 1, 0),
+		'\\hspace{10pt}Black' = if (use_finrace) {
+			ifelse(finrace[1] == 2, 1, 0)} else {
+				as.numeric(race[1] == "Black")
+			},
 		'\\hspace{10pt}Unknown' = if (use_finrace) {
-			ifelse(finrace[1] %in% c(0, 9), 1, 0)},
+			ifelse(finrace[1] %in% c(0, 9), 1, 0)} else {
+				as.numeric(race[1] == "Unknown")
+			},
 		'Sex' = NA,
 		'\\hspace{10pt}Male' = ifelse(sex[1] == 'M', 1, 0),
 		'\\hspace{10pt}Female' = ifelse(sex[1] == 'F', 1, 0),
-		"Plant$^\\natural$" = NA,
+		"Plant$^1$" = NA,
 		"\\hspace{10pt}Plant 1" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 1,
 		"\\hspace{10pt}Plant 2" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 2,
 		"\\hspace{10pt}Plant 3" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 3,
@@ -56,6 +61,9 @@ get.tab1 <- function(
 		"\\hspace{10pt}Straight"  = as.numeric(cum_straight[.N] > 0),
 		"\\hspace{10pt}Soluble"   = as.numeric(cum_soluble[.N] > 0),
 		"\\hspace{10pt}Synthetic" = as.numeric(cum_synthetic[.N] > 0),
+		"Employment status in 1995" = NA,
+		"\\hspace{10pt}Left work" = as.numeric(jobloss.date[1] < as.Date("1995-01-01")),
+		"\\hspace{10pt}Still at work" = as.numeric(jobloss.date[1] >= as.Date("1995-01-01")),
 		"Deceased by end of follow-up" = {
 			if (!incidence) {
 				as.numeric(!is.na(yod[1]) & yod[1] <= as.Date(paste0(year[.N], "-12-31")))
@@ -63,31 +71,25 @@ get.tab1 <- function(
 				as.numeric(!is.na(ddiag_first[1]) & ddiag_first[1] <= as.Date(paste0(year[.N], "-12-31")))
 			}
 		},
+		"\\hspace{10pt}ALD" = as.numeric(max(`Alcohol-related Liver Disease`) > 0),
+		"\\hspace{10pt}Suicide" = as.numeric(max(Suicide) > 0),
+		"\\hspace{10pt}Overdose" = as.numeric(max(Overdose) > 0),
 
 
 		# Years since follow-up
-		"\\hline Years of follow-up" = {
-			if (!incidence) {
-				if (since_leavework) {
-					time_length(
-						difftime(min(yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), jobloss.date[1]), 'years')
-				} else {
-					time_length(
-						difftime(min(yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), yin[1]), 'years') - 3
-				}} else {
-					if (since_leavework) {
-						time_length(
-							difftime(min(ddiag_first[1], yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), jobloss.date[1]), 'years') } else {
-								time_length(
-									difftime(min(ddiag_first[1], yod[1], yoc[1], as.Date(paste0(year[.N], "-12-31")), na.rm = T), yin[1]), 'years') - 3
-							}}
-		},
+		"\\hline Years of follow-up" = if (nrow_as_fu) {.N} else {
+				time_length(difftime(
+					min(yod[1],
+							yoc[1],
+							as.Date(paste0(max(year), "-12-31")), na.rm = T),
+					min(as.Date(paste0(min(year[immortal == 0]), "-01-01")))), 'years')
+				},
 		'Year of birth' = yob.gm[1],
 		'Year of hire' = yin.gm[1],
 		'Age at hire (years)' = yin.gm[1] - yob.gm[1],
-		'Year of leaving work' = date.to.gm(jobloss.date)[1],
-		'Age at leaving work (years)' = date.to.gm(jobloss.date)[1] - yob.gm[1],
-		"Years at work$^*$" = {
+		'Year of leaving work$^2$' = date.to.gm(jobloss.date)[1],
+		'Age at leaving work (years)$^2$' = date.to.gm(jobloss.date)[1] - yob.gm[1],
+		"Years at work$^2$" = {
 			if (year(jobloss.date[1]) == 1995) {
 				NaN} else {time_length(
 					difftime(jobloss.date[1], yin[1]), 'years'
@@ -102,13 +104,13 @@ get.tab1 <- function(
 				time_length(difftime(unique(yod), unique(yob)), 'years')} else {
 					time_length(difftime(unique(ddiag_first), unique(yob)), 'years')
 				}},
-		# "Maximum cumulative exposure$^\\sharp$ (mg/m$^3\\cdot$y)}" =
+		# "Maximum cumulative exposure$^3$ (mg/m$^3\\cdot$y)}" =
 		# 	NA,
 		# 	max(cum_soluble[cum_soluble != 0]) +
 		# 	  max(cum_straight[cum_straight != 0]) +
 		#   	max(cum_synthetic[cum_synthetic != 0])
 
-		"Cumulative exposure$^\\sharp$ to MWFs (mg/m$^3\\cdot$y)" = NA,
+		"Cumulative exposure$^3$ to MWFs (mg/m$^3\\cdot$y)" = NA,
 
 		"\\hspace{10pt}Straight "  = as.numeric(ifelse(
 			sum(cum_straight != 0) > 0,
@@ -142,6 +144,10 @@ get.tab1 <- function(
 			"Age at death \\(years\\) among deceased",
 			"Age at first cancer diagnosis (years)",
 			names(tab1.sum))
+		tab1.sum <- tab1.sum[,-c(
+			"\\hspace{10pt}ALD",
+			"\\hspace{10pt}Suicide",
+			"\\hspace{10pt}Overdose"), with = F]
 	}
 
 	# Population-level summary
@@ -181,38 +187,55 @@ get.tab1 <- function(
 	# Digits
 	tab1.digits <- matrix(2, ncol = 3,#5
 												nrow = nrow(tab1))
-	tab1.digits[grep("Age", rownames(tab1), ignore.case = T), ] <- 0
+	tab1.digits[grep("Age", rownames(tab1), ignore.case = T), ] <- 1
+	tab1.digits[grep("years ", rownames(tab1), ignore.case = T), ] <- 1
 	tab1.digits[grep("year ", rownames(tab1), ignore.case = T), ] <- 0
+	tab1.digits[1:(grep(table.break, rownames(tab1), ignore.case = T) - 1), 1] <- 0
 	tab1.digits[1:(grep(table.break, rownames(tab1), ignore.case = T) - 1), -1] <- 0
+
+	# more digits if small %s
+	tab1.digits[1:nrow(tab1.digits) < grep(table.break, rownames(tab1), ignore.case = T) &
+								(tab1[,2] < 2 & tab1[,2] != 0), -1] <- 2
+
+	tab1.digits[1:nrow(tab1.digits) < grep(table.break, rownames(tab1), ignore.case = T) &
+								(tab1[,2] < 1 & tab1[,2] != 0), -1] <- 2
+
+	tab1.digits[1:nrow(tab1.digits) < grep(table.break, rownames(tab1), ignore.case = T) &
+								(tab1[,2] > 99 & tab1[,2] != 100), -1] <- 1
+
+	# more digits if numbers
+	tab1.digits[1:nrow(tab1.digits) >= grep(table.break, rownames(tab1), ignore.case = T) &
+								(tab1[,2] < .1 & tab1[,2] != 0), -1] <- 2
+
+	tab1.digits[1:nrow(tab1.digits) >= grep(table.break, rownames(tab1), ignore.case = T) &
+								(tab1[,2] == 0), -1] <- 0
+
+	tab1.which_year <- matrix(F, ncol = 3, nrow = nrow(tab1))
+	tab1.which_year[grep("year ", rownames(tab1), ignore.case = T), ] <- T
 
 	tab1 <- matrix(
 		sapply(1:length(tab1), function(i) {
-			as.character(round(as.vector(tab1)[i], as.vector(tab1.digits)[i]))
-		}),
+			if (is.na(as.vector(tab1)[i])) {NA} else {
+			formatC(as.vector(tab1)[i], as.vector(tab1.digits)[i], format = "f",
+							big.mark = if (!i %in% which(as.vector(tab1.which_year))) {
+								if (mathmode) {"\\\\,"} else {","}} else {""})
+		}}),
 		ncol = ncol(tab1),
 		nrow = nrow(tab1),
 		dimnames = dimnames(tab1)
 	)
 
-	# Pretty counts
-	tab1[1:grep("Years of fo", rownames(tab1)), 1] <- sapply(
-		tab1[1:grep("Years of fo", rownames(tab1)), 1],
-		function (i) {
-			if (!is.na(i)) {
-				prettyNum(as.numeric(i), big.mark = '\\\\,')
-			} else {NA}
-		})
-
 	# Pretty percents
 	tab1[1:(grep("Years of fo", rownames(tab1)) - 1), 2] <- sapply(
 		tab1[1:(grep("Years of fo", rownames(tab1)) - 1), 2],
-		function (i) {
-			if (!is.na(i)) {
-				paste(as.numeric(i), '\\%')
+		function (x) {
+			if (!is.na(x)) {
+				paste0(x, '\\%')
 			} else {NA}
 		})
 
 	# Math mode
+	if (mathmode) {
 	tab1 <- matrix(
 		sapply(1:length(tab1), function(i) {
 			if (!is.na(as.vector(tab1)[i])) {
@@ -222,16 +245,21 @@ get.tab1 <- function(
 		ncol = ncol(tab1),
 		nrow = nrow(tab1),
 		dimnames = dimnames(tab1))
-
-	# For exposure minimum
-	tab1[tab1 == '$0$'] <- "$>0.00$"
+	}
 
 	tab1 <- rbind(
 		matrix(c(
-			paste0("$", prettyNum(
-				n_distinct(df$studyno), '\\\\,'), "$"),
-			paste0("$", prettyNum(
-				ifelse(use_nrow, nrow(df), sum(df[,py])), '\\\\,'), "$"),
+			paste0(
+				if (mathmode) {"$"} else {""},
+				prettyNum(n_distinct(df$studyno), '\\\\,'),
+				if (mathmode) {"$"} else {""}),
+			paste0(
+				if (mathmode) {"$"} else {""},
+				formatC(ifelse(nrow_as_fu, nrow(df), sum(df[,py])),
+								format = "f", digits = 0,
+								big.mark = if (!i %in% which(as.vector(tab1.which_year))) {
+									if (mathmode) {"\\\\,"} else {","}} else {""}),
+				if (mathmode) {"$"} else {""}),
 			NA
 			# , NA, NA
 		),
@@ -241,7 +269,8 @@ get.tab1 <- function(
 
 	# Make column indicating stat type
 	tab1 <- cbind(tab1, spread.which = c(
-		rep("$n$, \\%", grep("\\hline", rownames(tab1)) - 1),
+		rep(paste0(if (mathmode) {"$"} else {""}, "n", if (mathmode) {"$"} else {""}, "\\%"),
+				grep("\\hline", rownames(tab1)) - 1),
 		rep("median, Q1, Q3", nrow(tab1) - grep("\\hline", rownames(tab1)) + 1))
 	)
 
@@ -249,19 +278,16 @@ get.tab1 <- function(
 	rownames(tab1)[duplicated(rownames(tab1))] <- paste0(rownames(tab1)[duplicated(rownames(tab1))], " ")
 	tab1 <- as.data.frame(tab1, make.names = F)
 
-	# If not mathmode
-	if (!mathmode) {
-		tab1 <- apply(tab1, 2, function(x) {
-			gsub("\\\\,", ",", gsub("\\$", "", x))
-		})
-	}
-
 	# if (save_tab1) {
 	# saveRDS(tab1,
 	# 	 file = to_drive_D(
 	# 	 	here::here(paste0('reports/paper/resources/lag ', exposure_lag),
 	# 	 						 paste0('lag', gsub(" ", "", exposure_lag), ".tab1.rds"))))
 	# 	}
+
+	print(matrix(as.vector(sapply(tab1[,1:3], function(x) gsub("\\$|\\\\", "", x))),
+				 ncol = 3,
+				 dimnames = list(rownames(tab1), colnames(tab1)[1:3])))
 
 	return(tab1)
 }
@@ -354,21 +380,21 @@ render.tab1 <- function(
 							'}{p{',
 							description.width + ncol(tab1) * column.width + 1,
 							'cm}}{\\footnotesize{',
-							'$^\\natural$ For individuals who worked at several plants, plant was taken to be the site where they accrued the most work record time.',
+							'$^1$ For individuals who worked at several plants, plant was taken to be the site where they accrued the most work record time.',
 							'}}\\\\',
 							'\\multicolumn{',
 							ncol(.) + 1,
 							'}{p{',
 							description.width + ncol(tab1) * column.width + 1,
 							'cm}}{\\footnotesize{',
-							'$^*$ Among those with known date of worker exit.',
+							'$^2$ Among those with known date of worker exit.',
 							'}}\\\\',
 							'\\multicolumn{',
 							ncol(.) + 1,
 							'}{p{',
 							description.width + ncol(tab1) * column.width + 1,
 							'cm}}{\\footnotesize{',
-							'$^\\sharp$ Summary statistics calculated for ever-exposed individuals at end of follow-up only. Exposures were lagged ', exposure_lag, ' years.',
+							'$^3$ Summary statistics calculated for ever-exposed individuals at end of follow-up only. Exposures were lagged ', exposure_lag, ' year', ifelse(exposure_lag != 1, 's', ''), '.',
 							'}}\\\\'
 						)}
 					)
@@ -401,7 +427,8 @@ get.ips_tab1 <- function(
 	table_engine = "xtable",
 	since_leavework = F,
 	use_finrace = T,
-	mathmode = T) {
+	mathmode = T,
+	nrow_as_fu = F) {
 
 	df <- as.data.table(as.data.frame(df[filler == 0]))
 
@@ -428,7 +455,7 @@ get.ips_tab1 <- function(
 		'\\textbf{Sex}, $n$ (\\%)' = NA,
 		'\\hspace{10pt}Male' = ifelse(sex[1] == 'M', 1, 0),
 		'\\hspace{10pt}Female' = ifelse(sex[1] == 'F', 1, 0),
-		"\\textbf{Plant}$^\\natural$, $n$ (\\%)" = NA,
+		"\\textbf{Plant}$^1$, $n$ (\\%)" = NA,
 		"\\hspace{10pt}Plant 1" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 1,
 		"\\hspace{10pt}Plant 2" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 2,
 		"\\hspace{10pt}Plant 3" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 3,
@@ -437,7 +464,7 @@ get.ips_tab1 <- function(
 		"\\textbf{Deceased by end of follow-up}" = as.numeric(!is.na(yod) & yod <= as.Date(paste0(year, "-12-31"))),
 
 		# Years since follow-up
-		"\\textbf{Years of follow-up}" = {
+		"\\textbf{Years of follow-up}" =  if (nrow_as_fu) {.N} else {
 			if (since_leavework) {
 				time_length(
 					difftime(min(yod[1], yoc[1], na.rm = T), jobloss.date[1]), 'years') } else {
@@ -523,7 +550,7 @@ get.ips_tab1 <- function(
 		tab1[1:(grep("Years of fo", rownames(tab1)) - 1), 2],
 		function (i) {
 			if (!is.na(i)) {
-				paste(as.numeric(i), '\\%')
+				paste0(as.numeric(i), '\\%')
 			} else {NA}
 		})
 

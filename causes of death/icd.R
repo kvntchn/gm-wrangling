@@ -99,6 +99,11 @@ additional_outcomes <- function(v_icd, outcome, list_all = F) {
 			icd10 = expand_icd10(c("I63", "I64", "I69")) # ICD-10 not validated
 		),
 
+		"Stroke" = list(
+			icd9 = expand_icd9(c(431, 432, 433, 434)),
+			icd10 = c("I61", "I62", "I63")
+		),
+
 		"Non-Hodgkin lymphoma" = list(
 			icd9 = expand_icd9(c(200, 202)),
 			icd10 = expand_icd10(c(paste0("C", c(82:85, 96))))

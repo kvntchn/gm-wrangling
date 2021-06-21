@@ -2,6 +2,13 @@
 # Kevin Chen
 # July 11, 2019
 
+if (!"og.dir" %in% ls()) {og.dir <- getwd()}
+if ("here" %in% .packages()) {
+	detach("package:here", unload = T)
+}
+
+setwd('../gm-wrangling')
+
 library(data.table)
 library(here)
 library(tidyverse)
@@ -281,7 +288,7 @@ cdc <- cdc[Year >= 2010, ]
 cdcAllCause <- cdcAllCause[Year >= 2010, ]
 
 # CDC Despair ####
-despair.icd <- self_injury.function()
+# despair.icd <- self_injury.function()
 # cdc.despair <- death_type(
 # 	cdcDespair$icd,
 # 	cdcDespair$v_icd,
@@ -299,9 +306,8 @@ despair.icd <- self_injury.function()
 # 		icd9_descriptions = c("Suicide", "Overdose"),
 # 		icd10_descriptions = c("Suicide", "Overdose")
 # 														 ))
-# save(cdc.despair, file =
-# 		 to_drive_D(here::here('causes of death/resources', 'cdc.despair.rdata')))
-load(to_drive_D(here::here("causes of death/resources", "cdc.despair.rdata")))
+# save(cdc.despair, file = here::here('causes of death/resources', 'cdc.despair.rdata'))
+load(here::here("causes of death/resources", "cdc.despair.rdata"))
 
 setDT(cdc.despair$description)
 
@@ -365,10 +371,8 @@ by = .(Age, Gender, Race, Year, cod)]
 # CODs for cdc dataset ####
 # cdc.death_type <- death_type(cdc$icd, cdc$v_icd,
 # 														 codes = spec_icd_codes(totals = F))
-# save(cdc.death_type,
-# 		 file =	to_drive_D(here::here('causes of death/resources', 'cdc.death_type.rdata'))
-# )
-load(to_drive_D(here::here('causes of death/resources', 'cdc.death_type.rdata')))
+# save(cdc.death_type, file =	here::here('causes of death/resources', 'cdc.death_type.rdata'))
+load(here::here('causes of death/resources', 'cdc.death_type.rdata'))
 
 setDT(cdc.death_type$description)
 
@@ -632,3 +636,6 @@ rm.ls <-
 											 'cod.levels'))], 'rm.ls')
 rm(list = rm.ls)
 
+detach("package:here", unload = T)
+setwd(og.dir)
+library(here)

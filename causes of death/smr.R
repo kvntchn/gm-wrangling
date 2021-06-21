@@ -13,8 +13,7 @@ if (!('cohort' %in% ls())) {
 }
 
 # SMR function ####
-smr <-
-	function(outcome = 'Lung cancer',
+smr <- function(outcome = 'Lung cancer',
 					 obs = as.data.frame(ltab_obs),
 					 ref = as.data.frame(ltab),
 					 detail = T,

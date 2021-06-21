@@ -1,0 +1,202 @@
+---
+title: "Tables"
+subtitle: "GM-UAW Cohort Study"
+# author: "Kevin Chen"
+date: \today
+fontsize: 11pt
+output:
+  word_document:
+    reference_docx: "~/headRs/rmd style templates/style-guide-arial-11.dotx"
+# always_allow_html: true
+bibliography: "`r path.expand('~/Box Sync/papers/EnvEpi.bib')`"
+csl: "`r path.expand('~/HeadRs/csl/ama.csl')`"
+geometry: margin=2.54cm
+---
+
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = F,
+											warning = F,
+											message = F,
+											cache = F,
+											fig.align = 'center',
+											fig.pos = 'H',
+											results = 'asis')
+
+setwd('~/eisen/gm-wrangling')
+
+library(here)
+library(pander)
+library(knitr)
+library(tidyverse)
+library(data.table)
+library(lubridate)
+library(Hmisc)
+library(tikzDevice)
+
+options(knitr.kable.NA = "")
+```
+
+```{r, eval=F}
+source(here::here("wrangling/00-hello.R"))
+cohort_analytic <- get.cohort_analytic(
+		outcome_type = "mortality",
+		exposure.lag = 0,
+		hire.year.min = -Inf,
+		hire.year.max = Inf,
+	)
+setorder(cohort_analytic, studyno, year)
+cohort_analytic[,jobloss.date := yout]
+```
+
+```{r, eval=F}
+seer_race <- box_read(447866882720)
+setDT(seer_race)
+
+names(seer_race)[1] <- "studyno"
+
+bunmd_race <- box_read(816006597347)
+names(bunmd_race) <- tolower(names(bunmd_race))
+setDT(bunmd_race)
+bunmd_race$race_last %>% table
+bunmd_race[,`:=`(
+	finrace = factor(finrace, levels = c(0, 1, 2, 9),
+									 labels = c("Unknown", "White", "Black", "Unknown")),
+	race_last = c("White", "Black", rep("Other", 4))[race_last]
+)]
+bunmd_race[,`:=`(
+	finrace = levels(finrace)[as.numeric(finrace)]
+)]
+
+
+new_race <- merge(bunmd_race,
+			seer_race[,.(studyno, SEER.race)],
+			by = "studyno", all = T)
+
+new_race[,.(
+	bunmd = race_last,
+	seer = SEER.race,
+	gm = finrace
+)] %>% table(useNA = "always")
+
+new_race[,`:=`(
+	race = {
+		race <- finrace
+		race[race == "Unknown" & !is.na(race_last)] <- race_last
+		race[race == "Unknown" & !is.na(SEER.race)] <- SEER.race
+		race
+	}), studyno]
+
+new_race[race == "Unknown"]
+
+cohort_analytic <- merge(cohort_analytic[,-"race", with = F],
+			new_race[,.(studyno, race)],
+			by = "studyno",
+			all.x = T)
+
+cohort_analytic[,.(race = race[1]), studyno]$race %>% table
+
+```
+
+```{r get.tab1, eval=F}
+source(here::here('../gm-wrangling/wrangling', 'table1.R'))
+
+tab1 <- get.tab1(
+	df = copy(cohort_analytic),
+	exposure_lag = 0,
+	mathmode = F)
+
+tab1_known_white <- get.tab1(
+	df = copy(cohort_analytic[finrace == 1]),
+	exposure_lag = 0,
+	mathmode = F)
+
+tab1_known_black <- get.tab1(
+	df = copy(cohort_analytic[finrace == 2]),
+	exposure_lag = 0,
+	mathmode = F)
+
+tab1_unknown_race <- get.tab1(
+	df = copy(cohort_analytic[finrace == 9]),
+	exposure_lag = 0,
+	mathmode = F)
+
+tab1.list <- list(tab1, tab1_known_white, tab1_known_black, tab1_unknown_race)
+
+saveRDS(tab1.list, here::here("./reports/resources/tab1.list.rds"))
+```
+
+```{r get.tab1_augmented, eval=F}
+source(here::here('../gm-wrangling/wrangling', 'table1.R'))
+
+tab1 <- get.tab1(
+	df = copy(cohort_analytic),
+	exposure_lag = 0,
+	use_finrace = F,
+	mathmode = F)
+
+tab1_known_white <- get.tab1(
+	df = copy(cohort_analytic[race == "White"]),
+	exposure_lag = 0,
+	use_finrace = F,
+	mathmode = F)
+
+tab1_known_black <- get.tab1(
+	df = copy(cohort_analytic[race == "Black"]),
+	exposure_lag = 0,
+	mathmode = F)
+
+tab1_unknown_race <- get.tab1(
+	df = copy(cohort_analytic[race == "Unknown"]),
+	exposure_lag = 0,
+	use_finrace = F,
+	mathmode = F)
+
+tab1_other_race <- get.tab1(
+	df = copy(cohort_analytic[race == "Other"]),
+	exposure_lag = 0,
+	use_finrace = F,
+	mathmode = F)
+
+tab1.list <- list(tab1, tab1_known_white, tab1_known_black, tab1_unknown_race, tab1_other_race)
+
+saveRDS(tab1.list, here::here("./reports/resources/tab1_bunmd_seer.list.rds"))
+```
+
+```{r}
+print_tab1 <- function(tab1.list, caption) {
+	tab1.list <- lapply(tab1.list, function(x) {
+		x[is.na(x[,3]) & !is.na(x[,2]), 2] <- paste0("(", x[is.na(x[,3]) & !is.na(x[,2]), 2], ")")
+		x[!is.na(x[,3]) & !is.na(x[,2]), 2] <- paste0(
+			"(", x[!is.na(x[,3]) & !is.na(x[,2]), 2],
+			", ", x[!is.na(x[,3]) & !is.na(x[,2]), 3],
+			")"
+		)
+		return(x[,1:2])
+	})
+	
+	tab1 <- tab1.list[[1]]
+	
+	for (i in 2:length(tab1.list)) {
+		tab1 <- cbind(tab1, NA,
+									tab1.list[[i]])
+	}
+	
+	rownames(tab1) <- gsub("\\\\hspace\\{10pt\\}", "&emsp;", rownames(tab1))
+	
+	kable(tab1, escape = F, align = paste0("l", paste(rep("rl", length(tab1.list)), collapse = "c")),
+				caption = caption)
+}
+
+tab1.list <- readRDS(here::here("./reports/resources/tab1.list.rds"))
+
+print_tab1(tab1.list, caption = "Table 1a. Population characteristics by race (GM data only). Statistics shown are count (%) or median (first quartile, third quartile).")
+```
+
+```{r}
+tab1_augmented.list <- readRDS(here::here("./reports/resources/tab1_bunmd_seer.list.rds"))
+
+print_tab1(lapply(1:4, function(i) {tab1_augmented.list[[i]]}),
+			caption = "Table 1b. Population characteristics by race (augmented with data from the BUNMD match and SEER). Statistics shown are count (%) or median (first quartile, third quartile).")
+
+```

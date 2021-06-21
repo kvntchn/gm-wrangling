@@ -263,8 +263,8 @@ get.jobhist <- function(
 		# 		), as.numeric(NA))
 		# ), by = .(studyno)]
 
-		# jobhist.og <- as.data.table(as.data.frame(jobhist))
-		# jobhist <- as.data.table(as.data.frame(jobhist.og))
+		# jobhist.og <- data.table::copy(jobhist)
+		# jobhist <- data.table::copy(jobhist.og)
 		setDT(dta)
 		censored.who <- dta[yout16 == 95, studyno]
 
