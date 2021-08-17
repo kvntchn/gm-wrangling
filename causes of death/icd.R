@@ -86,7 +86,7 @@ additional_outcomes <- function(v_icd, outcome, list_all = F) {
 
 		"Hemorrhagic stroke" = list(
 			icd9 = expand_icd9(c(431, 432)),
-			icd10 = c("I61", "I62")
+			icd10 = expand_icd10(c("I61", "I62"))
 		),
 
 		"Ischemic stroke" = list(
@@ -101,7 +101,7 @@ additional_outcomes <- function(v_icd, outcome, list_all = F) {
 
 		"Stroke" = list(
 			icd9 = expand_icd9(c(431, 432, 433, 434)),
-			icd10 = c("I61", "I62", "I63")
+			icd10 = expand_icd10(c("I61", "I62", "I63"))
 		),
 
 		"Non-Hodgkin lymphoma" = list(

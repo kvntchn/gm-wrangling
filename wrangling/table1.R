@@ -71,9 +71,9 @@ get.tab1 <- function(
 				as.numeric(!is.na(ddiag_first[1]) & ddiag_first[1] <= as.Date(paste0(year[.N], "-12-31")))
 			}
 		},
-		"\\hspace{10pt}ALD" = as.numeric(max(`Alcohol-related Liver Disease`) > 0),
-		"\\hspace{10pt}Suicide" = as.numeric(max(Suicide) > 0),
-		"\\hspace{10pt}Overdose" = as.numeric(max(Overdose) > 0),
+		# "\\hspace{10pt}ALD" = as.numeric(max(`Alcohol-related Liver Disease`) > 0),
+		# "\\hspace{10pt}Suicide" = as.numeric(max(Suicide) > 0),
+		# "\\hspace{10pt}Overdose" = as.numeric(max(Overdose) > 0),
 
 
 		# Years since follow-up
@@ -257,8 +257,7 @@ get.tab1 <- function(
 				if (mathmode) {"$"} else {""},
 				formatC(ifelse(nrow_as_fu, nrow(df), sum(df[,py])),
 								format = "f", digits = 0,
-								big.mark = if (!i %in% which(as.vector(tab1.which_year))) {
-									if (mathmode) {"\\\\,"} else {","}} else {""}),
+								big.mark = if (mathmode) {"\\\\,"} else {","}),
 				if (mathmode) {"$"} else {""}),
 			NA
 			# , NA, NA
@@ -404,8 +403,10 @@ render.tab1 <- function(
 		}
 
 		if (table_engine == 'pander') {
-			pander(tab1[,1:3],
-						 justify = c('left', 'right', 'right', 'right'),
+			pander(tab1,
+						 justify = {if (is.null(table.align)) {
+						 	c('left', 'right', 'right', 'right')
+						 } else {table.align}},
 						 emphasize.rownames = F,
 						 missing = "&nbsp;",
 						 caption = tab1.cap
