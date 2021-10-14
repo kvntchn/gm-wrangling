@@ -470,7 +470,7 @@ get.ips_tab1 <- function(
 				time_length(
 					difftime(min(yod[1], yoc[1], na.rm = T), jobloss.date[1]), 'years') } else {
 						time_length(
-							difftime(min(yod[1], yoc[1], as.Date("2017-01-01"), na.rm = T), yin[1]), 'years') - 3
+							difftime(min(yod[1], yoc[1], as.Date("2017-01-01"), na.rm = T), max(yin[1] + 3, as.Date("1941-01-01"))), 'years')
 					}
 		},
 		# "\\textbf{Years at work}" = {if (since_leavework) {
