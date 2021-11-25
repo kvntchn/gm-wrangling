@@ -251,7 +251,8 @@ get.tab1 <- function(
 		matrix(c(
 			paste0(
 				if (mathmode) {"$"} else {""},
-				prettyNum(n_distinct(df$studyno), '\\\\,'),
+				prettyNum(n_distinct(df$studyno),
+									ifelse(mathmode, '\\\\,', ",")),
 				if (mathmode) {"$"} else {""}),
 			paste0(
 				if (mathmode) {"$"} else {""},
