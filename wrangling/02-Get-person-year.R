@@ -4,19 +4,21 @@
 
 gm.to.date <- function(x) {
 	if (x[1] < 200) {x <- x + 1900}
-	as.Date(paste0(floor(x), '/01/01')) +
-		floor((x - floor(x)) * time_length(difftime(
-			as.Date(paste0(floor(x), "-12-31")),
-			as.Date(paste0(floor(x), "-01-01"))), "day"
-		))}
+	years <- floor(x)
+	return(
+		as.Date(paste0(years, '/01/01')) + floor(
+			(x - years) * (365 + leap_year(years)))
+	)
+}
 
-date.to.gm <- function(x = "2013-01-01") {
-	as.numeric(
-		year(x) +
-			time_length(difftime(x, as.Date(paste0(year(x), "-01-01"))), "year") / (
-			time_length(difftime(as.Date(paste0(year(x), "-12-31")),
-								 as.Date(paste0(year(x), "-01-01"))), "year"))
-	)}
+date.to.gm <- function(x = rep(c("2013-01-01", "1994-02-03"), 3e5)) {
+	x <- as.Date(x)
+	years <- year(x)
+	return(
+		as.numeric(
+		years + time_length(difftime(x, as.Date(paste0(years, "-01-01"))), "year"))
+	)
+}
 
 # Person-year dataset ending on whichever date ####
 get.cohort_py <- function(
@@ -54,9 +56,9 @@ get.cohort_py <- function(
 
 	# Make censoring date
 	if (is.finite(deathage.max)) {
-	cohort_py[,`:=`(
-		yoc = gm.to.date(yob + deathage.max)
-	)]}
+		cohort_py[,`:=`(
+			yoc = gm.to.date(yob + deathage.max)
+		)]}
 
 	if (deathage.max == Inf) {cohort_py[,`:=`(
 		yoc = as.Date(paste0(end.year, "-12-31"))
@@ -80,11 +82,13 @@ get.cohort_py <- function(
 									end = {
 										end <- gm.to.date(yod)
 										end[is.na(yod) | (floor(yod + 1900) > end.year)] <- as.Date(
-												paste0(end.year, '-12-31'))
+											paste0(end.year, '-12-31'))
 										end
 									},
 									yrout09.gm = yrout09 + 1900,
 									yrout09 = gm.to.date(yrout09),
+									yrout09_new.gm = yrout09_new + 1900,
+									yrout09_new = gm.to.date(yrout09_new),
 									yrin16.gm = yrin16 + 1900,
 									yrin = gm.to.date(yrin16),
 									yin.gm = yin16 + 1900,
@@ -115,7 +119,7 @@ get.cohort_py <- function(
 			year = seq(year(start), year(end)),
 			age = seq(year(start), year(end)) - year(yob)),
 			by = .(studyno)],
-		on = "studyno")
+		by = "studyno")
 
 	# cohort_py$end %>% summary
 
@@ -160,7 +164,7 @@ get.cohort_py <- function(
 			incidence.tab[studyno %in% seer$studyno, (canc.names):=(
 				lapply(canc.names, function(code = canc.names[1]) {
 					canc.seer <- seer[na.exclude(match(
-					incidence.tab[studyno %in% seer$studyno, studyno], seer$studyno)), code, with = F]
+						incidence.tab[studyno %in% seer$studyno, studyno], seer$studyno)), code, with = F]
 					canc.seer[is.na(canc.seer)] <- 0
 					as.numeric(get(code) + canc.seer > 0)
 				})
@@ -170,10 +174,10 @@ get.cohort_py <- function(
 			incidence.tab[studyno %in% seer$studyno, (ddiag.names):=(
 				lapply(ddiag.names, function(code) {
 					apply(data.frame(get(code), seer[na.exclude(match(
-					incidence.tab[studyno %in% seer$studyno, studyno], seer$studyno)), code, with = F]), 1,
-					function(ddiag) {
-						if (is.na(ddiag[1]) & is.na(ddiag[2])) {
-							NA } else {min(as.Date(ddiag[1]), as.Date(ddiag[2]), na.rm = T)}})
+						incidence.tab[studyno %in% seer$studyno, studyno], seer$studyno)), code, with = F]), 1,
+						function(ddiag) {
+							if (is.na(ddiag[1]) & is.na(ddiag[2])) {
+								NA } else {min(as.Date(ddiag[1]), as.Date(ddiag[2]), na.rm = T)}})
 				}))]
 		}
 
@@ -220,43 +224,43 @@ get.cohort_py <- function(
 		#
 		# incidence.names -> names(cohort_py)[grepl("canc_|ddiag_", names(cohort_py))]
 
-	# Any incidence
-	canc_first <- melt(
-		cohort_py[, grep("canc_|studyno|^year$", names(cohort_py)),
-			with = F], id.vars = c("studyno", "year"))
+		# Any incidence
+		canc_first <- melt(
+			cohort_py[, grep("canc_|studyno|^year$", names(cohort_py)),
+								with = F], id.vars = c("studyno", "year"))
 
-	canc_first <- canc_first[,.(
-				canc_first = ifelse(sum(value) > 0, 1, 0)), by = .(studyno, year)]
-	ddiag_first <- melt(
-		cohort_py[
-			, grep("ddiag_|studyno", names(cohort_py)),
-			with = F], id.vars = c("studyno"))[!is.na(value)]
+		canc_first <- canc_first[,.(
+			canc_first = ifelse(sum(value) > 0, 1, 0)), by = .(studyno, year)]
+		ddiag_first <- melt(
+			cohort_py[
+				, grep("ddiag_|studyno", names(cohort_py)),
+				with = F], id.vars = c("studyno"))[!is.na(value)]
 
-	# Remove duplicates, if any and set order
-	ddiag_first <- ddiag_first[!duplicated(ddiag_first)]
-	setorder(ddiag_first, studyno, value)
+		# Remove duplicates, if any and set order
+		ddiag_first <- ddiag_first[!duplicated(ddiag_first)]
+		setorder(ddiag_first, studyno, value)
 
-	# Clean up variable
-	ddiag_first[,`:=`(variable = substring(variable, 7))]
+		# Clean up variable
+		ddiag_first[,`:=`(variable = substring(variable, 7))]
 
-	# Pick the most specific label
-	ddiag_first <- ddiag_first[,.(
-				ddiag_first = min(value, na.rm = T),
-				canc_which_first = list(variable[value == min(value)])
-				), by = .(studyno)]
+		# Pick the most specific label
+		ddiag_first <- ddiag_first[,.(
+			ddiag_first = min(value, na.rm = T),
+			canc_which_first = list(variable[value == min(value)])
+		), by = .(studyno)]
 
-	# Merge incidence indicator
-	cohort_py <- merge(cohort_py,
-				canc_first,
-				by = c('studyno', 'year'),
-				all.x = T)
-	# Merge first first incidence
-	cohort_py <- merge(cohort_py,
-				ddiag_first,
-				by = c('studyno'),
-				all.x = T)
-	# Appropriate status variable for all cancer indicator
-	cohort_py[canc_first > 0 & year > year(ddiag_first), canc_first := 2]
+		# Merge incidence indicator
+		cohort_py <- merge(cohort_py,
+											 canc_first,
+											 by = c('studyno', 'year'),
+											 all.x = T)
+		# Merge first first incidence
+		cohort_py <- merge(cohort_py,
+											 ddiag_first,
+											 by = c('studyno'),
+											 all.x = T)
+		# Appropriate status variable for all cancer indicator
+		cohort_py[canc_first > 0 & year > year(ddiag_first), canc_first := 2]
 	}
 
 	# Order dataset
@@ -306,7 +310,7 @@ get.cohort_py <- function(
 	cohort_py[!is.na(I), `:=`(age.year1 = time_length(
 		difftime(as.Date(paste0(year, "-01-01")),
 						 yob), 'day'))]
-	cohort_py[!is.na(I), `:=`(age.year2 = time_length(
+	cohort_py[, `:=`(age.year2 = time_length(
 		difftime(as.Date(paste0(year + 1, "-01-01")),
 						 yob), 'day'))]
 

@@ -23,8 +23,7 @@ og.ls <- ls()
 
 ltab_calendar <- function(x) {
 	if (lubridate::is.Date(x)) {
-		x <-
-			year(x) + (month(x) - 1) / 12 + day(x) / 365.25
+		x <- year(x) + (month(x) - 1) / 12 + day(x) / 365.25
 	}
 	cut(x, c(seq(1915, 2016, by = 5), Inf), right = F)
 }
@@ -62,7 +61,7 @@ sapply(1:length(niosh.name), function(x) {
 	}
 })
 
-# Clean up workshpace
+# Clean up workspace
 for (i in 1:length(niosh.name)) {
 	if (i == 1) {
 		niosh <- get(niosh.name[i])
@@ -77,11 +76,11 @@ rm(i)
 # Get CDC Wonder-extracted data ####
 
 # Names
-cdc.name <-
-	sapply(list.files(here::here("causes of death/cdc wonder"), ".*txt"),
-				 function(x) {
-				 	paste0('cdc', substr(x, 12, nchar(x) - 4))
-				 })
+cdc.name <- sapply(
+	list.files(here::here("causes of death/cdc wonder"), ".*txt"),
+	function(x) {
+		paste0('cdc', substr(x, 12, nchar(x) - 4))
+	})
 
 cdc.name <- sort(cdc.name)
 
@@ -260,7 +259,6 @@ cdcAllCause <- cdcAllCause[(`Age Groups` %in% levels(cdc$Age)), ]
 cdcAllCause[, Age := factor(`Age Groups`)]
 
 # NIOSH to general coding ####
-
 niosh <- niosh[, .(
 	cod = Minor,
 	Race = factor(
@@ -384,29 +382,29 @@ cdc <- cdc[!is.na(cod), ]
 cdc <- cdc[, .(Deaths = sum(Deaths),
 							 Population = unique(Population),
 							 Calendar = unique(Calendar)),
-					 by = .(cod, Race, Gender, Age, Year)]
+					 .(cod, Race, Gender, Age, Year)]
 
 # NIOSH All-cause deaths ####
 
 nioshAllCause <- as.data.frame(niosh)
 setDT(nioshAllCause)
-nioshAllCause <- nioshAllCause[, .(cod = 'All causes',
-																	 Rate = sum(Rate)),
-															 by = .(Race, Gender, Age, Calendar)]
+nioshAllCause <- nioshAllCause[, .(
+	cod = 'All causes',
+	Rate = sum(Rate)),
+	.(Race, Gender, Age, Calendar)]
 
 # NIOSH All natural causes ####
 
 nioshAllNatural <- as.data.frame(niosh)
 setDT(nioshAllNatural)
-nioshAllNatural <- nioshAllNatural[cod %in% c(1:83, 92),
-																	 .(cod = 'All natural causes',
-																	 	Rate = sum(Rate)),
-																	 by = .(Race, Gender, Age, Calendar)]
+nioshAllNatural <- nioshAllNatural[cod %in% c(1:83, 92), .(
+	cod = 'All natural causes',
+	Rate = sum(Rate)),
+	.(Race, Gender, Age, Calendar)]
 
 # NIOSH Aggregates ####
 
-niosh.key <-
-	fread(
+niosh.key <- fread(
 		here::here('causes of death/NIOSH rates', 'minor-key.tsv'),
 		sep = '\t',
 		fill = T,
@@ -629,11 +627,12 @@ ltab[, age := factor(
 )]
 
 # Clean up workspace ####
-rm.ls <-
-	c(ls()[!(ls() %in% c(og.ls,
-											 grep('ltab', ls(), value = T),
-											 'niosh.key',
-											 'cod.levels'))], 'rm.ls')
+rm.ls <- c(
+	ls()[!(ls() %in% c(
+		og.ls,
+		grep('ltab', ls(), value = T),
+		'niosh.key',
+		'cod.levels'))], 'rm.ls')
 rm(list = rm.ls)
 
 detach("package:here", unload = T)

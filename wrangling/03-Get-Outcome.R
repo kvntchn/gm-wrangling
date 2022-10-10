@@ -132,7 +132,7 @@ get.ltab_obs <- function(
 	# All causes indicator ####
 	death_All_causes <-  cohort_full[,.(
 			studyno,
-			`All causes` = ifelse(!is.na(yod) & !is.na(icd),	1, 0)
+			`All causes` = ifelse(!is.na(yod),	1, 0)
 		)]
 
 	# Additional deaths ####
@@ -174,7 +174,7 @@ get.ltab_obs <- function(
 	cohort_py <- merge(cohort_py, death_obs, by = 'studyno', all = T)
 	cod <- names(death_obs)[-1]
 
-	cohort_py[year != year(yod), (cod) := 0, by = 'studyno']
+	cohort_py[year != year(yod), (cod) := 0, .(studyno)]
 
 	# Merge sanity check
 	# death_obs[,-1] %>% unlist %>% sum

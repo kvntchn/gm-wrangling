@@ -42,9 +42,17 @@ cohort <- dta
 names(cohort) <- tolower(names(cohort))
 setDT(cohort)
 
+# Get new race
+newrace <- box_read_csv(955845784992)
+cohort <- merge(cohort,
+			newrace[,c("studyno", "race_new_fnl2")],
+			by = "studyno")
+
 # changing race to binary; assume all non-black folks are white
-cohort[finrace != 2, race:= 1]
-cohort[finrace == 2, race:= 0]
+cohort[finrace != 2, race:= 1] # White
+cohort[finrace == 2, race:= 0] # Black
+cohort[,newrace := race_new_fnl2]
+cohort[,newrace := factor(newrace, labels = c("White", "Black", "Other"))]
 
 if (is.auto_vs_15) {
 	cohort[, yod := yod15]

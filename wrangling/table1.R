@@ -2,36 +2,19 @@
 # 9/6/2019
 # Requires cohort_analytic
 
-gm.to.date <- function(x) {
-	if (x[1] < 200) {x <- x + 1900}
-	as.Date(paste0(floor(x), '/01/01')) +
-		floor((x - floor(x)) * time_length(difftime(
-			as.Date(paste0(floor(x), "-12-31")),
-			as.Date(paste0(floor(x), "-01-01"))), "day"
-		))}
-
-date.to.gm <- function(x = "2013-01-01") {
-	as.numeric(
-		year(x) +
-			time_length(difftime(x, as.Date(paste0(year(x), "-01-01"))), "year") / (
-				time_length(difftime(as.Date(paste0(year(x), "-12-31")),
-														 as.Date(paste0(year(x), "-01-01"))), "year"))
-	)}
-
 get.tab1 <- function(
-	df = as.data.table(as.data.frame(cohort_analytic)),
+	df = copy(cohort_analytic),
 	timescale = "work",
 	exposure_lag = 21,
 	# save_tab1 = T,
 	table_engine = "xtable",
 	since_leavework = F,
 	use_finrace = T,
+	use_newrace = F,
 	incidence = F,
 	py = "py",
 	mathmode = T,
 	nrow_as_fu = F) {
-
-	df <- as.data.table(as.data.frame(df))
 
 	setorder(df, studyno, year)
 	# Individual-level summary
@@ -39,11 +22,15 @@ get.tab1 <- function(
 		'Race' = NA,
 		'\\hspace{10pt}White' = if (use_finrace) {
 			ifelse(finrace[1] == 1, 1, 0)} else {
-				as.numeric(race[1] == "White")
+				if (use_newrace) {
+					as.numeric(as.numeric(newrace[1] == "White"))
+				} else {as.numeric(race[1] == "White")}
 			},
 		'\\hspace{10pt}Black' = if (use_finrace) {
 			ifelse(finrace[1] == 2, 1, 0)} else {
-				as.numeric(race[1] == "Black")
+				if (use_newrace) {
+					as.numeric(as.numeric(newrace[1] == "Black"))
+				} else {as.numeric(race[1] == "Black")}
 			},
 		'\\hspace{10pt}Unknown' = if (use_finrace) {
 			ifelse(finrace[1] %in% c(0, 9), 1, 0)} else {
@@ -53,9 +40,12 @@ get.tab1 <- function(
 		'\\hspace{10pt}Male' = ifelse(sex[1] == 'M', 1, 0),
 		'\\hspace{10pt}Female' = ifelse(sex[1] == 'F', 1, 0),
 		"Plant$^1$" = NA,
-		"\\hspace{10pt}Plant 1" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 1,
-		"\\hspace{10pt}Plant 2" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 2,
-		"\\hspace{10pt}Plant 3" = as.numeric(names(sort(table(plant[year < 1995]), decreasing = T)[1])) == 3,
+		"\\hspace{10pt}Plant 1" = as.numeric(names(sort(table(
+			plant[year <= min(1994, year(yout[1]))]), decreasing = T)[1])) == 1,
+		"\\hspace{10pt}Plant 2" = as.numeric(names(sort(table(
+			plant[year <= min(1994, year(yout[1]))]), decreasing = T)[1])) == 2,
+		"\\hspace{10pt}Plant 3" = as.numeric(names(sort(table(
+			plant[year <= min(1994, year(yout[1]))]), decreasing = T)[1])) == 3,
 		"Ever exposed to MWFs" = NA,
 		# as.numeric(cum_soluble[.N] + cum_straight[.N] + cum_synthetic[.N] > 0)
 		"\\hspace{10pt}Straight"  = as.numeric(cum_straight[.N] > 0),
@@ -78,12 +68,9 @@ get.tab1 <- function(
 
 		# Years since follow-up
 		"\\hline Years of follow-up" = if (nrow_as_fu) {.N} else {
-				time_length(difftime(
-					min(yod[1],
-							yoc[1],
-							as.Date(paste0(max(year), "-12-31")), na.rm = T),
-					min(as.Date(paste0(min(year[immortal == 0]), "-01-01")))), 'years')
-				},
+			as.numeric(difftime(min(yod[1], yoc[1], as.Date(paste0(max(year), "-12-31")), na.rm = T),
+				as.Date(paste0(min(year[immortal == 0]), "-01-01")), units = "days"))/365
+		},
 		'Year of birth' = yob.gm[1],
 		'Year of hire' = yin.gm[1],
 		'Age at hire (years)' = yin.gm[1] - yob.gm[1],
@@ -91,18 +78,16 @@ get.tab1 <- function(
 		'Age at leaving work (years)$^2$' = date.to.gm(jobloss.date)[1] - yob.gm[1],
 		"Years at work$^2$" = {
 			if (year(jobloss.date[1]) == 1995) {
-				NaN} else {time_length(
-					difftime(jobloss.date[1], yin[1]), 'years'
-				)}},
+				NaN} else {as.numeric(difftime(jobloss.date[1], yin[1], units = "days"))/365}},
 		'Year of death among deceased' = {
 			if (!incidence) {
-				as.numeric(unique(year(yod)))} else {
-					as.numeric(unique(year(ddiag_first)))
+				as.numeric(year(yod[1]))} else {
+					as.numeric(year(ddiag_first[1]))
 				}},
 		'Age at death (years) among deceased' = {
 			if (!incidence) {
-				time_length(difftime(unique(yod), unique(yob)), 'years')} else {
-					time_length(difftime(unique(ddiag_first), unique(yob)), 'years')
+				as.numeric(difftime(yod[1], yob[1], units = "days"))/365} else {
+					as.numeric(difftime(ddiag_first[1], yob[1], units = "days"))/365
 				}},
 		# "Maximum cumulative exposure$^3$ (mg/m$^3\\cdot$y)}" =
 		# 	NA,
@@ -144,10 +129,6 @@ get.tab1 <- function(
 			"Age at death \\(years\\) among deceased",
 			"Age at first cancer diagnosis (years)",
 			names(tab1.sum))
-		tab1.sum <- tab1.sum[,-c(
-			"\\hspace{10pt}ALD",
-			"\\hspace{10pt}Suicide",
-			"\\hspace{10pt}Overdose"), with = F]
 	}
 
 	# Population-level summary
@@ -230,7 +211,7 @@ get.tab1 <- function(
 		tab1[1:(grep("Years of fo", rownames(tab1)) - 1), 2],
 		function (x) {
 			if (!is.na(x)) {
-				paste0(x, '\\%')
+				paste0(x, ifelse(table.engine == "xtable", '\\%', "%"))
 			} else {NA}
 		})
 
@@ -269,7 +250,7 @@ get.tab1 <- function(
 
 	# Make column indicating stat type
 	tab1 <- cbind(tab1, spread.which = c(
-		rep(paste0(if (mathmode) {"$"} else {""}, "n", if (mathmode) {"$"} else {""}, "\\%"),
+		rep(paste0(if (mathmode) {"$"} else {""}, "n", if (mathmode) {"$"} else {""}, ifelse(table.engine == "xtable", "\\%", "%")),
 				grep("\\hline", rownames(tab1)) - 1),
 		rep("median, Q1, Q3", nrow(tab1) - grep("\\hline", rownames(tab1)) + 1))
 	)

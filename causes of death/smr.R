@@ -14,15 +14,11 @@ if (!('cohort' %in% ls())) {
 
 # SMR function ####
 smr <- function(outcome = 'Lung cancer',
-					 obs = as.data.frame(ltab_obs),
-					 ref = as.data.frame(ltab),
+					 obs = data.table::copy(ltab_obs),
+					 ref = data.table::copy(ltab),
 					 detail = T,
 					 significance.level = 0.95,
 					 verbose = F) {
-
-		obs <- as.data.table(as.data.frame(obs))
-		ref <- as.data.table(as.data.frame(ref))
-
 
 		if (grepl("Prosta", outcome)) {
 			obs <- obs[sex == "M"]
@@ -125,10 +121,9 @@ smr <- function(outcome = 'Lung cancer',
 by_followup <- function(outcome = 'All causes',
 												lower = c(0, seq(10, 70, by = 10)),
 												upper = c(seq(10, 70, by = 10), Inf),
-												data = as.data.frame(ltab_obs),
-												ref = as.data.frame(ltab),
+												data = data.table::copy(ltab_obs),
+												ref = data.table::copy(ltab),
 												total = T) {
-	data <- as.data.table(as.data.frame(data))
 
 	smr.tab <- c()
 	N <- c()
@@ -177,10 +172,9 @@ by_followup <- function(outcome = 'All causes',
 by_entryage <- function(outcome = 'All causes',
 												lower = c(-Inf, seq(10, 60, by = 10)),
 												upper = c(seq(10, 60, by = 10), Inf),
-												data = as.data.frame(ltab_obs),
-												ref = as.data.frame(ltab),
+												data = data.table::copy(ltab_obs),
+												ref = data.table::copy(ltab),
 												total = T) {
-	data <- as.data.table(as.data.frame(data))
 
 	smr.tab <- c()
 	N <- c()
@@ -229,10 +223,9 @@ by_entryage <- function(outcome = 'All causes',
 by_entryyear <- function(outcome = 'All causes',
 												 lower = c(seq(1940, 1975, by = 5)),
 												 upper = c(seq(1945, 1975, by = 5), Inf),
-												 data = as.data.frame(ltab_obs),
-												 ref = as.data.frame(ltab),
+												 data = copy(ltab_obs),
+												 ref = copy(ltab),
 												 total = T) {
-	data <- as.data.table(as.data.frame(data))
 
 	smr.tab <- c()
 	N <- c()
@@ -248,8 +241,8 @@ by_entryyear <- function(outcome = 'All causes',
 	tmp.smr <- list()
 	for (i in 1:length(lower)) {
 		tmp.smr <-
-			smr(outcome, data[year(yin16) >= lower[i]  &
-													year(yin16) < upper[i]],
+			smr(outcome, data[year(yin) >= lower[i]  &
+													year(yin) < upper[i]],
 					ref = ref)
 		smr.tab[i] <- tmp.smr$smr
 		N[i] <- tmp.smr$N
@@ -282,10 +275,9 @@ by_entryyear <- function(outcome = 'All causes',
 by_calendar <- function(outcome = 'All causes',
 												lower = c(seq(1940, 2010, by = 10)),
 												upper = c(seq(1950, 2010, by = 10), Inf),
-												data = as.data.frame(ltab_obs),
-												ref = as.data.frame(ltab),
+												data = copy(ltab_obs),
+												ref = copy(ltab),
 												total = T) {
-	data <- as.data.table(as.data.frame(data))
 
 	smr.tab <- c()
 	N <- c()
@@ -336,11 +328,9 @@ by_followup_age <- function(outcome = 'All causes',
 														upper.age = c(seq(20, 60, by = 10), Inf),
 														lower.followup = c(0, seq(15, 75, by = 15)),
 														upper.followup = c(seq(15, 75, by = 15), Inf),
-														data = as.data.frame(ltab_obs),
-														ref = as.data.frame(ltab),
+														data = data.table::copy(ltab_obs),
+														ref = data.table::copy(ltab),
 														total = T) {
-	data <- as.data.table(as.data.frame(data))
-	ref  <- as.data.table(as.data.frame(ref))
 
 	if (total) {
 		lower.age[length(lower.age) + 1] <- -Inf
@@ -410,11 +400,9 @@ by_followup_year <- function(outcome = 'All causes',
 														 upper.year = c(seq(1944, 1974, by = 5), Inf),
 														 lower.followup = c(0, seq(15, 75, by = 15)),
 														 upper.followup = c(seq(15, 75, by = 15), Inf),
-														 data = as.data.frame(ltab_obs),
-														 ref = as.data.frame(ltab),
+														 data = data.table::copy(ltab_obs),
+														 ref = data.table::copy(ltab),
 														 total = T) {
-	data <- as.data.table(as.data.frame(data))
-	ref <- as.data.table(as.data.frame(ref))
 
 	if (total) {
 		lower.year[length(lower.year) + 1] <- -Inf
@@ -462,8 +450,8 @@ by_followup_year <- function(outcome = 'All causes',
 			outcome = outcome,
 			lower = lower.followup,
 			upper = upper.followup,
-			data = data[year(yrin16) >= lower.year[i] &
-										year(yrin16) < upper.year[i]],
+			data = data[year(yrin) >= lower.year[i] &
+										year(yrin) < upper.year[i]],
 			total = F,
 			ref = ref
 		)

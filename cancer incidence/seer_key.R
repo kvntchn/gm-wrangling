@@ -3,7 +3,7 @@
 # April 29, 2020
 library(here); library(data.table); library(boxr)
 
-cancer.key <- fread(here::here("cancer incidence", 'cancer-key.tsv'))
+cancer.key <- fread('~/eisen/gm-wrangling/cancer incidence/cancer-key.tsv')
 
 # # Get SEER codes from internet ####
 # seer.url <- "https://seer.cancer.gov/siterecode/icdo3_dwhoheme/index.html"
@@ -17,7 +17,7 @@ cancer.key <- fread(here::here("cancer incidence", 'cancer-key.tsv'))
 # setDT(seer.tbl)
 
 # Get SEER codes from file ####
-seer.tbl <- fread("/Users/kevinchen/eisen/gm-wrangling/cancer incidence/index.txt", fill = T, sep = ";", skip = 1)
+seer.tbl <- fread("~/eisen/gm-wrangling/cancer incidence/index.txt", fill = T, sep = ";", skip = 1)
 
 # Keep only useful categories
 seer.tbl <- seer.tbl[!is.na(Recode) & Recode != 99999]

@@ -81,7 +81,8 @@ get.jobhist <- function(
 			),
 			machining = ifelse(mach == "AS", "assembly",
 												 ifelse(mach == "" | mach == "NO", as.character(NA),
-												 			 "machining"))
+												 			 "machining")),
+			grinding = as.numeric(mach == "GR")
 		)]
 
 		# Just a check for duplicates; there are none
@@ -89,7 +90,8 @@ get.jobhist <- function(
 		jobhist <- jobhist[!duplicated(jobhist[,-"mach", with = F])]
 
 		# Cast machining
-		table(jobhist$machining)
+		# table(jobhist$machining)
+		# table(jobhist$grinding, useNA = "always")
 		jobhist <- dcast(jobhist,
 										 as.formula(paste(
 										 	paste(names(jobhist)[!names(jobhist) == "machining"], collapse = " + "),
@@ -116,16 +118,17 @@ get.jobhist <- function(
 		# Collapse by studyno, datein, datout, histcode, plant
 		jobhist <- jobhist[, .(years = sum(years),
 													 assembly,
-													 machining,
+													 grinding, machining,
 													 mach,
 													 bio, cl, ea, tea, trz, s, no2),
 											 by = .(studyno, datein, dateout, histcode, plant)]
 
 		# Cast by studyno-datein-dateout ####
-		table(jobhist$histcode)
+		# table(jobhist$histcode)
 		jobhist <- dcast(
 			jobhist,
-			studyno + datein + dateout + plant + assembly + machining + bio + cl + ea + tea + trz + s + no2 ~ histcode,
+			studyno + datein + dateout + plant + assembly + grinding + machining +
+				bio + cl + ea + tea + trz + s + no2 ~ histcode,
 			value.var = "histcode",
 			fun.aggregate = function(x) {as.numeric(length(x) >= 1)})
 
@@ -137,6 +140,7 @@ get.jobhist <- function(
 		# Making sure we have unique datein-dateout-studyno-plant rows
 		jobhist <- jobhist[, .(
 			assembly = max(assembly),
+			grinding = max(grinding),
 			machining = max(machining),
 			numeric = max(numeric),
 			off = max(off),
@@ -153,8 +157,7 @@ get.jobhist <- function(
 			by = .(studyno, plant, datein, dateout)]
 
 		# Many plants?
-		multiple.who <-
-			unique(jobhist[!is.na(plant), .(
+		multiple.who <- unique(jobhist[!is.na(plant), .(
 				nplants = n_distinct(plant)),
 				by = studyno][nplants > 1, studyno])
 
@@ -169,7 +172,7 @@ get.jobhist <- function(
 		# Fill discontinuities
 		# ignore obvious holidays for now
 		jobhist <- merge(jobhist, interval.shift, all = T,
-										 on = c("studyno", "datein", "dateout"))
+										 by = c("studyno", "datein", "dateout"))
 
 		# jobhist[is.na(numeric), .(
 		# 	difference = time_length(difftime(dateout, datein), "days"))]$difference %>% summary
@@ -200,6 +203,7 @@ get.jobhist <- function(
 		# (even though the entries of length 1 day are probably off)
 		jobhist[is.na(numeric) & is.na(missing) & is.na(discrepancy) & is.na(off), `:=`(
 			assembly = 0,
+			grinding = 0,
 			machining = 0,
 			numeric = 0,
 			missing = 1,
@@ -546,6 +550,7 @@ get.jobhist <- function(
 			year = seq(year(datein), year(dateout)),
 			plant,
 			assembly,
+			grinding,
 			machining,
 			numeric,
 			missing,
@@ -592,6 +597,7 @@ get.jobhist <- function(
 		# Collapse by year
 		jobhist_py <- jobhist_py[, .(
 			assembly = sum(assembly * record.days),
+			grinding = sum(grinding * record.days),
 			machining = sum(machining * record.days),
 			numeric = sum(numeric * record.days),
 			missing = sum(missing * record.days),
@@ -614,6 +620,7 @@ get.jobhist <- function(
 
 		jobhist_py[,`:=`(
 			assembly = assembly/year.days,
+			grinding = grinding/year.days,
 			machining = machining/year.days,
 			numeric = numeric/year.days,
 			missing = missing/year.days,
@@ -633,6 +640,7 @@ get.jobhist <- function(
 		jobhist_py.cast <- dcast(jobhist_py,
 														 studyno + year ~ plant,
 														 value.var = c("assembly",
+														 							"grinding",
 														 							"machining",
 														 							"numeric",
 														 							"missing",
