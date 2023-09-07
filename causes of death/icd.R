@@ -109,10 +109,10 @@ additional_outcomes <- function(v_icd, outcome, list_all = F) {
 			icd10 = expand_icd10(paste0("I", c(0:78)))
 		),
 
-		"Ischemic heart disease" = list(
-			icd9 = expand_icd9(c(410:414)),
-			icd10 = expand_icd10(paste0("I", c(20:25)))
-		),
+		# "Ischemic heart disease" = list(
+		# 	icd9 = expand_icd9(c(410:414)),
+		# 	icd10 = expand_icd10(paste0("I", c(20:25)))
+		# ),
 
 		"Acute myocardial infarction" = list(
 			icd9 = expand_icd9(c(410)),

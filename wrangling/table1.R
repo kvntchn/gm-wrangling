@@ -211,7 +211,7 @@ get.tab1 <- function(
 		tab1[1:(grep("Years of fo", rownames(tab1)) - 1), 2],
 		function (x) {
 			if (!is.na(x)) {
-				paste0(x, ifelse(table.engine == "xtable", '\\%', "%"))
+				paste0(x, ifelse(table_engine == "xtable", '\\%', "%"))
 			} else {NA}
 		})
 
@@ -250,7 +250,7 @@ get.tab1 <- function(
 
 	# Make column indicating stat type
 	tab1 <- cbind(tab1, spread.which = c(
-		rep(paste0(if (mathmode) {"$"} else {""}, "n", if (mathmode) {"$"} else {""}, ifelse(table.engine == "xtable", "\\%", "%")),
+		rep(paste0(if (mathmode) {"$"} else {""}, "n", if (mathmode) {"$"} else {""}, ifelse(table_engine == "xtable", "\\%", "%")),
 				grep("\\hline", rownames(tab1)) - 1),
 		rep("median, Q1, Q3", nrow(tab1) - grep("\\hline", rownames(tab1)) + 1))
 	)

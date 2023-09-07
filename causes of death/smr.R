@@ -75,10 +75,8 @@ smr <- function(outcome = 'Lung cancer',
 		# difference in the point estimates of the variance
 		lsmr.var <-	1 / sum(exp$count) #+ 1 / sum(exp$exp.count)
 		lsmr.se  <- sqrt(lsmr.var)
-		smr.lower2.5 <-
-			exp(log(smr) + qnorm((1 - significance.level) / 2) * lsmr.se)
-		smr.upper2.5 <-
-			exp(log(smr) - qnorm((1 - significance.level) / 2) * lsmr.se)
+		smr.lower2.5 <- exp(log(smr) + qnorm((1 - significance.level) / 2) * lsmr.se)
+		smr.upper2.5 <- exp(log(smr) - qnorm((1 - significance.level) / 2) * lsmr.se)
 
 		# smd <- sum(exp$count) - sum(exp$exp.count)
 		#
